@@ -431,9 +431,7 @@ array([[ 10, 20],
 
 NumPy 中，形状不同的数组之间也可以进行运算。之前的例子中，在 2×2 的矩阵 `A` 和标量 `10` 之间进行了乘法运算。在这个过程中，如图 1-1 所示，标量 `10` 被扩展成了 2 × 2 的形状，然后再与矩阵 `A` 进行乘法运算。这个巧妙的功能称为**广播**（broadcast）。
 
-![](http://image.colinsford.top/DeepLearning-Python/00003.jpeg)
-
-**图 1-1 广播的例子：标量 10 被当作 2 × 2 的矩阵**
+![&#x56FE; 1-1 &#x5E7F;&#x64AD;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;&#x6807;&#x91CF; 10 &#x88AB;&#x5F53;&#x4F5C; 2 &#xD7; 2 &#x7684;&#x77E9;&#x9635;](http://image.colinsford.top/DeepLearning-Python/00003.jpeg)
 
 我们通过下面这个运算再来看一个广播的例子。
 
@@ -447,9 +445,7 @@ array([[ 10, 40],
 
 在这个运算中，如图 1-2 所示，一维数组 `B` 被“巧妙地”变成了和二位数组 `A` 相同的形状，然后再以对应元素的方式进行运算。
 
-![](http://image.colinsford.top/DeepLearning-Python/00004.jpeg)
-
-**图 1-2 广播的例子 2**
+![&#x56FE; 1-2 &#x5E7F;&#x64AD;&#x7684;&#x4F8B;&#x5B50; 2](http://image.colinsford.top/DeepLearning-Python/00004.jpeg)
 
 综上，因为 NumPy 有广播功能，所以不同形状的数组之间也可以顺利地进行运算。
 
@@ -526,9 +522,7 @@ plt.show()
 
 这里使用 NumPy 的 `arange` 方法生成了 `[0, 0.1, 0.2,…, 5.8, 5.9]` 的数据，将其设为 `x`。对 `x` 的各个元素，应用 NumPy 的 sin 函数 `np.sin()`，将 `x`、`y` 的数据传给 `plt.plot` 方法，然后绘制图形。最后，通过 `plt.show()` 显示图形。运行上述代码后，就会显示图 1-3 所示的图形。
 
-![](http://image.colinsford.top/DeepLearning-Python/00005.jpeg)
-
-**图 1-3 sin 函数的图形**
+![&#x56FE; 1-3 sin &#x51FD;&#x6570;&#x7684;&#x56FE;&#x5F62;](http://image.colinsford.top/DeepLearning-Python/00005.jpeg)
 
 ### 1.6.2　pyplot 的功能
 
@@ -555,9 +549,7 @@ plt.show()
 
 结果如图 1-4 所示，我们看到图的标题、轴的标签名都被标出来了。
 
-![](http://image.colinsford.top/DeepLearning-Python/00006.jpeg)
-
-**图 1-4 sin 函数和 cos 函数的图形**
+![&#x56FE; 1-4 sin &#x51FD;&#x6570;&#x548C; cos &#x51FD;&#x6570;&#x7684;&#x56FE;&#x5F62;](http://image.colinsford.top/DeepLearning-Python/00006.jpeg)
 
 ### 1.6.3　显示图像
 
@@ -574,9 +566,7 @@ plt.show()
 
 运行上述代码后，会显示图 1-5 所示的图像。
 
-![](http://image.colinsford.top/DeepLearning-Python/00007.jpeg)
-
-**图 1-5 显示图像**
+![&#x56FE; 1-5 &#x663E;&#x793A;&#x56FE;&#x50CF;](http://image.colinsford.top/DeepLearning-Python/00007.jpeg)
 
 这里，我们假定图像 `lena.png` 在当前目录下。读者根据自己的环境，可能需要变更文件名或文件路径。另外，本书提供的源代码中，在 `dataset` 目录下有样本图像 `lena.png`。比如，在通过 Python 解释器从 `ch01` 目录运行上述代码的情况下，将图像的路径 `'lena.png'` 改为 `'../dataset/lena.png'`，即可正确运行。
 

@@ -12,9 +12,7 @@
 
 图 2-1 是一个接收两个输入信号的感知机的例子。![](http://image.colinsford.top/DeepLearning-Python/00008.gif)、![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 是输入信号，_y_ 是输出信号，![](http://image.colinsford.top/DeepLearning-Python/00010.gif)、![](http://image.colinsford.top/DeepLearning-Python/00011.gif) 是权重（_w_ 是 weight 的首字母）。图中的○称为“神经元”或者“节点”。输入信号被送往神经元时，会被分别乘以固定的权重（![](http://image.colinsford.top/DeepLearning-Python/00012.gif)、![](http://image.colinsford.top/DeepLearning-Python/00013.gif)）。神经元会计算传送过来的信号的总和，只有当这个总和超过了某个界限值时，才会输出 1。这也称为“神经元被激活”。这里将这个界限值称为**阈值**，用符号 _θ_ 表示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00014.jpeg)
-
-**图 2-1 有两个输入的感知机**
+![&#x56FE; 2-1 &#x6709;&#x4E24;&#x4E2A;&#x8F93;&#x5165;&#x7684;&#x611F;&#x77E5;&#x673A;](http://image.colinsford.top/DeepLearning-Python/00014.jpeg)
 
 感知机的运行原理只有这些！把上述内容用数学式来表示，就是式（2.1）。
 
@@ -30,9 +28,7 @@
 
 现在让我们考虑用感知机来解决简单的问题。这里首先以逻辑电路为题材来思考一下与门（AND gate）。与门是有两个输入和一个输出的门电路。图 2-2 这种输入信号和输出信号的对应表称为“真值表”。如图 2-2 所示，与门仅在两个输入均为 1 时输出 1，其他时候则输出 0。
 
-![](http://image.colinsford.top/DeepLearning-Python/00016.jpeg)
-
-**图 2-2 与门的真值表**
+![&#x56FE; 2-2 &#x4E0E;&#x95E8;&#x7684;&#x771F;&#x503C;&#x8868;](http://image.colinsford.top/DeepLearning-Python/00016.jpeg)
 
 下面考虑用感知机来表示这个与门。需要做的就是确定能满足图 2-2 的真值表的 ![](http://image.colinsford.top/DeepLearning-Python/00010.gif)、![](http://image.colinsford.top/DeepLearning-Python/00011.gif)、_θ_ 的值。那么，设定什么样的值才能制作出满足图 2-2 的条件的感知机呢？
 
@@ -42,17 +38,13 @@
 
 接着，我们再来考虑一下与非门（NAND gate）。NAND 是 Not AND 的意思，与非门就是颠倒了与门的输出。用真值表表示的话，如图 2-3 所示，仅当 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 同时为 1 时输出 0，其他时候则输出 1。那么与非门的参数又可以是什么样的组合呢？
 
-![](http://image.colinsford.top/DeepLearning-Python/00019.jpeg)
-
-**图 2-3 与非门的真值表**
+![&#x56FE; 2-3 &#x4E0E;&#x975E;&#x95E8;&#x7684;&#x771F;&#x503C;&#x8868;](http://image.colinsford.top/DeepLearning-Python/00019.jpeg)
 
 要表示与非门，可以用 ![](http://image.colinsford.top/DeepLearning-Python/00020.gif) 这样的组合（其他的组合也是无限存在的）。实际上，只要把实现与门的参数值的符号取反，就可以实现与非门。
 
 接下来看一下图 2-4 所示的或门。或门是“只要有一个输入信号是 1，输出就为 1”的逻辑电路。那么我们来思考一下，应该为这个或门设定什么样的参数呢？
 
-![](http://image.colinsford.top/DeepLearning-Python/00021.jpeg)
-
-**图 2-4 或门的真值表**
+![&#x56FE; 2-4 &#x6216;&#x95E8;&#x7684;&#x771F;&#x503C;&#x8868;](http://image.colinsford.top/DeepLearning-Python/00021.jpeg)
 
 > ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg) 这里决定感知机参数的并不是计算机，而是我们人。我们看着真值表这种“训练数据”，人工考虑（想到）了参数的值。而机器学习的课题就是将这个决定参数值的工作交由计算机自动进行。**学习**是确定合适的参数的过程，而人要做的是思考感知机的构造（模型），并把训练数据交给计算机。
 
@@ -164,9 +156,7 @@ def OR(x1, x2):
 
 异或门也被称为**逻辑异或**电路。如图 2-5 所示，仅当 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 或 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 中的一方为 1 时，才会输出 1（“异或”是拒绝其他的意思）。那么，要用感知机实现这个异或门的话，应该设定什么样的权重参数呢？
 
-![](http://image.colinsford.top/DeepLearning-Python/00024.jpeg)
-
-**图 2-5 异或门的真值表**
+![&#x56FE; 2-5 &#x5F02;&#x6216;&#x95E8;&#x7684;&#x771F;&#x503C;&#x8868;](http://image.colinsford.top/DeepLearning-Python/00024.jpeg)
 
 实际上，用前面介绍的感知机是无法实现这个异或门的。为什么用感知机可以实现与门、或门，却无法实现异或门呢？下面我们尝试通过画图来思考其中的原因。
 
@@ -176,17 +166,13 @@ def OR(x1, x2):
 
 式（2.3）表示的感知机会生成由直线 ![](http://image.colinsford.top/DeepLearning-Python/00027.gif) 分割开的两个空间。其中一个空间输出 1，另一个空间输出 0，如图 2-6 所示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00028.jpeg)
-
-**图 2-6 感知机的可视化：灰色区域是感知机输出 0 的区域，这个区域与或门的性质一致**
+![&#x56FE; 2-6 &#x611F;&#x77E5;&#x673A;&#x7684;&#x53EF;&#x89C6;&#x5316;&#xFF1A;&#x7070;&#x8272;&#x533A;&#x57DF;&#x662F;&#x611F;&#x77E5;&#x673A;&#x8F93;&#x51FA; 0 &#x7684;&#x533A;&#x57DF;&#xFF0C;&#x8FD9;&#x4E2A;&#x533A;&#x57DF;&#x4E0E;&#x6216;&#x95E8;&#x7684;&#x6027;&#x8D28;&#x4E00;&#x81F4;](http://image.colinsford.top/DeepLearning-Python/00028.jpeg)
 
 或门在 ![](http://image.colinsford.top/DeepLearning-Python/00029.gif) 时输出 0，在 ![](http://image.colinsford.top/DeepLearning-Python/00030.gif) 为 \(0, 1\)、\(1, 0\)、\(1, 1\) 时输出 1。图 2-6 中，○ 表示 0，△ 表示 1。如果想制作或门，需要用直线将图 2-6 中的○和△分开。实际上，刚才的那条直线就将这 4 个点正确地分开了。
 
 那么，换成异或门的话会如何呢？能否像或门那样，用一条直线作出分割图 2-7 中的○和△的空间呢？
 
-![](http://image.colinsford.top/DeepLearning-Python/00031.jpeg)
-
-**图 2-7 ○ 和 △ 表示异或门的输出。可否通过一条直线作出分割○和△的空间呢？**
+![&#x56FE; 2-7 &#x25CB; &#x548C; &#x25B3; &#x8868;&#x793A;&#x5F02;&#x6216;&#x95E8;&#x7684;&#x8F93;&#x51FA;&#x3002;&#x53EF;&#x5426;&#x901A;&#x8FC7;&#x4E00;&#x6761;&#x76F4;&#x7EBF;&#x4F5C;&#x51FA;&#x5206;&#x5272;&#x25CB;&#x548C;&#x25B3;&#x7684;&#x7A7A;&#x95F4;&#x5462;&#xFF1F;](http://image.colinsford.top/DeepLearning-Python/00031.jpeg)
 
 想要用一条直线将图 2-7 中的○和△分开，无论如何都做不到。事实上，用一条直线是无法将○和△分开的。
 
@@ -194,9 +180,7 @@ def OR(x1, x2):
 
 图 2-7 中的○和△无法用一条直线分开，但是如果将“直线”这个限制条件去掉，就可以实现了。比如，我们可以像图 2-8 那样，作出分开○和△的空间。
 
-![](http://image.colinsford.top/DeepLearning-Python/00032.jpeg)
-
-**图 2-8 使用曲线可以分开○和△**
+![&#x56FE; 2-8 &#x4F7F;&#x7528;&#x66F2;&#x7EBF;&#x53EF;&#x4EE5;&#x5206;&#x5F00;&#x25CB;&#x548C;&#x25B3;](http://image.colinsford.top/DeepLearning-Python/00032.jpeg)
 
 感知机的局限性就在于它只能表示由一条直线分割的空间。图 2-8 这样弯曲的曲线无法用感知机表示。另外，由图 2-8 这样的曲线分割而成的空间称为**非线性**空间，由直线分割而成的空间称为**线性**空间。线性、非线性这两个术语在机器学习领域很常见，可以将其想象成图 2-6 和图 2-8 所示的直线和曲线。
 
@@ -208,29 +192,21 @@ def OR(x1, x2):
 
 异或门的制作方法有很多，其中之一就是组合我们前面做好的与门、与非门、或门进行配置。这里，与门、与非门、或门用图 2-9 中的符号表示。另外，图 2-9 中与非门前端的○表示反转输出的意思。
 
-![](http://image.colinsford.top/DeepLearning-Python/00033.jpeg)
-
-**图 2-9 与门、与非门、或门的符号**
+![&#x56FE; 2-9 &#x4E0E;&#x95E8;&#x3001;&#x4E0E;&#x975E;&#x95E8;&#x3001;&#x6216;&#x95E8;&#x7684;&#x7B26;&#x53F7;](http://image.colinsford.top/DeepLearning-Python/00033.jpeg)
 
 那么，请思考一下，要实现异或门的话，需要如何配置与门、与非门和或门呢？这里给大家一个提示，用与门、与非门、或门代替图 2-10 中的各个“？”，就可以实现异或门。
 
-![](http://image.colinsford.top/DeepLearning-Python/00034.jpeg)
-
-**图 2-10 将与门、与非门、或门代入到“？”中，就可以实现异或门！**
+![&#x56FE; 2-10 &#x5C06;&#x4E0E;&#x95E8;&#x3001;&#x4E0E;&#x975E;&#x95E8;&#x3001;&#x6216;&#x95E8;&#x4EE3;&#x5165;&#x5230;&#x201C;&#xFF1F;&#x201D;&#x4E2D;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5F02;&#x6216;&#x95E8;&#xFF01;](http://image.colinsford.top/DeepLearning-Python/00034.jpeg)
 
 > ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg) 2.4 节讲到的感知机的局限性，严格地讲，应该是“单层感知机无法表示异或门”或者“单层感知机无法分离非线性空间”。接下来，我们将看到通过组合感知机（叠加层）就可以实现异或门。
 
 异或门可以通过图 2-11 所示的配置来实现。这里，![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 表示输入信号，_y_ 表示输出信号。![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 是与非门和或门的输入，而与非门和或门的输出则是与门的输入。
 
-![](http://image.colinsford.top/DeepLearning-Python/00035.jpeg)
-
-**图 2-11 通过组合与门、与非门、或门实现异或门**
+![&#x56FE; 2-11 &#x901A;&#x8FC7;&#x7EC4;&#x5408;&#x4E0E;&#x95E8;&#x3001;&#x4E0E;&#x975E;&#x95E8;&#x3001;&#x6216;&#x95E8;&#x5B9E;&#x73B0;&#x5F02;&#x6216;&#x95E8;](http://image.colinsford.top/DeepLearning-Python/00035.jpeg)
 
 现在，我们来确认一下图 2-11 的配置是否真正实现了异或门。这里，把 ![](http://image.colinsford.top/DeepLearning-Python/00036.gif) 作为与非门的输出，把 ![](http://image.colinsford.top/DeepLearning-Python/00037.gif) 作为或门的输出，填入真值表中。结果如图 2-12 所示，观察 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif)、![](http://image.colinsford.top/DeepLearning-Python/00009.gif)、_y_，可以发现确实符合异或门的输出。
 
-![](http://image.colinsford.top/DeepLearning-Python/00038.jpeg)
-
-**图 2-12 异或门的真值表**
+![&#x56FE; 2-12 &#x5F02;&#x6216;&#x95E8;&#x7684;&#x771F;&#x503C;&#x8868;](http://image.colinsford.top/DeepLearning-Python/00038.jpeg)
 
 ### 2.5.2　异或门的实现
 
@@ -255,9 +231,7 @@ XOR(1, 1) # 输出0
 
 这样，异或门的实现就完成了。下面我们试着用感知机的表示方法（明确地显示神经元）来表示这个异或门，结果如图 2-13 所示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00039.jpeg)
-
-**图 2-13 用感知机表示异或门**
+![&#x56FE; 2-13 &#x7528;&#x611F;&#x77E5;&#x673A;&#x8868;&#x793A;&#x5F02;&#x6216;&#x95E8;](http://image.colinsford.top/DeepLearning-Python/00039.jpeg)
 
 如图 2-13 所示，异或门是一种多层结构的神经网络。这里，将最左边的一列称为第 0 层，中间的一列称为第 1 层，最右边的一列称为第 2 层。
 
