@@ -12,11 +12,11 @@
 
 用图来表示神经网络的话，如图 3-1 所示。我们把最左边的一列称为**输入层**，最右边的一列称为**输出层**，中间的一列称为**中间层**。中间层有时也称为**隐藏层**。“隐藏”一词的意思是，隐藏层的神经元（和输入层、输出层不同）肉眼看不见。另外，本书中把输入层到输出层依次称为第 0 层、第 1 层、第 2 层（层号之所以从 0 开始，是为了方便后面基于 Python 进行实现）。图 3-1 中，第 0 层对应输入层，第 1 层对应中间层，第 2 层对应输出层。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00040.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00040.jpeg)
 
 **图 3-1　神经网络的例子**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　图 3-1 中的网络一共由 3 层神经元构成，但实质上只有 2 层神经元有权重，因此将其称为“2 层网络”。请注意，有的书也会根据构成网络的层数，把图 3-1 的网络称为“3 层网络”。本书将根据实质上拥有权重的层数（输入层、隐藏层、输出层的总数减去 1 后的数量）来表示网络的名称。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　图 3-1 中的网络一共由 3 层神经元构成，但实质上只有 2 层神经元有权重，因此将其称为“2 层网络”。请注意，有的书也会根据构成网络的层数，把图 3-1 的网络称为“3 层网络”。本书将根据实质上拥有权重的层数（输入层、隐藏层、输出层的总数减去 1 后的数量）来表示网络的名称。
 
 只看图 3-1 的话，神经网络的形状类似上一章的感知机。实际上，就神经元的连接方式而言，与上一章的感知机并没有任何差异。那么，神经网络中信号是如何传递的呢？
 
@@ -24,27 +24,27 @@
 
 在观察神经网络中信号的传递方法之前，我们先复习一下感知机。现在来思考一下图 3-2 中的网络结构。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00041.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00041.jpeg)
 
 **图 3-2　复习感知机**
 
-图 3-2 中的感知机接收 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00009.gif) 两个输入信号，输出 _y_。如果用数学式来表示图 3-2 中的感知机，则如式（3.1）所示。
+图 3-2 中的感知机接收 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 两个输入信号，输出 _y_。如果用数学式来表示图 3-2 中的感知机，则如式（3.1）所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00042.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00042.jpeg)
 
-_b_ 是被称为偏置的参数，用于控制神经元被激活的容易程度；而 ![](http://image.colinsford.top/images/DeepLearning-Python/00010.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00011.gif) 是表示各个信号的权重的参数，用于控制各个信号的重要性。
+_b_ 是被称为偏置的参数，用于控制神经元被激活的容易程度；而 ![](http://image.colinsford.top/DeepLearning-Python/00010.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00011.gif) 是表示各个信号的权重的参数，用于控制各个信号的重要性。
 
-顺便提一下，在图 3-2 的网络中，偏置 _b_ 并没有被画出来。如果要明确地表示出 _b_，可以像图 3-3 那样做。图 3-3 中添加了权重为 _b_ 的输入信号 1。这个感知机将 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00009.gif)、1 三个信号作为神经元的输入，将其和各自的权重相乘后，传送至下一个神经元。在下一个神经元中，计算这些加权信号的总和。如果这个总和超过 0，则输出 1，否则输出 0。另外，由于偏置的输入信号一直是 1，所以为了区别于其他神经元，我们在图中把这个神经元整个涂成灰色。
+顺便提一下，在图 3-2 的网络中，偏置 _b_ 并没有被画出来。如果要明确地表示出 _b_，可以像图 3-3 那样做。图 3-3 中添加了权重为 _b_ 的输入信号 1。这个感知机将 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif)、![](http://image.colinsford.top/DeepLearning-Python/00009.gif)、1 三个信号作为神经元的输入，将其和各自的权重相乘后，传送至下一个神经元。在下一个神经元中，计算这些加权信号的总和。如果这个总和超过 0，则输出 1，否则输出 0。另外，由于偏置的输入信号一直是 1，所以为了区别于其他神经元，我们在图中把这个神经元整个涂成灰色。
 
 现在将式（3.1）改写成更加简洁的形式。为了简化式（3.1），我们用一个函数来表示这种分情况的动作（超过 0 则输出 1，否则输出 0）。引入新函数 _h_\(_x_\)，将式（3.1）改写成下面的式（3.2）和式（3.3）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00043.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00043.gif)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00044.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00044.jpeg)
 
 **图 3-3　明确表示出偏置**
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00045.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00045.jpeg)
 
 式（3.2）中，输入信号的总和会被函数 _h_\(_x_\) 转换，转换后的值就是输出 _y_。然后，式（3.3）所表示的函数 _h_\(_x_\)，在输入超过 0 时返回 1，否则返回 0。因此，式（3.1）和式（3.2）、式（3.3）做的是相同的事情。
 
@@ -54,15 +54,15 @@ _b_ 是被称为偏置的参数，用于控制神经元被激活的容易程度�
 
 现在来进一步改写式（3.2）。式（3.2）分两个阶段进行处理，先计算输入信号的加权总和，然后用激活函数转换这一总和。因此，如果将式（3.2）写得详细一点，则可以分成下面两个式子。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00046.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00046.gif)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00047.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00047.gif)
 
 首先，式（3.4）计算加权输入信号和偏置的总和，记为 _a_。然后，式（3.5）用 _h_\(\) 函数将 _a_ 转换为输出 _y_。
 
 之前的神经元都是用一个○表示的，如果要在图中明确表示出式（3.4）和式（3.5），则可以像图 3-4 这样做。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00048.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00048.jpeg)
 
 **图 3-4　明确显示激活函数的计算过程**
 
@@ -70,13 +70,13 @@ _b_ 是被称为偏置的参数，用于控制神经元被激活的容易程度�
 
 通常如图 3-5 的左图所示，神经元用一个○表示。本书中，在可以明确神经网络的动作的情况下，将在图中明确显示激活函数的计算过程，如图 3-5 的右图所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00049.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00049.jpeg)
 
 **图 3-5　左图是一般的神经元的图，右图是在神经元内部明确显示激活函数的计算过程的图（**_**a**_ **表示输入信号的总和，**_**h**_**\(\) 表示激活函数，**_**y**_ **表示输出）**
 
 下面，我们将仔细介绍激活函数。激活函数是连接感知机和神经网络的桥梁。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　本书在使用“感知机”一词时，没有严格统一它所指的算法。一般而言，“朴素感知机”是指单层网络，指的是激活函数使用了阶跃函数 \[1\] 的模型。“多层感知机”是指神经网络，即使用 sigmoid 函数（后述）等平滑的激活函数的多层网络。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　本书在使用“感知机”一词时，没有严格统一它所指的算法。一般而言，“朴素感知机”是指单层网络，指的是激活函数使用了阶跃函数 \[1\] 的模型。“多层感知机”是指神经网络，即使用 sigmoid 函数（后述）等平滑的激活函数的多层网络。
 
 \[1\]阶跃函数是指一旦输入超过阈值，就切换输出的函数。
 
@@ -88,9 +88,9 @@ _b_ 是被称为偏置的参数，用于控制神经元被激活的容易程度�
 
 神经网络中经常使用的一个激活函数就是式（3.6）表示的 **sigmoid 函数**（sigmoid function）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00050.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00050.gif)
 
-式（3.6）中的 exp\(-_x_\) 表示 ![](http://image.colinsford.top/images/DeepLearning-Python/00051.gif) 的意思。e 是纳皮尔常数 2.7182 ...。式（3.6）表示的 sigmoid 函数看上去有些复杂，但它也仅仅是个函数而已。而函数就是给定某个输入后，会返回某个输出的转换器。比如，向 sigmoid 函数输入 1.0 或 2.0 后，就会有某个值被输出，类似 _h_\(1.0\) = 0.731 ...、_h_\(2.0\) = 0.880 ... 这样。
+式（3.6）中的 exp\(-_x_\) 表示 ![](http://image.colinsford.top/DeepLearning-Python/00051.gif) 的意思。e 是纳皮尔常数 2.7182 ...。式（3.6）表示的 sigmoid 函数看上去有些复杂，但它也仅仅是个函数而已。而函数就是给定某个输入后，会返回某个输出的转换器。比如，向 sigmoid 函数输入 1.0 或 2.0 后，就会有某个值被输出，类似 _h_\(1.0\) = 0.731 ...、_h_\(2.0\) = 0.880 ... 这样。
 
 神经网络中用 sigmoid 函数作为激活函数，进行信号的转换，转换后的信号被传送给下一个神经元。实际上，上一章介绍的感知机和接下来要介绍的神经网络的主要区别就在于这个激活函数。其他方面，比如神经元的多层连接的构造、信号的传递方法等，基本上和感知机是一样的。下面，让我们通过和阶跃函数的比较来详细学习作为激活函数的 sigmoid 函数。
 
@@ -158,7 +158,7 @@ plt.show()
 
 `np.arange(-5.0, 5.0, 0.1)` 在 -5.0 到 5.0 的范围内，以 0.1 为单位，生成 NumPy 数组（`[-5.0, -4.9,…, 4.9]`）。`step_function()` 以该 NumPy 数组为参数，对数组的各个元素执行阶跃函数运算，并以数组形式返回运算结果。对数组 `x`、`y` 进行绘图，结果如图 3-6 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00052.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00052.jpeg)
 
 **图 3-6　阶跃函数的图形**
 
@@ -205,7 +205,7 @@ plt.show()
 
 运行上面的代码，可以得到图 3-7。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00053.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00053.jpeg)
 
 **图 3-7　sigmoid 函数的图形**
 
@@ -213,7 +213,7 @@ plt.show()
 
 现在我们来比较一下 sigmoid 函数和阶跃函数，如图 3-8 所示。两者的不同点在哪里呢？又有哪些共同点呢？我们通过观察图 3-8 来思考一下。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00054.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00054.jpeg)
 
 **图 3-8　阶跃函数与 sigmoid 函数（虚线是阶跃函数）**
 
@@ -231,11 +231,11 @@ plt.show()
 
 阶跃函数和 sigmoid 函数还有其他共同点，就是两者均为**非线性函数**。sigmoid 函数是一条曲线，阶跃函数是一条像阶梯一样的折线，两者都属于非线性的函数。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　在介绍激活函数时，经常会看到“非线性函数”和“线性函数”等术语。函数本来是输入某个值后会返回一个值的转换器。向这个转换器输入某个值后，输出值是输入值的常数倍的函数称为线性函数（用数学式表示为 _h_\(_x_\) = c_x_。c 为常数）。因此，线性函数是一条笔直的直线。而非线性函数，顾名思义，指的是不像线性函数那样呈现出一条直线的函数。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　在介绍激活函数时，经常会看到“非线性函数”和“线性函数”等术语。函数本来是输入某个值后会返回一个值的转换器。向这个转换器输入某个值后，输出值是输入值的常数倍的函数称为线性函数（用数学式表示为 _h_\(_x_\) = c_x_。c 为常数）。因此，线性函数是一条笔直的直线。而非线性函数，顾名思义，指的是不像线性函数那样呈现出一条直线的函数。
 
 神经网络的激活函数必须使用非线性函数。换句话说，激活函数不能使用线性函数。为什么不能使用线性函数呢？因为使用线性函数的话，加深神经网络的层数就没有意义了。
 
-线性函数的问题在于，不管如何加深层数，总是存在与之等效的“无隐藏层的神经网络”。为了具体地（稍微直观地）理解这一点，我们来思考下面这个简单的例子。这里我们考虑把线性函数 _h_\(_x_\) = c_x_ 作为激活函数，把 _y_\(_x_\) = _h_\(_h_\(_h_\(_x_\)\)\) 的运算对应 3 层神经网络 \[3\]。这个运算会进行 _y_\(_x_\) = c × c × c × _x_ 的乘法运算，但是同样的处理可以由 _y_\(_x_\) = _ax_（注意，![](http://image.colinsford.top/images/DeepLearning-Python/00055.gif)）这一次乘法运算（即没有隐藏层的神经网络）来表示。如本例所示，使用线性函数时，无法发挥多层网络带来的优势。因此，为了发挥叠加层所带来的优势，激活函数必须使用非线性函数。
+线性函数的问题在于，不管如何加深层数，总是存在与之等效的“无隐藏层的神经网络”。为了具体地（稍微直观地）理解这一点，我们来思考下面这个简单的例子。这里我们考虑把线性函数 _h_\(_x_\) = c_x_ 作为激活函数，把 _y_\(_x_\) = _h_\(_h_\(_h_\(_x_\)\)\) 的运算对应 3 层神经网络 \[3\]。这个运算会进行 _y_\(_x_\) = c × c × c × _x_ 的乘法运算，但是同样的处理可以由 _y_\(_x_\) = _ax_（注意，![](http://image.colinsford.top/DeepLearning-Python/00055.gif)）这一次乘法运算（即没有隐藏层的神经网络）来表示。如本例所示，使用线性函数时，无法发挥多层网络带来的优势。因此，为了发挥叠加层所带来的优势，激活函数必须使用非线性函数。
 
 \[3\]该对应只是一个近似，实际的神经网络运算比这个例子要复杂，但不影响后面的结论成立。 ——译者注
 
@@ -245,13 +245,13 @@ plt.show()
 
 ReLU 函数在输入大于 0 时，直接输出该值；在输入小于等于 0 时，输出 0（图 3-9）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00056.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00056.jpeg)
 
 **图 3-9　ReLU 函数**
 
 ReLU 函数可以表示为下面的式 \(3.7\)。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00057.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00057.jpeg)
 
 如图 3-9 和式（3.7）所示，ReLU 函数是一个非常简单的函数。因此，ReLU 函数的实现也很简单，可以写成如下形式。
 
@@ -301,7 +301,7 @@ def relu(x):
 
 这里生成了一个 3 × 2 的数组 `B`。3 × 2 的数组表示第一个维度有 3 个元素，第二个维度有 2 个元素。另外，第一个维度对应第 0 维，第二个维度对应第 1 维（Python 的索引从 0 开始）。二维数组也称为**矩阵**（matrix）。如图 3-10 所示，数组的横向排列称为**行**（row），纵向排列称为**列**（column）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00058.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00058.jpeg)
 
 **图 3-10　横向排列称为行，纵向排列称为列**
 
@@ -309,11 +309,11 @@ def relu(x):
 
 下面，我们来介绍矩阵（二维数组）的乘积。比如 2 × 2 的矩阵，其乘积可以像图 3-11 这样进行计算（按图中顺序进行计算是规定好了的）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00059.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00059.jpeg)
 
 **图 3-11　矩阵的乘积的计算方法**
 
-如本例所示，矩阵的乘积是通过左边矩阵的行（横向）和右边矩阵的列（纵向）以对应元素的方式相乘后再求和而得到的。并且，运算的结果保存为新的多维数组的元素。比如，![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的第 1 行和 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的第 1 列的乘积结果是新数组的第 1 行第 1 列的元素，![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的第 2 行和 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的第 1 列的结果是新数组的第 2 行第 1 列的元素。另外，在本书的数学标记中，矩阵将用黑斜体表示（比如，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif)），以区别于单个元素的标量（比如，_a_ 或 _b_）。这个运算在 Python 中可以用如下代码实现。
+如本例所示，矩阵的乘积是通过左边矩阵的行（横向）和右边矩阵的列（纵向）以对应元素的方式相乘后再求和而得到的。并且，运算的结果保存为新的多维数组的元素。比如，![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的第 1 行和 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的第 1 列的乘积结果是新数组的第 1 行第 1 列的元素，![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的第 2 行和 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的第 1 列的结果是新数组的第 2 行第 1 列的元素。另外，在本书的数学标记中，矩阵将用黑斜体表示（比如，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif)），以区别于单个元素的标量（比如，_a_ 或 _b_）。这个运算在 Python 中可以用如下代码实现。
 
 ```text
 >>> A = np.array([[1,2], [3,4]])
@@ -327,7 +327,7 @@ array([[19, 22],
        [43, 50]])
 ```
 
-这里，![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 都是 2 × 2 的矩阵，它们的乘积可以通过 NumPy 的 `np.dot()` 函数计算（乘积也称为点积）。`np.dot()` 接收两个 NumPy 数组作为参数，并返回数组的乘积。这里要注意的是，`np.dot(A, B)` 和 `np.dot(B, A)` 的值可能不一样。和一般的运算（`+` 或 `*` 等）不同，矩阵的乘积运算中，操作数（`A`、`B`）的顺序不同，结果也会不同。
+这里，![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 都是 2 × 2 的矩阵，它们的乘积可以通过 NumPy 的 `np.dot()` 函数计算（乘积也称为点积）。`np.dot()` 接收两个 NumPy 数组作为参数，并返回数组的乘积。这里要注意的是，`np.dot(A, B)` 和 `np.dot(B, A)` 的值可能不一样。和一般的运算（`+` 或 `*` 等）不同，矩阵的乘积运算中，操作数（`A`、`B`）的顺序不同，结果也会不同。
 
 这里介绍的是计算 2 × 2 形状的矩阵的乘积的例子，其他形状的矩阵的乘积也可以用相同的方法来计算。比如，2 × 3 的矩阵和 3 × 2 的矩阵的乘积可按如下形式用 Python 来实现。
 
@@ -343,7 +343,7 @@ array([[22, 28],
        [49, 64]])
 ```
 
-2 × 3 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 和 3 × 2 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的乘积可按以上方式实现。这里需要注意的是矩阵的形状（`shape`）。具体地讲，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的第 1 维的元素个数（列数）必须和矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的第 0 维的元素个数（行数）相等。在上面的例子中，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的形状是 2 × 3，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的形状是 3 × 2，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的第 1 维的元素个数（3）和矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的第 0 维的元素个数（3）相等。如果这两个值不相等，则无法计算矩阵的乘积。比如，如果用 Python 计算 2 × 3 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 和 2 × 2 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00062.gif) 的乘积，则会输出如下错误。
+2 × 3 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 和 3 × 2 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的乘积可按以上方式实现。这里需要注意的是矩阵的形状（`shape`）。具体地讲，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的第 1 维的元素个数（列数）必须和矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的第 0 维的元素个数（行数）相等。在上面的例子中，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的形状是 2 × 3，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的形状是 3 × 2，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的第 1 维的元素个数（3）和矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的第 0 维的元素个数（3）相等。如果这两个值不相等，则无法计算矩阵的乘积。比如，如果用 Python 计算 2 × 3 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 和 2 × 2 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00062.gif) 的乘积，则会输出如下错误。
 
 ```text
 >>> C = np.array([[1,2], [3,4]])
@@ -357,15 +357,15 @@ Traceback (most recent call last):
 ValueError: shapes (2,3) and (2,2) not aligned: 3 (dim 1) != 2 (dim 0)
 ```
 
-这个错误的意思是，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的第 1 维和矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00062.gif) 的第 0 维的元素个数不一致（维度的索引从 0 开始）。也就是说，在多维数组的乘积运算中，必须使两个矩阵中的对应维度的元素个数一致，这一点很重要。我们通过图 3-12 再来确认一下。
+这个错误的意思是，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的第 1 维和矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00062.gif) 的第 0 维的元素个数不一致（维度的索引从 0 开始）。也就是说，在多维数组的乘积运算中，必须使两个矩阵中的对应维度的元素个数一致，这一点很重要。我们通过图 3-12 再来确认一下。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00063.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00063.jpeg)
 
 **图 3-12　在矩阵的乘积运算中，对应维度的元素个数要保持一致**
 
-图 3-12 中，3 × 2 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 和 2 × 4 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的乘积运算生成了 3 × 4 的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00062.gif)。如图所示，矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 和矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的对应维度的元素个数必须保持一致。此外，还有一点很重要，就是运算结果的矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00062.gif) 的形状是由矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 的行数和矩阵 ![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 的列数构成的。
+图 3-12 中，3 × 2 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 和 2 × 4 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的乘积运算生成了 3 × 4 的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00062.gif)。如图所示，矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 和矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的对应维度的元素个数必须保持一致。此外，还有一点很重要，就是运算结果的矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00062.gif) 的形状是由矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 的行数和矩阵 ![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 的列数构成的。
 
-另外，当 ![](http://image.colinsford.top/images/DeepLearning-Python/00060.gif) 是二维矩阵、![](http://image.colinsford.top/images/DeepLearning-Python/00061.gif) 是一维数组时，如图 3-13 所示，对应维度的元素个数要保持一致的原则依然成立。
+另外，当 ![](http://image.colinsford.top/DeepLearning-Python/00060.gif) 是二维矩阵、![](http://image.colinsford.top/DeepLearning-Python/00061.gif) 是一维数组时，如图 3-13 所示，对应维度的元素个数要保持一致的原则依然成立。
 
 可按如下方式用 Python 实现图 3-13 的例子。
 
@@ -380,7 +380,7 @@ ValueError: shapes (2,3) and (2,2) not aligned: 3 (dim 1) != 2 (dim 0)
 array([23, 53, 83])
 ```
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00064.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00064.jpeg)
 
 **图 3-13**　_**A**_ **是二维矩阵、**_**B**_ **是一维数组时，也要保持对应维度的元素个数一致**
 
@@ -388,11 +388,11 @@ array([23, 53, 83])
 
 下面我们使用 NumPy 矩阵来实现神经网络。这里我们以图 3-14 中的简单神经网络为对象。这个神经网络省略了偏置和激活函数，只有权重。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00065.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00065.jpeg)
 
 **图 3-14　通过矩阵的乘积进行神经网络的运算**
 
-实现该神经网络时，要注意 ![](http://image.colinsford.top/images/DeepLearning-Python/00066.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00068.gif) 的形状，特别是 ![](http://image.colinsford.top/images/DeepLearning-Python/00066.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 的对应维度的元素个数是否一致，这一点很重要。
+实现该神经网络时，要注意 ![](http://image.colinsford.top/DeepLearning-Python/00066.gif)、![](http://image.colinsford.top/DeepLearning-Python/00067.gif)、![](http://image.colinsford.top/DeepLearning-Python/00068.gif) 的形状，特别是 ![](http://image.colinsford.top/DeepLearning-Python/00066.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 的对应维度的元素个数是否一致，这一点很重要。
 
 ```text
 >>> X = np.array([1, 2])
@@ -409,27 +409,27 @@ array([23, 53, 83])
 [ 5  11  17]
 ```
 
-如上所示，使用 `np.dot`（多维数组的点积），可以一次性计算出 ![](http://image.colinsford.top/images/DeepLearning-Python/00068.gif) 的结果。这意味着，即便 ![](http://image.colinsford.top/images/DeepLearning-Python/00068.gif) 的元素个数为 `100` 或 `1000`，也可以通过一次运算就计算出结果！如果不使用 `np.dot`，就必须单独计算 ![](http://image.colinsford.top/images/DeepLearning-Python/00068.gif) 的每一个元素（或者说必须使用 `for` 语句），非常麻烦。因此，通过矩阵的乘积一次性完成计算的技巧，在实现的层面上可以说是非常重要的。
+如上所示，使用 `np.dot`（多维数组的点积），可以一次性计算出 ![](http://image.colinsford.top/DeepLearning-Python/00068.gif) 的结果。这意味着，即便 ![](http://image.colinsford.top/DeepLearning-Python/00068.gif) 的元素个数为 `100` 或 `1000`，也可以通过一次运算就计算出结果！如果不使用 `np.dot`，就必须单独计算 ![](http://image.colinsford.top/DeepLearning-Python/00068.gif) 的每一个元素（或者说必须使用 `for` 语句），非常麻烦。因此，通过矩阵的乘积一次性完成计算的技巧，在实现的层面上可以说是非常重要的。
 
 ### 3.4　3 层神经网络的实现
 
 现在我们来进行神经网络的实现。这里我们以图 3-15 的 3 层神经网络为对象，实现从输入到输出的（前向）处理。在代码实现方面，使用上一节介绍的 NumPy 多维数组。巧妙地使用 NumPy 数组，可以用很少的代码完成神经网络的前向处理。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00069.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00069.jpeg)
 
 **图 3-15　3 层神经网络：输入层（第 0 层）有 2 个神经元，第 1 个隐藏层（第 1 层）有 3 个神经元，第 2 个隐藏层（第 2 层）有 2 个神经元，输出层（第 3 层）有 2 个神经元**
 
 #### 3.4.1　符号确认
 
-在介绍神经网络中的处理之前，我们先导入 ![](http://image.colinsford.top/images/DeepLearning-Python/00070.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00071.gif) 等符号。这些符号可能看上去有些复杂，不过因为只在本节使用，稍微读一下就跳过去也问题不大。
+在介绍神经网络中的处理之前，我们先导入 ![](http://image.colinsford.top/DeepLearning-Python/00070.gif)、![](http://image.colinsford.top/DeepLearning-Python/00071.gif) 等符号。这些符号可能看上去有些复杂，不过因为只在本节使用，稍微读一下就跳过去也问题不大。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　本节的重点是神经网络的运算可以作为矩阵运算打包进行。因为神经网络各层的运算是通过矩阵的乘法运算打包进行的（从宏观视角来考虑），所以即便忘了（未记忆）具体的符号规则，也不影响理解后面的内容。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　本节的重点是神经网络的运算可以作为矩阵运算打包进行。因为神经网络各层的运算是通过矩阵的乘法运算打包进行的（从宏观视角来考虑），所以即便忘了（未记忆）具体的符号规则，也不影响理解后面的内容。
 
-我们先从定义符号开始。请看图 3-16。图 3-16 中只突出显示了从输入层神经元 ![](http://image.colinsford.top/images/DeepLearning-Python/00009.gif) 到后一层的神经元 ![](http://image.colinsford.top/images/DeepLearning-Python/00071.gif) 的权重。
+我们先从定义符号开始。请看图 3-16。图 3-16 中只突出显示了从输入层神经元 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 到后一层的神经元 ![](http://image.colinsford.top/DeepLearning-Python/00071.gif) 的权重。
 
-如图 3-16 所示，权重和隐藏层的神经元的右上角有一个“\(1\)”，它表示权重和神经元的层号（即第 1 层的权重、第 1 层的神经元）。此外，权重的右下角有两个数字，它们是后一层的神经元和前一层的神经元的索引号。比如，![](http://image.colinsford.top/images/DeepLearning-Python/00070.gif) 表示前一层的第 2 个神经元 ![](http://image.colinsford.top/images/DeepLearning-Python/00009.gif) 到后一层的第 1 个神经元 ![](http://image.colinsford.top/images/DeepLearning-Python/00071.gif) 的权重。权重右下角按照“后一层的索引号、前一层的索引号”的顺序排列。
+如图 3-16 所示，权重和隐藏层的神经元的右上角有一个“\(1\)”，它表示权重和神经元的层号（即第 1 层的权重、第 1 层的神经元）。此外，权重的右下角有两个数字，它们是后一层的神经元和前一层的神经元的索引号。比如，![](http://image.colinsford.top/DeepLearning-Python/00070.gif) 表示前一层的第 2 个神经元 ![](http://image.colinsford.top/DeepLearning-Python/00009.gif) 到后一层的第 1 个神经元 ![](http://image.colinsford.top/DeepLearning-Python/00071.gif) 的权重。权重右下角按照“后一层的索引号、前一层的索引号”的顺序排列。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00072.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00072.jpeg)
 
 **图 3-16　权重的符号**
 
@@ -437,7 +437,7 @@ array([23, 53, 83])
 
 现在看一下从输入层到第 1 层的第 1 个神经元的信号传递过程，如图 3-17 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00073.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00073.jpeg)
 
 **图 3-17　从输入层到第 1 层的信号传递**
 
@@ -445,17 +445,17 @@ array([23, 53, 83])
 
 \[4\]任何前一层的偏置神经元“1”都只有一个。偏置权重的数量取决于后一层的神经元的数量（不包括后一层的偏置神经元“1”）。——译者注
 
-为了确认前面的内容，现在用数学式表示 ![](http://image.colinsford.top/images/DeepLearning-Python/00071.gif)。![](http://image.colinsford.top/images/DeepLearning-Python/00071.gif) 通过加权信号和偏置的和按如下方式进行计算。
+为了确认前面的内容，现在用数学式表示 ![](http://image.colinsford.top/DeepLearning-Python/00071.gif)。![](http://image.colinsford.top/DeepLearning-Python/00071.gif) 通过加权信号和偏置的和按如下方式进行计算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00074.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00074.gif)
 
 此外，如果使用矩阵的乘法运算，则可以将第 1 层的加权和表示成下面的式（3.9）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00075.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00075.gif)
 
-其中，![](http://image.colinsford.top/images/DeepLearning-Python/00076.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00066.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00077.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00078.gif) 如下所示。
+其中，![](http://image.colinsford.top/DeepLearning-Python/00076.gif)、![](http://image.colinsford.top/DeepLearning-Python/00066.gif)、![](http://image.colinsford.top/DeepLearning-Python/00077.gif)、![](http://image.colinsford.top/DeepLearning-Python/00078.gif) 如下所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00079.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00079.gif)
 
 下面我们用 NumPy 多维数组来实现式（3.9），这里将输入信号、权重、偏置设置成任意值。
 
@@ -475,7 +475,7 @@ A1 = np.dot(X, W1) + B1
 
 接下来，我们观察第 1 层中激活函数的计算过程。如果把这个计算过程用图来表示的话，则如图 3-18 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00080.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00080.jpeg)
 
 **图 3-18　从输入层到第 1 层的信号传递**
 
@@ -506,7 +506,7 @@ Z2 = sigmoid(A2)
 
 除了第 1 层的输出（`Z1`）变成了第 2 层的输入这一点以外，这个实现和刚才的代码完全相同。由此可知，通过使用 NumPy 数组，可以将层到层的信号传递过程简单地写出来。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00081.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00081.jpeg)
 
 **图 3-19　第 1 层到第 2 层的信号传递**
 
@@ -525,11 +525,11 @@ Y = identity_function(A3) # 或者Y = A3
 
 这里我们定义了 `identity_function()` 函数（也称为“恒等函数”），并将其作为输出层的激活函数。恒等函数会将输入按原样输出，因此，这个例子中没有必要特意定义 `identity_function()`。这里这样实现只是为了和之前的流程保持统一。另外，图 3-20 中，输出层的激活函数用 _σ_\(\) 表示，不同于隐藏层的激活函数 _h_\(\)（_σ_ 读作 sigma）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00082.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00082.jpeg)
 
 **图 3-20　从第 2 层到输出层的信号传递**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　输出层所用的激活函数，要根据求解问题的性质决定。一般地，回归问题可以使用恒等函数，二元分类问题可以使用 sigmoid 函数，多元分类问题可以使用 softmax 函数。关于输出层的激活函数，我们将在下一节详细介绍。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　输出层所用的激活函数，要根据求解问题的性质决定。一般地，回归问题可以使用恒等函数，二元分类问题可以使用 sigmoid 函数，多元分类问题可以使用 softmax 函数。关于输出层的激活函数，我们将在下一节详细介绍。
 
 #### 3.4.3　代码实现小结
 
@@ -576,25 +576,25 @@ print(y) # [ 0.31682708 0.69627909]
 
 神经网络可以用在分类问题和回归问题上，不过需要根据情况改变输出层的激活函数。一般而言，回归问题用恒等函数，分类问题用 softmax 函数。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　机器学习的问题大致可以分为分类问题和回归问题。分类问题是数据属于哪一个类别的问题。比如，区分图像中的人是男性还是女性的问题就是分类问题。而回归问题是根据某个输入预测一个（连续的）数值的问题。比如，根据一个人的图像预测这个人的体重的问题就是回归问题（类似“57.4kg”这样的预测）。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　机器学习的问题大致可以分为分类问题和回归问题。分类问题是数据属于哪一个类别的问题。比如，区分图像中的人是男性还是女性的问题就是分类问题。而回归问题是根据某个输入预测一个（连续的）数值的问题。比如，根据一个人的图像预测这个人的体重的问题就是回归问题（类似“57.4kg”这样的预测）。
 
 #### 3.5.1　恒等函数和 softmax 函数
 
 恒等函数会将输入按原样输出，对于输入的信息，不加以任何改动地直接输出。因此，在输出层使用恒等函数时，输入信号会原封不动地被输出。另外，将恒等函数的处理过程用之前的神经网络图来表示的话，则如图 3-21 所示。和前面介绍的隐藏层的激活函数一样，恒等函数进行的转换处理可以用一根箭头来表示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00083.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00083.jpeg)
 
 **图 3-21　恒等函数**
 
 分类问题中使用的 softmax 函数可以用下面的式（3.10）表示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00084.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00084.gif)
 
-exp\(_x_\) 是表示 ![](http://image.colinsford.top/images/DeepLearning-Python/00085.gif) 的指数函数（e 是纳皮尔常数 2.7182 ...）。式（3.10）表示假设输出层共有 _n_ 个神经元，计算第 _k_ 个神经元的输出 ![](http://image.colinsford.top/images/DeepLearning-Python/00086.gif)。如式（3.10）所示，softmax 函数的分子是输入信号 ![](http://image.colinsford.top/images/DeepLearning-Python/00087.gif) 的指数函数，分母是所有输入信号的指数函数的和。
+exp\(_x_\) 是表示 ![](http://image.colinsford.top/DeepLearning-Python/00085.gif) 的指数函数（e 是纳皮尔常数 2.7182 ...）。式（3.10）表示假设输出层共有 _n_ 个神经元，计算第 _k_ 个神经元的输出 ![](http://image.colinsford.top/DeepLearning-Python/00086.gif)。如式（3.10）所示，softmax 函数的分子是输入信号 ![](http://image.colinsford.top/DeepLearning-Python/00087.gif) 的指数函数，分母是所有输入信号的指数函数的和。
 
 用图表示 softmax 函数的话，如图 3-22 所示。图 3-22 中，softmax 函数的输出通过箭头与所有的输入信号相连。这是因为，从式（3.10）可以看出，输出层的各个神经元都受到所有输入信号的影响。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00088.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00088.jpeg)
 
 **图 3-22　softmax 函数**
 
@@ -629,13 +629,13 @@ def softmax(a):
 
 #### 3.5.2　实现 softmax 函数时的注意事项
 
-上面的 `softmax` 函数的实现虽然正确描述了式（3.10），但在计算机的运算上有一定的缺陷。这个缺陷就是溢出问题。softmax 函数的实现中要进行指数函数的运算，但是此时指数函数的值很容易变得非常大。比如，![](http://image.colinsford.top/images/DeepLearning-Python/00089.gif) 的值会超过 20000，![](http://image.colinsford.top/images/DeepLearning-Python/00090.gif) 会变成一个后面有 40 多个 0 的超大值，![](http://image.colinsford.top/images/DeepLearning-Python/00091.gif) 的结果会返回一个表示无穷大的 `inf`。如果在这些超大值之间进行除法运算，结果会出现“不确定”的情况。
+上面的 `softmax` 函数的实现虽然正确描述了式（3.10），但在计算机的运算上有一定的缺陷。这个缺陷就是溢出问题。softmax 函数的实现中要进行指数函数的运算，但是此时指数函数的值很容易变得非常大。比如，![](http://image.colinsford.top/DeepLearning-Python/00089.gif) 的值会超过 20000，![](http://image.colinsford.top/DeepLearning-Python/00090.gif) 会变成一个后面有 40 多个 0 的超大值，![](http://image.colinsford.top/DeepLearning-Python/00091.gif) 的结果会返回一个表示无穷大的 `inf`。如果在这些超大值之间进行除法运算，结果会出现“不确定”的情况。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　计算机处理“数”时，数值必须在 4 字节或 8 字节的有限数据宽度内。这意味着数存在有效位数，也就是说，可以表示的数值范围是有限的。因此，会出现超大值无法表示的问题。这个问题称为溢出，在进行计算机的运算时必须（常常）注意。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　计算机处理“数”时，数值必须在 4 字节或 8 字节的有限数据宽度内。这意味着数存在有效位数，也就是说，可以表示的数值范围是有限的。因此，会出现超大值无法表示的问题。这个问题称为溢出，在进行计算机的运算时必须（常常）注意。
 
 softmax 函数的实现可以像式（3.11）这样进行改进。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00092.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00092.gif)
 
 首先，式（3.11）在分子和分母上都乘上 C 这个任意的常数（因为同时对分母和分子乘以相同的常数，所以计算结果不变）。然后，把这个 C 移动到指数函数（exp）中，记为 log C。最后，把 log C 替换为另一个符号 C_'_。
 
@@ -687,7 +687,7 @@ def softmax(a):
 
 一般而言，神经网络只把输出值最大的神经元所对应的类别作为识别结果。并且，即便使用 softmax 函数，输出值最大的神经元的位置也不会变。因此，神经网络在进行分类时，输出层的 softmax 函数可以省略。在实际的问题中，由于指数函数的运算需要一定的计算机运算量，因此输出层的 softmax 函数一般会被省略。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　求解机器学习问题的步骤可以分为“学习”\[5\] 和“推理”两个阶段。首先，在学习阶段进行模型的学习 \[6\]，然后，在推理阶段，用学到的模型对未知的数据进行推理（分类）。如前所述，推理阶段一般会省略输出层的 softmax 函数。在输出层使用 softmax 函数是因为它和神经网络的学习有关系（详细内容请参考下一章）。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　求解机器学习问题的步骤可以分为“学习”\[5\] 和“推理”两个阶段。首先，在学习阶段进行模型的学习 \[6\]，然后，在推理阶段，用学到的模型对未知的数据进行推理（分类）。如前所述，推理阶段一般会省略输出层的 softmax 函数。在输出层使用 softmax 函数是因为它和神经网络的学习有关系（详细内容请参考下一章）。
 
 \[5\]“学习”也称为“训练”，为了强调算法从数据中学习模型，本书使用“学习”一词。——译者注
 
@@ -697,9 +697,9 @@ def softmax(a):
 
 输出层的神经元数量需要根据待解决的问题来决定。对于分类问题，输出层的神经元数量一般设定为类别的数量。比如，对于某个输入图像，预测是图中的数字 0 到 9 中的哪一个的问题（10 类别分类问题），可以像图 3-23 这样，将输出层的神经元设定为 10 个。
 
-如图 3-23 所示，在这个例子中，输出层的神经元从上往下依次对应数字 0, 1, .. ., 9。此外，图中输出层的神经元的值用不同的灰度表示。这个例子中神经元 ![](http://image.colinsford.top/images/DeepLearning-Python/00093.gif) 颜色最深，输出的值最大。这表明这个神经网络预测的是 ![](http://image.colinsford.top/images/DeepLearning-Python/00093.gif) 对应的类别，也就是“2”。
+如图 3-23 所示，在这个例子中，输出层的神经元从上往下依次对应数字 0, 1, .. ., 9。此外，图中输出层的神经元的值用不同的灰度表示。这个例子中神经元 ![](http://image.colinsford.top/DeepLearning-Python/00093.gif) 颜色最深，输出的值最大。这表明这个神经网络预测的是 ![](http://image.colinsford.top/DeepLearning-Python/00093.gif) 对应的类别，也就是“2”。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00094.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00094.jpeg)
 
 **图 3-23　输出层的神经元对应各个数字**
 
@@ -707,7 +707,7 @@ def softmax(a):
 
 介绍完神经网络的结构之后，现在我们来试着解决实际问题。这里我们来进行手写数字图像的分类。假设学习已经全部结束，我们使用学习到的参数，先实现神经网络的“推理处理”。这个推理处理也称为神经网络的**前向传播**（forward propagation）。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　和求解机器学习问题的步骤（分成学习和推理两个阶段进行）一样，使用神经网络解决问题时，也需要首先使用训练数据（学习数据）进行权重参数的学习；进行推理时，使用刚才学习到的参数，对输入数据进行分类。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　和求解机器学习问题的步骤（分成学习和推理两个阶段进行）一样，使用神经网络解决问题时，也需要首先使用训练数据（学习数据）进行权重参数的学习；进行推理时，使用刚才学习到的参数，对输入数据进行分类。
 
 #### 3.6.1　MNIST 数据集
 
@@ -715,7 +715,7 @@ def softmax(a):
 
 MNIST 数据集是由 0 到 9 的数字图像构成的（图 3-24）。训练图像有 6 万张，测试图像有 1 万张，这些图像可以用于学习和推理。MNIST 数据集的一般使用方法是，先用训练图像进行学习，再用学习到的模型度量能在多大程度上对测试图像进行正确的分类。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00095.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00095.jpeg)
 
 **图 3-24　MNIST 图像数据集的例子**
 
@@ -743,11 +743,11 @@ print(t_test.shape) # (10000,)
 
 \[7\]观察本书源代码可知，上述代码在 `mnist_show.py` 文件中。`mnist_show.py` 文件的当前目录是 `ch03`，但包含 `load_mnist()` 函数的 `mnist.py` 文件在 `dataset` 目录下。因此，`mnist_show.py` 文件不能跨目录直接导入 `mnist.py` 文件。`sys.path.append(os.pardir)` 语句实际上是把父目录 `deep-learning-from-scratch` 加入到 `sys.path`（Python 的搜索模块的路径集）中，从而可以导入 `deep-learning-from-scratch` 下的任何目录（包括 `dataset` 目录）中的任何文件。——译者注
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　用来读入 MNIST 图像的文件在本书提供的源代码的 `dataset` 目录下。并且，我们假定了这个 MNIST 数据集只能从 `ch01`、`ch02`、`ch03`、…、`ch08` 目录中使用，因此，使用时需要从父目录（`dataset` 目录）中导入文件，为此需要添加 `sys.path.append(os.pardir)` 语句。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　用来读入 MNIST 图像的文件在本书提供的源代码的 `dataset` 目录下。并且，我们假定了这个 MNIST 数据集只能从 `ch01`、`ch02`、`ch03`、…、`ch08` 目录中使用，因此，使用时需要从父目录（`dataset` 目录）中导入文件，为此需要添加 `sys.path.append(os.pardir)` 语句。
 
 `load_mnist` 函数以“**\( 训练图像, 训练标签 \)，\( 测试图像, 测试标签 \)**”的形式返回读入的 MNIST 数据。此外，还可以像 `load_mnist(normalize=True, flatten=True, one_hot_label=False)` 这样，设置 3 个参数。第 1 个参数 `normalize` 设置是否将输入图像正规化为 0.0～1.0 的值。如果将该参数设置为 `False`，则输入图像的像素会保持原来的 0～255。第 2 个参数 `flatten` 设置是否展开输入图像（变成一维数组）。如果将该参数设置为 `False`，则输入图像为 1 × 28 × 28 的三维数组；若设置为 `True`，则输入图像会保存为由 784 个元素构成的一维数组。第 3 个参数 `one_hot_label` 设置是否将标签保存为 one-hot 表示（one-hot representation）。one-hot 表示是仅正确解标签为 1，其余皆为 0 的数组，就像 `[0,0,1,0,0,0,0,0,0,0]` 这样。当 `one_hot_label` 为 `False` 时，只是像 `7`、`2` 这样简单保存正确解标签；当 `one_hot_label` 为 `True` 时，标签则保存为 one-hot 表示。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　Python 有 pickle 这个便利的功能。这个功能可以将程序运行中的对象保存为文件。如果加载保存过的 pickle 文件，可以立刻复原之前程序运行中的对象。用于读入 MNIST 数据集的 `load_mnist()` 函数内部也使用了 pickle 功能（在第 2 次及以后读入时）。利用 pickle 功能，可以高效地完成 MNIST 数据的准备工作。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　Python 有 pickle 这个便利的功能。这个功能可以将程序运行中的对象保存为文件。如果加载保存过的 pickle 文件，可以立刻复原之前程序运行中的对象。用于读入 MNIST 数据集的 `load_mnist()` 函数内部也使用了 pickle 功能（在第 2 次及以后读入时）。利用 pickle 功能，可以高效地完成 MNIST 数据的准备工作。
 
 现在，我们试着显示 MNIST 图像，同时也确认一下数据。图像的显示使用 PIL（Python Image Library）模块。执行下述代码后，训练图像的第一张就会显示出来，如图 3-25 所示（源代码在 `ch03/mnist_show.py` 中）。
 
@@ -777,7 +777,7 @@ img_show(img)
 
 这里需要注意的是，`flatten=True` 时读入的图像是以一列（一维）NumPy 数组的形式保存的。因此，显示图像时，需要把它变为原来的 28 像素 × 28 像素的形状。可以通过 `reshape()` 方法的参数指定期望的形状，更改 NumPy 数组的形状。此外，还需要把保存为 NumPy 数组的图像数据转换为 PIL 用的数据对象，这个转换处理由 `Image.fromarray()` 来完成。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00096.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00096.jpeg)
 
 **图 3-25　显示** MNIST **图像**
 
@@ -834,7 +834,7 @@ print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
 
 另外，在这个例子中，我们把 `load_mnist` 函数的参数 `normalize` 设置成了 `True`。将 `normalize` 设置成 `True` 后，函数内部会进行转换，将图像的各个像素值除以 255，使得数据的值在 0.0～1.0 的范围内。像这样把数据限定到某个范围内的处理称为**正规化**（normalization）。此外，对神经网络的输入数据进行某种既定的转换称为**预处理**（pre-processing）。这里，作为对输入图像的一种预处理，我们进行了正规化。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　预处理在神经网络（深度学习）中非常实用，其有效性已在提高识别性能和学习的效率等众多实验中得到证明。在刚才的例子中，作为一种预处理，我们将各个像素值除以 255，进行了简单的正规化。实际上，很多预处理都会考虑到数据的整体分布。比如，利用数据整体的均值或标准差，移动数据，使数据整体以 0 为中心分布，或者进行正规化，把数据的延展控制在一定范围内。除此之外，还有将数据整体的分布形状均匀化的方法，即数据**白化**（whitening）等。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　预处理在神经网络（深度学习）中非常实用，其有效性已在提高识别性能和学习的效率等众多实验中得到证明。在刚才的例子中，作为一种预处理，我们将各个像素值除以 255，进行了简单的正规化。实际上，很多预处理都会考虑到数据的整体分布。比如，利用数据整体的均值或标准差，移动数据，使数据整体以 0 为中心分布，或者进行正规化，把数据的延展控制在一定范围内。除此之外，还有将数据整体的分布形状均匀化的方法，即数据**白化**（whitening）等。
 
 #### 3.6.3　批处理
 
@@ -861,15 +861,15 @@ print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
 
 我们通过上述结果来确认一下多维数组的对应维度的元素个数是否一致（省略了偏置）。用图表示的话，如图 3-26 所示。可以发现，多维数组的对应维度的元素个数确实是一致的。此外，我们还可以确认最终的结果是输出了元素个数为 10 的一维数组。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00097.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00097.jpeg)
 
 **图 3-26　数组形状的变化**
 
 从整体的处理流程来看，图 3-26 中，输入一个由 784 个元素（原本是一个 28 × 28 的二维数组）构成的一维数组后，输出一个有 10 个元素的一维数组。这是只输入一张图像数据时的处理流程。
 
-现在我们来考虑打包输入多张图像的情形。比如，我们想用 `predict()` 函数一次性打包处理 100 张图像。为此，可以把 ![](http://image.colinsford.top/images/DeepLearning-Python/00098.gif) 的形状改为 100 × 784，将 100 张图像打包作为输入数据。用图表示的话，如图 3-27 所示。
+现在我们来考虑打包输入多张图像的情形。比如，我们想用 `predict()` 函数一次性打包处理 100 张图像。为此，可以把 ![](http://image.colinsford.top/DeepLearning-Python/00098.gif) 的形状改为 100 × 784，将 100 张图像打包作为输入数据。用图表示的话，如图 3-27 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00099.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00099.jpeg)
 
 **图 3-27　批处理中数组形状的变化**
 
@@ -877,7 +877,7 @@ print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
 
 这种打包式的输入数据称为**批**（batch）。批有“捆”的意思，图像就如同纸币一样扎成一捆。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　批处理对计算机的运算大有利处，可以大幅缩短每张图像的处理时间。那么为什么批处理可以缩短处理时间呢？这是因为大多数处理数值计算的库都进行了能够高效处理大型数组运算的最优化。并且，在神经网络的运算中，当数据传送成为瓶颈时，批处理可以减轻数据总线的负荷（严格地讲，相对于数据读入，可以将更多的时间用在计算上）。也就是说，批处理一次性计算大型数组要比分开逐步计算各个小型数组速度更快。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　批处理对计算机的运算大有利处，可以大幅缩短每张图像的处理时间。那么为什么批处理可以缩短处理时间呢？这是因为大多数处理数值计算的库都进行了能够高效处理大型数组运算的最优化。并且，在神经网络的运算中，当数据传送成为瓶颈时，批处理可以减轻数据总线的负荷（严格地讲，相对于数据读入，可以将更多的时间用在计算上）。也就是说，批处理一次性计算大型数组要比分开逐步计算各个小型数组速度更快。
 
 下面我们进行基于批处理的代码实现。这里用粗体显示与之前的实现的不同之处。
 

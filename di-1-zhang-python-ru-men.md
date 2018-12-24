@@ -30,7 +30,7 @@ NumPy 是用于数值计算的库，提供了很多高级的数学算法和便�
 
 Matplotlib 是用来画图的库。使用 Matplotlib 能将实验结果可视化，并在视觉上确认深度学习运行期间的数据。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　本书将使用下列编程语言和库。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　本书将使用下列编程语言和库。
 >
 > * Python 3._x_（2016 年 8 月时的最新版本是 3.5）
 > * NumPy
@@ -217,7 +217,7 @@ I'm sleepy
 
 Python 中的空白字符具有重要的意义。上面的 `if` 语句中，`if hungry:` 下面的语句开头有 4 个空白字符。它是缩进的意思，表示当前面的条件（`if hungry`）成立时，此处的代码会被执行。这个缩进也可以用 tab 表示，Python 中推荐使用空白字符。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　Python 使用空白字符表示缩进。一般而言，每缩进一次，使用 4 个空白字符。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　Python 使用空白字符表示缩进。一般而言，每缩进一次，使用 4 个空白字符。
 
 #### 1.3.8　for 语句
 
@@ -425,13 +425,13 @@ array([[ 10, 20],
        [ 30, 40]])
 ```
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　NumPy 数组（`np.array`）可以生成 _N_ 维数组，即可以生成一维数组、二维数组、三维数组等任意维数的数组。数学上将一维数组称为**向量**，将二维数组称为**矩阵**。另外，可以将一般化之后的向量或矩阵等统称为**张量**（tensor）。本书基本上将二维数组称为“矩阵”，将三维数组及三维以上的数组称为“张量”或“多维数组”。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　NumPy 数组（`np.array`）可以生成 _N_ 维数组，即可以生成一维数组、二维数组、三维数组等任意维数的数组。数学上将一维数组称为**向量**，将二维数组称为**矩阵**。另外，可以将一般化之后的向量或矩阵等统称为**张量**（tensor）。本书基本上将二维数组称为“矩阵”，将三维数组及三维以上的数组称为“张量”或“多维数组”。
 
 #### 1.5.5　广播
 
 NumPy 中，形状不同的数组之间也可以进行运算。之前的例子中，在 2×2 的矩阵 `A` 和标量 `10` 之间进行了乘法运算。在这个过程中，如图 1-1 所示，标量 `10` 被扩展成了 2 × 2 的形状，然后再与矩阵 `A` 进行乘法运算。这个巧妙的功能称为**广播**（broadcast）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00003.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00003.jpeg)
 
 **图 1-1　广播的例子：标量 10 被当作 2 × 2 的矩阵**
 
@@ -447,7 +447,7 @@ array([[ 10, 40],
 
 在这个运算中，如图 1-2 所示，一维数组 `B` 被“巧妙地”变成了和二位数组 `A` 相同的形状，然后再以对应元素的方式进行运算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00004.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00004.jpeg)
 
 **图 1-2　广播的例子 2**
 
@@ -501,7 +501,7 @@ array([51, 55, 19])
 
 对 NumPy 数组使用不等号运算符等（上例中是 `X > 15`），结果会得到一个布尔型的数组。上例中就是使用这个布尔型数组取出了数组的各个元素（取出 `True` 对应的元素）。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　Python 等动态类型语言一般比 C 和 C++ 等静态类型语言（编译型语言）运算速度慢。实际上，如果是运算量大的处理对象，用 C/C++ 写程序更好。为此，当 Python 中追求性能时，人们会用 C/C++ 来实现处理的内容。Python 则承担“中间人”的角色，负责调用那些用 C/ C++ 写的程序。NumPy 中，主要的处理也都是通过 C 或 C++ 实现的。因此，我们可以在不损失性能的情况下，使用 Python便利的语法。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　Python 等动态类型语言一般比 C 和 C++ 等静态类型语言（编译型语言）运算速度慢。实际上，如果是运算量大的处理对象，用 C/C++ 写程序更好。为此，当 Python 中追求性能时，人们会用 C/C++ 来实现处理的内容。Python 则承担“中间人”的角色，负责调用那些用 C/ C++ 写的程序。NumPy 中，主要的处理也都是通过 C 或 C++ 实现的。因此，我们可以在不损失性能的情况下，使用 Python便利的语法。
 
 ### 1.6　Matplotlib
 
@@ -526,7 +526,7 @@ plt.show()
 
 这里使用 NumPy 的 `arange` 方法生成了 `[0, 0.1, 0.2,…, 5.8, 5.9]` 的数据，将其设为 `x`。对 `x` 的各个元素，应用 NumPy 的 sin 函数 `np.sin()`，将 `x`、`y` 的数据传给 `plt.plot` 方法，然后绘制图形。最后，通过 `plt.show()` 显示图形。运行上述代码后，就会显示图 1-3 所示的图形。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00005.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00005.jpeg)
 
 **图 1-3　sin 函数的图形**
 
@@ -555,7 +555,7 @@ plt.show()
 
 结果如图 1-4 所示，我们看到图的标题、轴的标签名都被标出来了。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00006.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00006.jpeg)
 
 **图 1-4　sin 函数和 cos 函数的图形**
 
@@ -574,7 +574,7 @@ plt.show()
 
 运行上述代码后，会显示图 1-5 所示的图像。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00007.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00007.jpeg)
 
 **图 1-5　显示图像**
 

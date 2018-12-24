@@ -10,13 +10,13 @@
 
 如图 7-1 所示，全连接的神经网络中，Affine 层后面跟着激活函数 ReLU 层（或者 Sigmoid 层）。这里堆叠了 4 层“Affine-ReLU”组合，然后第 5 层是 Affine 层，最后由 Softmax 层输出最终结果（概率）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00280.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00280.jpeg)
 
 **图 7-1　基于全连接层（Affine 层）的网络的例子**
 
 那么，CNN 会是什么样的结构呢？图 7-2 是 CNN 的一个例子。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00281.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00281.jpeg)
 
 **图 7-2　基于 CNN 的网络的例子：新增了 Convolution 层和 Pooling 层（用灰色的方块表示）**
 
@@ -44,15 +44,15 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 卷积层进行的处理就是卷积运算。卷积运算相当于图像处理中的“滤波器运算”。在介绍卷积运算时，我们来看一个具体的例子（图 7-3）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00282.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00282.jpeg)
 
-**图 7-3　卷积运算的例子：用“**![](http://image.colinsford.top/images/DeepLearning-Python/00283.gif)**”符号表示卷积运算**
+**图 7-3　卷积运算的例子：用“**![](http://image.colinsford.top/DeepLearning-Python/00283.gif)**”符号表示卷积运算**
 
 如图 7-3 所示，卷积运算对输入数据应用滤波器。在这个例子中，输入数据是有高长方向的形状的数据，滤波器也一样，有高长方向上的维度。假设用（height, width）表示数据和滤波器的形状，则在本例中，输入大小是 \(4, 4\)，滤波器大小是 \(3, 3\)，输出大小是 \(2, 2\)。另外，有的文献中也会用“核”这个词来表示这里所说的“滤波器”。
 
 现在来解释一下图 7-3 的卷积运算的例子中都进行了什么样的计算。图 7-4 中展示了卷积运算的计算顺序。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00284.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00284.jpeg)
 
 **图 7-4　卷积运算的计算顺序**
 
@@ -62,7 +62,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 如图 7-5 所示，向应用了滤波器的数据加上了偏置。偏置通常只有 1 个（1 × 1）（本例中，相对于应用了滤波器的 4 个数据，偏置只有 1 个），这个值会被加到应用了滤波器的所有元素上。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00285.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00285.jpeg)
 
 **图 7-5　卷积运算的偏置：向应用了滤波器的元素加上某个固定值（偏置）**
 
@@ -70,19 +70,19 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 在进行卷积层的处理之前，有时要向输入数据的周围填入固定的数据（比如 0 等），这称为**填充**（padding），是卷积运算中经常会用到的处理。比如，在图 7-6 的例子中，对大小为 \(4, 4\) 的输入数据应用了幅度为 1 的填充。“幅度为 1 的填充”是指用幅度为 1 像素的 0 填充周围。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00286.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00286.jpeg)
 
 **图 7-6　卷积运算的填充处理：向输入数据的周围填入 0（图中用虚线表示填充，并省略了填充的内容“0”）**
 
 如图 7-6 所示，通过填充，大小为 \(4, 4\) 的输入数据变成了 \(6, 6\) 的形状。然后，应用大小为 \(3, 3\) 的滤波器，生成了大小为 \(4, 4\) 的输出数据。这个例子中将填充设成了 1，不过填充的值也可以设置成 2、3 等任意的整数。在图 7-5 的例子中，如果将填充设为 2，则输入数据的大小变为 \(8, 8\)；如果将填充设为 3，则大小变为 \(10, 10\)。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　使用填充主要是为了调整输出的大小。比如，对大小为 \(4, 4\) 的输入数据应用 \(3, 3\) 的滤波器时，输出大小变为 \(2, 2\)，相当于输出大小比输入大小缩小了 2 个元素。这在反复进行多次卷积运算的深度网络中会成为问题。为什么呢？因为如果每次进行卷积运算都会缩小空间，那么在某个时刻输出大小就有可能变为 1，导致无法再应用卷积运算。为了避免出现这样的情况，就要使用填充。在刚才的例子中，将填充的幅度设为 1，那么相对于输入大小 \(4, 4\)，输出大小也保持为原来的 \(4, 4\)。因此，卷积运算就可以在保持空间大小不变的情况下将数据传给下一层。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　使用填充主要是为了调整输出的大小。比如，对大小为 \(4, 4\) 的输入数据应用 \(3, 3\) 的滤波器时，输出大小变为 \(2, 2\)，相当于输出大小比输入大小缩小了 2 个元素。这在反复进行多次卷积运算的深度网络中会成为问题。为什么呢？因为如果每次进行卷积运算都会缩小空间，那么在某个时刻输出大小就有可能变为 1，导致无法再应用卷积运算。为了避免出现这样的情况，就要使用填充。在刚才的例子中，将填充的幅度设为 1，那么相对于输入大小 \(4, 4\)，输出大小也保持为原来的 \(4, 4\)。因此，卷积运算就可以在保持空间大小不变的情况下将数据传给下一层。
 
 #### 7.2.4　步幅
 
 应用滤波器的位置间隔称为**步幅**（stride）。之前的例子中步幅都是 1，如果将步幅设为 2，则如图 7-7 所示，应用滤波器的窗口的间隔变为 2 个元素。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00287.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00287.jpeg)
 
 **图 7-7　步幅为 2 的卷积运算的例子**
 
@@ -92,7 +92,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 这里，假设输入大小为 \(_H_, _W_\)，滤波器大小为 \(_FH_, _FW_\)，输出大小为 \(_OH_, _OW_\)，填充为 _P_，步幅为 _S_。此时，输出大小可通过式 \(7.1\) 进行计算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00288.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00288.gif)
 
 现在，我们使用这个算式，试着做几个计算。
 
@@ -100,21 +100,21 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 > 输入大小：\(4, 4\)；填充：1；步幅：1；滤波器大小：\(3, 3\)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00289.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00289.gif)
 
 **例 2：图 7-7 的例子**
 
 > 输入大小：\(7, 7\)；填充：0；步幅：2；滤波器大小：\(3, 3\)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00290.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00290.gif)
 
 **例 3**
 
 > 输入大小：\(28, 31\)；填充：2；步幅：3；滤波器大小：\(5, 5\)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00291.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00291.gif)
 
-如这些例子所示，通过在式（7.1）中代入值，就可以计算输出大小。这里需要注意的是，虽然只要代入值就可以计算输出大小，但是所设定的值必须使式（7.1）中的 ![](http://image.colinsford.top/images/DeepLearning-Python/00292.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00293.gif) 分别可以除尽。当输出大小无法除尽时（结果是小数时），需要采取报错等对策。顺便说一下，根据深度学习的框架的不同，当值无法除尽时，有时会向最接近的整数四舍五入，不进行报错而继续运行。
+如这些例子所示，通过在式（7.1）中代入值，就可以计算输出大小。这里需要注意的是，虽然只要代入值就可以计算输出大小，但是所设定的值必须使式（7.1）中的 ![](http://image.colinsford.top/DeepLearning-Python/00292.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00293.gif) 分别可以除尽。当输出大小无法除尽时（结果是小数时），需要采取报错等对策。顺便说一下，根据深度学习的框架的不同，当值无法除尽时，有时会向最接近的整数四舍五入，不进行报错而继续运行。
 
 #### 7.2.5　3 维数据的卷积运算
 
@@ -122,11 +122,11 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 图 7-8 是卷积运算的例子，图 7-9 是计算顺序。这里以 3 通道的数据为例，展示了卷积运算的结果。和 2 维数据时（图 7-3 的例子）相比，可以发现纵深方向（通道方向）上特征图增加了。通道方向上有多个特征图时，会按通道进行输入数据和滤波器的卷积运算，并将结果相加，从而得到输出。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00294.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00294.jpeg)
 
 **图 7-8　对 3 维数据进行卷积运算的例子**
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00295.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00295.jpeg)
 
 **图 7-9　对 3 维数据进行卷积运算的计算顺序**
 
@@ -136,13 +136,13 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 将数据和滤波器结合长方体的方块来考虑，3 维数据的卷积运算会很容易理解。方块是如图 7-10 所示的 3 维长方体。把 3 维数据表示为多维数组时，书写顺序为（channel, height, width）。比如，通道数为 _C_、高度为 _H_、长度为 _W_ 的数据的形状可以写成（_C_, _H_, _W_）。滤波器也一样，要按（channel, height, width）的顺序书写。比如，通道数为 _C_、滤波器高度为 _FH_（Filter Height）、长度为 _FW_（Filter Width）时，可以写成（_C_, _FH_, _FW_）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00296.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00296.jpeg)
 
 **图 7-10　结合方块思考卷积运算。请注意方块的形状**
 
 在这个例子中，数据输出是 1 张特征图。所谓 1 张特征图，换句话说，就是通道数为 1 的特征图。那么，如果要在通道方向上也拥有多个卷积运算的输出，该怎么做呢？为此，就需要用到多个滤波器（权重）。用图表示的话，如图 7-11 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00297.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00297.jpeg)
 
 **图 7-11　基于多个滤波器的卷积运算的例子**
 
@@ -154,7 +154,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 图 7-12 中，每个通道只有一个偏置。这里，偏置的形状是 \(_FN_, 1, 1\)，滤波器的输出结果的形状是 \(_FN_, _OH_, _OW_\)。这两个方块相加时，要对滤波器的输出结果 \(_FN_, _OH_, _OW_\) 按通道加上相同的偏置值。另外，不同形状的方块相加时，可以基于 NumPy 的广播功能轻松实现（1.5.5 节）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00298.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00298.jpeg)
 
 **图 7-12　卷积运算的处理流（追加了偏置项）**
 
@@ -166,7 +166,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 图 7-13 的批处理版的数据流中，在各个数据的开头添加了批用的维度。像这样，数据作为 4 维的形状在各层间传递。这里需要注意的是，网络间传递的是 4 维数据，对这 _N_ 个数据进行了卷积运算。也就是说，批处理将 _N_ 次的处理汇总成了 1 次进行。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00299.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00299.jpeg)
 
 **图 7-13　卷积运算的处理流（批处理）**
 
@@ -174,13 +174,13 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 池化是缩小高、长方向上的空间的运算。比如，如图 7-14 所示，进行将 2 × 2 的区域集约成 1 个元素的处理，缩小空间大小。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00300.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00300.jpeg)
 
 **图 7-14　Max 池化的处理顺序**
 
 图 7-14 的例子是按步幅 2 进行 2 × 2 的 Max 池化时的处理顺序。“Max 池化”是获取最大值的运算，“2 × 2”表示目标区域的大小。如图所示，从 2 × 2 的区域中取出最大的元素。此外，这个例子中将步幅设为了 2，所以 2 × 2 的窗口的移动间隔为 2 个元素。另外，一般来说，池化的窗口大小会和步幅设定成相同的值。比如，3 × 3 的窗口的步幅会设为 3，4 × 4 的窗口的步幅会设为 4 等。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　除了 Max 池化之外，还有 Average 池化等。相对于 Max 池化是从目标区域中取出最大值，Average 池化则是计算目标区域的平均值。在图像识别领域，主要使用 Max 池化。因此，本书中说到“池化层”时，指的是 Max 池化。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　除了 Max 池化之外，还有 Average 池化等。相对于 Max 池化是从目标区域中取出最大值，Average 池化则是计算目标区域的平均值。在图像识别领域，主要使用 Max 池化。因此，本书中说到“池化层”时，指的是 Max 池化。
 
 **池化层的特征**
 
@@ -194,7 +194,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 >
 > 经过池化运算，输入数据和输出数据的通道数不会发生变化。如图 7-15 所示，计算是按通道独立进行的。
 >
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00301.jpeg)
+> ![](http://image.colinsford.top/DeepLearning-Python/00301.jpeg)
 >
 > **图 7-15　池化中通道数不变**
 >
@@ -202,7 +202,7 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 >
 > 输入数据发生微小偏差时，池化仍会返回相同的结果。因此，池化对输入数据的微小偏差具有鲁棒性。比如，3 × 3 的池化的情况下，如图 7-16 所示，池化会吸收输入数据的偏差（根据数据的不同，结果有可能不一致）。
 >
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00302.jpeg)
+> ![](http://image.colinsford.top/DeepLearning-Python/00302.jpeg)
 >
 > **图 7-16　输入数据在宽度方向上只偏离 1 个元素时，输出仍为相同的结果（根据数据的不同，有时结果也不相同）**
 
@@ -243,25 +243,25 @@ CNN 中出现了一些特有的术语，比如填充、步幅等。此外，各�
 
 `im2col` 是一个函数，将输入数据展开以适合滤波器（权重）。如图 7-17 所示，对 3 维的输入数据应用 `im2col` 后，数据转换为 2 维矩阵（正确地讲，是把包含批数量的 4 维数据转换成了 2 维数据）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00303.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00303.jpeg)
 
 **图 7-17　im2col 的示意图**
 
 `im2col` 会把输入数据展开以适合滤波器（权重）。具体地说，如图 7-18 所示，对于输入数据，将应用滤波器的区域（3 维方块）横向展开为 1 列。`im2col` 会在所有应用滤波器的地方进行这个展开处理。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00304.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00304.jpeg)
 
 **图 7-18　将滤波器的应用区域从头开始依次横向展开为 1 列**
 
 在图 7-18 中，为了便于观察，将步幅设置得很大，以使滤波器的应用区域不重叠。而在实际的卷积运算中，滤波器的应用区域几乎都是重叠的。在滤波器的应用区域重叠的情况下，使用 `im2col` 展开后，展开后的元素个数会多于原方块的元素个数。因此，使用 `im2col` 的实现存在比普通的实现消耗更多内存的缺点。但是，汇总成一个大的矩阵进行计算，对计算机的计算颇有益处。比如，在矩阵计算的库（线性代数库）等中，矩阵计算的实现已被高度最优化，可以高速地进行大矩阵的乘法运算。因此，通过归结到矩阵计算上，可以有效地利用线性代数库。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　`im2col` 这个名称是“image to column”的缩写，翻译过来就是“从图像到矩阵”的意思。Caffe、Chainer 等深度学习框架中有名为 `im2col` 的函数，并且在卷积层的实现中，都使用了 `im2col`。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　`im2col` 这个名称是“image to column”的缩写，翻译过来就是“从图像到矩阵”的意思。Caffe、Chainer 等深度学习框架中有名为 `im2col` 的函数，并且在卷积层的实现中，都使用了 `im2col`。
 
 使用 `im2col` 展开输入数据后，之后就只需将卷积层的滤波器（权重）纵向展开为 1 列，并计算 2 个矩阵的乘积即可（参照图 7-19）。这和全连接层的 Affine层进行的处理基本相同。
 
 如图 7-19 所示，基于 `im2col` 方式的输出结果是 2 维矩阵。因为 CNN 中数据会保存为 4 维数组，所以要将 2 维输出数据转换为合适的形状。以上就是卷积层的实现流程。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00305.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00305.jpeg)
 
 **图 7-19　卷积运算的滤波器处理的细节：将滤波器纵向展开为 1 列，并计算和 im2col 展开的数据的矩阵乘积，最后转换（reshape）为输出数据的大小**
 
@@ -332,7 +332,7 @@ print(col2.shape) # (90, 75)
 
 `forward` 的实现中，最后会将输出大小转换为合适的形状。转换时使用了 NumPy 的 `transpose` 函数。`transpose` 会更改多维数组的轴的顺序。如图 7-20 所示，通过指定从 0 开始的索引（编号）序列，就可以更改轴的顺序。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00306.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00306.jpeg)
 
 **图 7-20　基于 NumPy 的 transpose 的轴顺序的更改：通过指定索引（编号），更改轴的顺序**
 
@@ -342,13 +342,13 @@ print(col2.shape) # (90, 75)
 
 池化层的实现和卷积层相同，都使用 `im2col` 展开输入数据。不过，池化的情况下，在通道方向上是独立的，这一点和卷积层不同。具体地讲，如图 7-21 所示，池化的应用区域按通道单独展开。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00307.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00307.jpeg)
 
 **图 7-21　对输入数据展开池化的应用区域（2×2 的池化的例子）**
 
 像这样展开之后，只需对展开的矩阵求各行的最大值，并转换为合适的形状即可（图 7-22）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00308.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00308.jpeg)
 
 **图 7-22　池化层的实现流程：池化的应用区域内的最大值元素用灰色表示**
 
@@ -387,7 +387,7 @@ class Pooling:
 
 各阶段的实现都很简单，只有一两行代码。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　最大值的计算可以使用 NumPy 的 `np.max` 方法。`np.max` 可以指定 `axis` 参数，并在这个参数指定的各个轴方向上求最大值。比如，如果写成 `np.max(x, axis=1)`，就可以在输入 `x` 的第 1 维的各个轴方向上求最大值。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　最大值的计算可以使用 NumPy 的 `np.max` 方法。`np.max` 可以指定 `axis` 参数，并在这个参数指定的各个轴方向上求最大值。比如，如果写成 `np.max(x, axis=1)`，就可以在输入 `x` 的第 1 维的各个轴方向上求最大值。
 
 以上就是池化层的 `forward` 处理的介绍。如上所述，通过将输入数据展开为容易进行池化的形状，后面的实现就会变得非常简单。
 
@@ -397,7 +397,7 @@ class Pooling:
 
 我们已经实现了卷积层和池化层，现在来组合这些层，搭建进行手写数字识别的 CNN。这里要实现如图 7-23 所示的 CNN。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00309.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00309.jpeg)
 
 **图 7-23　简单 CNN 的网络构成**
 
@@ -546,13 +546,13 @@ CNN 中用到的卷积层在“观察”什么呢？本节将通过卷积层的�
 
 图 7-24 中，学习前的滤波器是随机进行初始化的，所以在黑白的浓淡上没有规律可循，但学习后的滤波器变成了有规律的图像。我们发现，通过学习，滤波器被更新成了有规律的滤波器，比如从白到黑渐变的滤波器、含有块状区域（称为 blob）的滤波器等。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00310.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00310.jpeg)
 
 **图 7-24　学习前和学习后的第 1 层的卷积层的权重：虽然权重的元素是实数，但是在图像的显示上，统一将最小值显示为黑色（0），最大值显示为白色（255）**
 
 如果要问图 7-24 中右边的有规律的滤波器在“观察”什么，答案就是它在观察边缘（颜色变化的分界线）和斑块（局部的块状区域）等。比如，左半部分为白色、右半部分为黑色的滤波器的情况下，如图 7-25 所示，会对垂直方向上的边缘有响应。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00311.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00311.jpeg)
 
 **图 7-25　对水平方向上和垂直方向上的边缘有响应的滤波器：输出图像 1 中，垂直方向的边缘上出现白色像素，输出图像 2 中，水平方向的边缘上出现很多白色像素**
 
@@ -566,7 +566,7 @@ CNN 中用到的卷积层在“观察”什么呢？本节将通过卷积层的�
 
 图 7-26 中展示了进行一般物体识别（车或狗等）的 8 层 CNN。这个网络结构的名称是下一节要介绍的 AlexNet。AlexNet 网络结构堆叠了多层卷积层和池化层，最后经过全连接层输出结果。图 7-26 的方块表示的是中间数据，对于这些中间数据，会连续应用卷积运算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00312.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00312.jpeg)
 
 **图 7-26　CNN 的卷积层中提取的信息。第 1 层的神经元对边缘或斑块有响应，第 3 层对纹理有响应，第 5 层对物体部件有响应，最后的全连接层对物体的类别（狗或车）有响应（图像引用自文献 \[19\]）**
 
@@ -580,7 +580,7 @@ CNN 中用到的卷积层在“观察”什么呢？本节将通过卷积层的�
 
 LeNet 在 1998 年被提出，是进行手写数字识别的网络。如图 7-27 所示，它有连续的卷积层和池化层（正确地讲，是只“抽选元素”的子采样层），最后经全连接层输出结果。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00313.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00313.jpeg)
 
 **图 7-27　LeNet 的网络结构（引用自文献 \[20\]）**
 
@@ -592,7 +592,7 @@ LeNet 在 1998 年被提出，是进行手写数字识别的网络。如图 7-27
 
 在 LeNet 问世 20 多年后，AlexNet 被发布出来。AlexNet 是引发深度学习热潮的导火线，不过它的网络结构和 LeNet 基本上没有什么不同，如图 7-28 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00314.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00314.jpeg)
 
 **图 7-28　AlexNet（根据文献 \[21\] 生成）**
 
@@ -604,7 +604,7 @@ AlexNet 叠有多个卷积层和池化层，最后经由全连接层输出结果
 
 如上所述，关于网络结构，LeNet 和 AlexNet 没有太大的不同。但是，围绕它们的环境和计算机技术有了很大的进步。具体地说，现在任何人都可以获得大量的数据。而且，擅长大规模并行计算的 GPU 得到普及，高速进行大量的运算已经成为可能。大数据和 GPU 已成为深度学习发展的巨大的原动力。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　大多数情况下，深度学习（加深了层次的网络）存在大量的参数。因此，学习需要大量的计算，并且需要使那些参数“满意”的大量数据。可以说是 GPU 和大数据给这些课题带来了希望。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　大多数情况下，深度学习（加深了层次的网络）存在大量的参数。因此，学习需要大量的计算，并且需要使那些参数“满意”的大量数据。可以说是 GPU 和大数据给这些课题带来了希望。
 
 ### 7.8　小结
 

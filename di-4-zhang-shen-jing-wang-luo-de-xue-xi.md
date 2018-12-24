@@ -6,7 +6,7 @@
 
 神经网络的特征就是可以从数据中学习。所谓“从数据中学习”，是指可以由数据自动决定权重参数的值。这是非常了不起的事情！因为如果所有的参数都需要人工决定的话，工作量就太大了。在第 2 章介绍的感知机的例子中，我们对照着真值表，人工设定了参数的值，但是那时的参数只有 3 个。而在实际的神经网络中，参数的数量成千上万，在层数更深的深度学习中，参数的数量甚至可以上亿，想要人工决定这些参数的值是不可能的。本章将介绍神经网络的学习，即利用数据决定参数值的方法，并用 Python 实现对 MNIST 手写数字数据集的学习。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　对于线性可分问题，第 2 章的感知机是可以利用数据自动学习的。根据“感知机收敛定理”，通过有限次数的学习，线性可分问题是可解的。但是，非线性可分问题则无法通过（自动）学习来解决。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　对于线性可分问题，第 2 章的感知机是可以利用数据自动学习的。根据“感知机收敛定理”，通过有限次数的学习，线性可分问题是可解的。但是，非线性可分问题则无法通过（自动）学习来解决。
 
 #### 4.1.1　数据驱动
 
@@ -16,7 +16,7 @@
 
 现在我们来思考一个具体的问题，比如如何实现数字“5”的识别。数字 5 是图 4-1 所示的手写图像，我们的目标是实现能区别是否是 5 的程序。这个问题看起来很简单，大家能想到什么样的算法呢？
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00100.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00100.jpeg)
 
 **图 4-1　手写数字 5 的例子：写法因人而异，五花八门**
 
@@ -30,11 +30,11 @@
 
 如图 4-2 所示，神经网络直接学习图像本身。在第 2 个方法，即利用特征量和机器学习的方法中，特征量仍是由人工设计的，而在神经网络中，连图像中包含的重要特征量也都是由机器来学习的。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00101.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00101.jpeg)
 
 **图 4-2　从人工设计规则转变为由机器从数据中学习：没有人为介入的方块用灰色表示**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　深度学习有时也称为端到端机器学习（end-to-end machine learning）。这里所说的**端到端**是指从一端到另一端的意思，也就是从原始数据（输入）中获得目标结果（输出）的意思。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　深度学习有时也称为端到端机器学习（end-to-end machine learning）。这里所说的**端到端**是指从一端到另一端的意思，也就是从原始数据（输入）中获得目标结果（输出）的意思。
 
 神经网络的优点是对所有的问题都可以用同样的流程来解决。比如，不管要求解的问题是识别 5，还是识别狗，抑或是识别人脸，神经网络都是通过不断地学习所提供的数据，尝试发现待求解的问题的模式。也就是说，与待处理的问题无关，神经网络可以将数据直接作为原始数据，进行“端对端”的学习。
 
@@ -54,15 +54,15 @@
 
 这里的幸福指数只是打个比方，实际上神经网络的学习也在做同样的事情。神经网络的学习通过某个指标表示现在的状态。然后，以这个指标为基准，寻找最优权重参数。和刚刚那位以幸福指数为指引寻找“最优人生”的人一样，神经网络以某个指标为线索寻找最优权重参数。神经网络的学习中所用的指标称为**损失函数**（loss function）。这个损失函数可以使用任意函数，但一般用均方误差和交叉熵误差等。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　损失函数是表示神经网络性能的“恶劣程度”的指标，即当前的神经网络对监督数据在多大程度上不拟合，在多大程度上不一致。以“性能的恶劣程度”为指标可能会使人感到不太自然，但是如果给损失函数乘上一个负值，就可以解释为“在多大程度上不坏”，即“性能有多好”。并且，“使性能的恶劣程度达到最小”和“使性能的优良程度达到最大”是等价的，不管是用“恶劣程度”还是“优良程度”，做的事情本质上都是一样的。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　损失函数是表示神经网络性能的“恶劣程度”的指标，即当前的神经网络对监督数据在多大程度上不拟合，在多大程度上不一致。以“性能的恶劣程度”为指标可能会使人感到不太自然，但是如果给损失函数乘上一个负值，就可以解释为“在多大程度上不坏”，即“性能有多好”。并且，“使性能的恶劣程度达到最小”和“使性能的优良程度达到最大”是等价的，不管是用“恶劣程度”还是“优良程度”，做的事情本质上都是一样的。
 
 #### 4.2.1　均方误差
 
 可以用作损失函数的函数有很多，其中最有名的是**均方误差**（mean squared error）。均方误差如下式所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00102.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00102.gif)
 
-这里，![](http://image.colinsford.top/images/DeepLearning-Python/00086.gif) 是表示神经网络的输出，![](http://image.colinsford.top/images/DeepLearning-Python/00103.gif) 表示监督数据，_k_ 表示数据的维数。比如，在 3.6 节手写数字识别的例子中，![](http://image.colinsford.top/images/DeepLearning-Python/00086.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00103.gif) 是由如下 10 个元素构成的数据。
+这里，![](http://image.colinsford.top/DeepLearning-Python/00086.gif) 是表示神经网络的输出，![](http://image.colinsford.top/DeepLearning-Python/00103.gif) 表示监督数据，_k_ 表示数据的维数。比如，在 3.6 节手写数字识别的例子中，![](http://image.colinsford.top/DeepLearning-Python/00086.gif)、![](http://image.colinsford.top/DeepLearning-Python/00103.gif) 是由如下 10 个元素构成的数据。
 
 ```text
 >>> y = [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]
@@ -101,13 +101,13 @@ def mean_squared_error(y, t):
 
 除了均方误差之外，**交叉熵误差**（cross entropy error）也经常被用作损失函数。交叉熵误差如下式所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00104.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00104.gif)
 
-这里，log 表示以e为底数的自然对数（![](http://image.colinsford.top/images/DeepLearning-Python/00105.gif)）。![](http://image.colinsford.top/images/DeepLearning-Python/00086.gif) 是神经网络的输出，![](http://image.colinsford.top/images/DeepLearning-Python/00103.gif) 是正确解标签。并且，![](http://image.colinsford.top/images/DeepLearning-Python/00103.gif) 中只有正确解标签的索引为 1，其他均为 0（one-hot 表示）。因此，式（4.2）实际上只计算对应正确解标签的输出的自然对数。比如，假设正确解标签的索引是“2”，与之对应的神经网络的输出是 0.6，则交叉熵误差是 -log 0.6 = 0.51；若“2”对应的输出是 0.1，则交叉熵误差为 -log 0.1 = 2.30。也就是说，交叉熵误差的值是由正确解标签所对应的输出结果决定的。
+这里，log 表示以e为底数的自然对数（![](http://image.colinsford.top/DeepLearning-Python/00105.gif)）。![](http://image.colinsford.top/DeepLearning-Python/00086.gif) 是神经网络的输出，![](http://image.colinsford.top/DeepLearning-Python/00103.gif) 是正确解标签。并且，![](http://image.colinsford.top/DeepLearning-Python/00103.gif) 中只有正确解标签的索引为 1，其他均为 0（one-hot 表示）。因此，式（4.2）实际上只计算对应正确解标签的输出的自然对数。比如，假设正确解标签的索引是“2”，与之对应的神经网络的输出是 0.6，则交叉熵误差是 -log 0.6 = 0.51；若“2”对应的输出是 0.1，则交叉熵误差为 -log 0.1 = 2.30。也就是说，交叉熵误差的值是由正确解标签所对应的输出结果决定的。
 
 自然对数的图像如图 4-3 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00106.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00106.jpeg)
 
 **图 4-3　自然对数** _**y**_ **= log** _**x**_ **的图像**
 
@@ -142,9 +142,9 @@ def cross_entropy_error(y, t):
 
 前面介绍的损失函数的例子中考虑的都是针对单个数据的损失函数。如果要求所有训练数据的损失函数的总和，以交叉熵误差为例，可以写成下面的式（4.3）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00107.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00107.gif)
 
-这里，假设数据有 _N_ 个，![](http://image.colinsford.top/images/DeepLearning-Python/00108.gif) 表示第 _n_ 个数据的第 _k_ 个元素的值（![](http://image.colinsford.top/images/DeepLearning-Python/00109.gif) 是神经网络的输出，![](http://image.colinsford.top/images/DeepLearning-Python/00108.gif) 是监督数据）。式子虽然看起来有一些复杂，其实只是把求单个数据的损失函数的式（4.2）扩大到了 _N_ 份数据，不过最后还要除以 _N_ 进行正规化。通过除以 _N_，可以求单个数据的“平均损失函数”。通过这样的平均化，可以获得和训练数据的数量无关的统一指标。比如，即便训练数据有 1000 个或 10000 个，也可以求得单个数据的平均损失函数。
+这里，假设数据有 _N_ 个，![](http://image.colinsford.top/DeepLearning-Python/00108.gif) 表示第 _n_ 个数据的第 _k_ 个元素的值（![](http://image.colinsford.top/DeepLearning-Python/00109.gif) 是神经网络的输出，![](http://image.colinsford.top/DeepLearning-Python/00108.gif) 是监督数据）。式子虽然看起来有一些复杂，其实只是把求单个数据的损失函数的式（4.2）扩大到了 _N_ 份数据，不过最后还要除以 _N_ 进行正规化。通过除以 _N_，可以求单个数据的“平均损失函数”。通过这样的平均化，可以获得和训练数据的数量无关的统一指标。比如，即便训练数据有 1000 个或 10000 个，也可以求得单个数据的平均损失函数。
 
 另外，MNIST 数据集的训练数据有 60000 个，如果以全部数据为对象求损失函数的和，则计算过程需要花费较长的时间。再者，如果遇到大数据，数据量会有几百万、几千万之多，这种情况下以全部数据为对象计算损失函数是不现实的。因此，我们从全部数据中选出一部分，作为全部数据的“近似”。神经网络的学习也是从训练数据中选出一批数据（称为 mini-batch, 小批量），然后对每个 mini-batch 进行学习。比如，从 60000 个训练数据中随机选择 100 笔，再用这 100 笔数据进行学习。这种学习方式称为 **mini-batch 学习**。
 
@@ -187,7 +187,7 @@ array([ 8013, 14666, 58210, 23832, 52091, 10153, 8107, 19410, 27260,
 
 之后，我们只需指定这些随机选出的索引，取出 mini-batch，然后使用这个 mini-batch 计算损失函数即可。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　计算电视收视率时，并不会统计所有家庭的电视机，而是仅以那些被选中的家庭为统计对象。比如，通过从关东地区随机选择 1000 个家庭计算收视率，可以近似地求得关东地区整体的收视率。这 1000 个家庭的收视率，虽然严格上不等于整体的收视率，但可以作为整体的一个近似值。和收视率一样，mini-batch 的损失函数也是利用一部分样本数据来近似地计算整体。也就是说，用随机选择的小批量数据（mini-batch）作为全体训练数据的近似值。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　计算电视收视率时，并不会统计所有家庭的电视机，而是仅以那些被选中的家庭为统计对象。比如，通过从关东地区随机选择 1000 个家庭计算收视率，可以近似地求得关东地区整体的收视率。这 1000 个家庭的收视率，虽然严格上不等于整体的收视率，但可以作为整体的一个近似值。和收视率一样，mini-batch 的损失函数也是利用一部分样本数据来近似地计算整体。也就是说，用随机选择的小批量数据（mini-batch）作为全体训练数据的近似值。
 
 #### 4.2.4　mini-batch 版交叉熵误差的实现
 
@@ -241,7 +241,7 @@ def cross_entropy_error(y, t):
 
 阶跃函数就像“竹筒敲石”一样，只在某个瞬间产生变化。而 sigmoid 函数，如图 4-4 所示，不仅函数的输出（竖轴的值）是连续变化的，曲线的斜率（导数）也是连续变化的。也就是说，sigmoid 函数的导数在任何地方都不为 0。这对神经网络的学习非常重要。得益于这个斜率不会为 0 的性质，神经网络的学习得以正确进行。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00110.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00110.jpeg)
 
 **图 4-4　阶跃函数和 sigmoid 函数：阶跃函数的斜率在绝大多数地方都为 0，而 sigmoid 函数的斜率（切线）不会为 0**
 
@@ -257,9 +257,9 @@ def cross_entropy_error(y, t):
 
 综上，导数就是表示某个瞬间的变化量。它可以定义成下面的式子。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00111.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00111.gif)
 
-式（4.4）表示的是函数的导数。左边的符号 ![](http://image.colinsford.top/images/DeepLearning-Python/00112.gif) 表示 _f_（_x_）关于 _x_ 的导数，即 _f_（_x_）相对于 _x_ 的变化程度。式（4.4）表示的导数的含义是，_x_ 的“微小变化”将导致函数 _f_（_x_）的值在多大程度上发生变化。其中，表示微小变化的 _h_ 无限趋近 0，表示为 ![](http://image.colinsford.top/images/DeepLearning-Python/00113.gif)。
+式（4.4）表示的是函数的导数。左边的符号 ![](http://image.colinsford.top/DeepLearning-Python/00112.gif) 表示 _f_（_x_）关于 _x_ 的导数，即 _f_（_x_）相对于 _x_ 的变化程度。式（4.4）表示的导数的含义是，_x_ 的“微小变化”将导致函数 _f_（_x_）的值在多大程度上发生变化。其中，表示微小变化的 _h_ 无限趋近 0，表示为 ![](http://image.colinsford.top/DeepLearning-Python/00113.gif)。
 
 接下来，我们参考式（4.4），来实现求函数的导数的程序。如果直接实现式（4.4）的话，向 _h_ 中赋入一个微小值，就可以计算出来了。比如，下面的实现如何？
 
@@ -287,7 +287,7 @@ return (f(x+h) - f(x)) / h
 
 如图 4-5 所示，数值微分含有误差。为了减小这个误差，我们可以计算函数 _f_ 在 \(_x_ + _h_\) 和 \(_x_ - _h_\) 之间的差分。因为这种计算方法以 _x_ 为中心，计算它左右两边的差分，所以也称为**中心差分**（而 \(_x_ + _h_\) 和 _x_ 之间的差分称为**前向差分**）。下面，我们基于上述两个要改进的点来实现数值微分（数值梯度）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00114.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00114.jpeg)
 
 **图 4-5　真的导数（真的切线）和数值微分（近似切线）的值不同**
 
@@ -297,13 +297,13 @@ def numerical_diff(f, x):
     return (f(x+h) - f(x-h)) / (2*h)
 ```
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　如上所示，利用微小的差分求导数的过程称为**数值微分**（numerical differentiation）。而基于数学式的推导求导数的过程，则用“**解析性**”（analytic）一词，称为“解析性求解”或者“解析性求导”。比如，_y_ = ![](http://image.colinsford.top/images/DeepLearning-Python/00115.gif) 的导数，可以通过 ![](http://image.colinsford.top/images/DeepLearning-Python/00116.gif) 解析性地求解出来。因此，当 _x_ = 2 时，_y_ 的导数为 4。解析性求导得到的导数是不含误差的“真的导数”。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　如上所示，利用微小的差分求导数的过程称为**数值微分**（numerical differentiation）。而基于数学式的推导求导数的过程，则用“**解析性**”（analytic）一词，称为“解析性求解”或者“解析性求导”。比如，_y_ = ![](http://image.colinsford.top/DeepLearning-Python/00115.gif) 的导数，可以通过 ![](http://image.colinsford.top/DeepLearning-Python/00116.gif) 解析性地求解出来。因此，当 _x_ = 2 时，_y_ 的导数为 4。解析性求导得到的导数是不含误差的“真的导数”。
 
 #### 4.3.2　数值微分的例子
 
 现在我们试着用上述的数值微分对简单函数进行求导。先来看一个由下式表示的 2 次函数。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00117.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00117.gif)
 
 用 Python 来实现式（4.5），如下所示。
 
@@ -326,9 +326,9 @@ plt.plot(x, y)
 plt.show()
 ```
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00118.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00118.jpeg)
 
-**图 4-6**　![](http://image.colinsford.top/images/DeepLearning-Python/00119.gif) **的图像**
+**图 4-6**　![](http://image.colinsford.top/DeepLearning-Python/00119.gif) **的图像**
 
 我们来计算一下这个函数在 _x_ = 5 和 _x_ = 10 处的导数。
 
@@ -339,19 +339,19 @@ plt.show()
 0.2999999999986347
 ```
 
-这里计算的导数是 _f_\(_x_\) 相对于 _x_ 的变化量，对应函数的斜率。另外，![](http://image.colinsford.top/images/DeepLearning-Python/00120.gif) 的解析解是 ![](http://image.colinsford.top/images/DeepLearning-Python/00121.gif)。因此，在 _x_ = 5 和 _x_ = 10 处，“真的导数”分别为 0.2 和 0.3。和上面的结果相比，我们发现虽然严格意义上它们并不一致，但误差非常小。实际上，误差小到基本上可以认为它们是相等的。
+这里计算的导数是 _f_\(_x_\) 相对于 _x_ 的变化量，对应函数的斜率。另外，![](http://image.colinsford.top/DeepLearning-Python/00120.gif) 的解析解是 ![](http://image.colinsford.top/DeepLearning-Python/00121.gif)。因此，在 _x_ = 5 和 _x_ = 10 处，“真的导数”分别为 0.2 和 0.3。和上面的结果相比，我们发现虽然严格意义上它们并不一致，但误差非常小。实际上，误差小到基本上可以认为它们是相等的。
 
 现在，我们用上面的数值微分的值作为斜率，画一条直线。结果如图 4-7 所示，可以确认这些直线确实对应函数的切线（源代码在 `ch04/gradient_1d.py` 中）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00122.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00122.jpeg)
 
-**图 4-7**　![](http://image.colinsford.top/images/DeepLearning-Python/00123.gif)**、**![](http://image.colinsford.top/images/DeepLearning-Python/00124.gif) **处的切线：直线的斜率使用数值微分的值**
+**图 4-7**　![](http://image.colinsford.top/DeepLearning-Python/00123.gif)**、**![](http://image.colinsford.top/DeepLearning-Python/00124.gif) **处的切线：直线的斜率使用数值微分的值**
 
 #### 4.3.3　偏导数
 
 接下来，我们看一下式 \(4.6\) 表示的函数。虽然它只是一个计算参数的平方和的简单函数，但是请注意和上例不同的是，这里有两个变量。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00125.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00125.gif)
 
 这个式子可以用 Python 来实现，如下所示。
 
@@ -363,15 +363,15 @@ return x[0]**2 + x[1]**2
 
 这里，我们假定向参数输入了一个 NumPy 数组。函数的内部实现比较简单，先计算 NumPy 数组中各个元素的平方，再求它们的和（`np.sum(x**2)` 也可以实现同样的处理）。我们来画一下这个函数的图像。结果如图 4-8 所示，是一个三维图像。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00126.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00126.jpeg)
 
-**图 4-8**　![](http://image.colinsford.top/images/DeepLearning-Python/00127.gif) **的图像**
+**图 4-8**　![](http://image.colinsford.top/DeepLearning-Python/00127.gif) **的图像**
 
-现在我们来求式（4.6）的导数。这里需要注意的是，式（4.6）有两个变量，所以有必要区分对哪个变量求导数，即对 ![](http://image.colinsford.top/images/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) 两个变量中的哪一个求导数。另外，我们把这里讨论的有多个变量的函数的导数称为**偏导数**。用数学式表示的话，可以写成 ![](http://image.colinsford.top/images/DeepLearning-Python/00129.gif)、![](http://image.colinsford.top/images/DeepLearning-Python/00130.gif)。
+现在我们来求式（4.6）的导数。这里需要注意的是，式（4.6）有两个变量，所以有必要区分对哪个变量求导数，即对 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 两个变量中的哪一个求导数。另外，我们把这里讨论的有多个变量的函数的导数称为**偏导数**。用数学式表示的话，可以写成 ![](http://image.colinsford.top/DeepLearning-Python/00129.gif)、![](http://image.colinsford.top/DeepLearning-Python/00130.gif)。
 
 怎么求偏导数呢？我们先试着解一下下面两个关于偏导数的问题。
 
-**问题 1**：求 ![](http://image.colinsford.top/images/DeepLearning-Python/00131.gif) 时，关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00128.gif) 的偏导数 ![](http://image.colinsford.top/images/DeepLearning-Python/00129.gif)。
+**问题 1**：求 ![](http://image.colinsford.top/DeepLearning-Python/00131.gif) 时，关于 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 的偏导数 ![](http://image.colinsford.top/DeepLearning-Python/00129.gif)。
 
 ```text
 >>> def function_tmp1(x0):
@@ -381,7 +381,7 @@ return x[0]**2 + x[1]**2
 6.00000000000378
 ```
 
-**问题 2**：求 ![](http://image.colinsford.top/images/DeepLearning-Python/00131.gif) 时，关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) 的偏导数 ![](http://image.colinsford.top/images/DeepLearning-Python/00130.gif)。
+**问题 2**：求 ![](http://image.colinsford.top/DeepLearning-Python/00131.gif) 时，关于 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 的偏导数 ![](http://image.colinsford.top/DeepLearning-Python/00130.gif)。
 
 ```text
 >>> def function_tmp2(x1):
@@ -391,13 +391,13 @@ return x[0]**2 + x[1]**2
 7.999999999999119
 ```
 
-在这些问题中，我们定义了一个只有一个变量的函数，并对这个函数进行了求导。例如，问题 1 中，我们定义了一个固定 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) = 4 的新函数，然后对只有变量 ![](http://image.colinsford.top/images/DeepLearning-Python/00128.gif) 的函数应用了求数值微分的函数。从上面的计算结果可知，问题 1 的答案是 6.00000000000378，问题 2 的答案是 7.999999999999119，和解析解的导数基本一致。
+在这些问题中，我们定义了一个只有一个变量的函数，并对这个函数进行了求导。例如，问题 1 中，我们定义了一个固定 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) = 4 的新函数，然后对只有变量 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 的函数应用了求数值微分的函数。从上面的计算结果可知，问题 1 的答案是 6.00000000000378，问题 2 的答案是 7.999999999999119，和解析解的导数基本一致。
 
 像这样，偏导数和单变量的导数一样，都是求某个地方的斜率。不过，偏导数需要将多个变量中的某一个变量定为目标变量，并将其他变量固定为某个值。在上例的代码中，为了将目标变量以外的变量固定到某些特定的值上，我们定义了新函数。然后，对新定义的函数应用了之前的求数值微分的函数，得到偏导数。
 
 ### 4.4　梯度
 
-在刚才的例子中，我们按变量分别计算了 ![](http://image.colinsford.top/images/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) 的偏导数。现在，我们希望一起计算 ![](http://image.colinsford.top/images/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00008.gif) 的偏导数。比如，我们来考虑求 ![](http://image.colinsford.top/images/DeepLearning-Python/00131.gif) 时 ![](http://image.colinsford.top/images/DeepLearning-Python/00132.gif) 的偏导数 ![](http://image.colinsford.top/images/DeepLearning-Python/00133.gif)。另外，像 ![](http://image.colinsford.top/images/DeepLearning-Python/00133.gif) 这样的由全部变量的偏导数汇总而成的向量称为**梯度**（gradient）。梯度可以像下面这样来实现。
+在刚才的例子中，我们按变量分别计算了 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 的偏导数。现在，我们希望一起计算 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 的偏导数。比如，我们来考虑求 ![](http://image.colinsford.top/DeepLearning-Python/00131.gif) 时 ![](http://image.colinsford.top/DeepLearning-Python/00132.gif) 的偏导数 ![](http://image.colinsford.top/DeepLearning-Python/00133.gif)。另外，像 ![](http://image.colinsford.top/DeepLearning-Python/00133.gif) 这样的由全部变量的偏导数汇总而成的向量称为**梯度**（gradient）。梯度可以像下面这样来实现。
 
 ```text
 def numerical_gradient(f, x):
@@ -435,15 +435,15 @@ array([ 6.,  0.])
 
 > \*\*2\*\*实际上，虽然求到的值是 `[6.0000000000037801, 7.9999999999991189]`，但实际输出的是 `[6., 8.]`。这是因为在输出 NumPy 数组时，数值会被改成“易读”的形式。
 
-像这样，我们可以计算 ![](http://image.colinsford.top/images/DeepLearning-Python/00132.gif) 在各点处的梯度。上例中，点 \(3, 4\) 处的梯度是 \(6, 8\)、点 \(0, 2\) 处的梯度是 \(0, 4\)、点 \(3, 0\) 处的梯度是 \(6, 0\)。这个梯度意味着什么呢？为了更好地理解，我们把 ![](http://image.colinsford.top/images/DeepLearning-Python/00134.gif) 的梯度画在图上。不过，这里我们画的是元素值为负梯度 \[3\] 的向量（源代码在 `ch04/gradient_2d.py` 中）。
+像这样，我们可以计算 ![](http://image.colinsford.top/DeepLearning-Python/00132.gif) 在各点处的梯度。上例中，点 \(3, 4\) 处的梯度是 \(6, 8\)、点 \(0, 2\) 处的梯度是 \(0, 4\)、点 \(3, 0\) 处的梯度是 \(6, 0\)。这个梯度意味着什么呢？为了更好地理解，我们把 ![](http://image.colinsford.top/DeepLearning-Python/00134.gif) 的梯度画在图上。不过，这里我们画的是元素值为负梯度 \[3\] 的向量（源代码在 `ch04/gradient_2d.py` 中）。
 
 \[3\]后面我们将会看到，负梯度方向是梯度法中变量的更新方向。——译者注
 
-如图 4-9 所示，![](http://image.colinsford.top/images/DeepLearning-Python/00134.gif) 的梯度呈现为有向向量（箭头）。观察图 4-9，我们发现梯度指向函数 ![](http://image.colinsford.top/images/DeepLearning-Python/00135.gif) 的“最低处”（最小值），就像指南针一样，所有的箭头都指向同一点。其次，我们发现离“最低处”越远，箭头越大。
+如图 4-9 所示，![](http://image.colinsford.top/DeepLearning-Python/00134.gif) 的梯度呈现为有向向量（箭头）。观察图 4-9，我们发现梯度指向函数 ![](http://image.colinsford.top/DeepLearning-Python/00135.gif) 的“最低处”（最小值），就像指南针一样，所有的箭头都指向同一点。其次，我们发现离“最低处”越远，箭头越大。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00136.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00136.jpeg)
 
-**图 4-9**　![](http://image.colinsford.top/images/DeepLearning-Python/00137.gif) **的梯度**
+**图 4-9**　![](http://image.colinsford.top/DeepLearning-Python/00137.gif) **的梯度**
 
 虽然图 4-9 中的梯度指向了最低处，但并非任何时候都这样。实际上，梯度会指向各点处的函数值降低的方向。更严格地讲，梯度指示的方向是各点处的函数值减小最多的方向 \[4\]。这是一个非常重要的性质，请一定牢记！
 
@@ -455,17 +455,17 @@ array([ 6.,  0.])
 
 这里需要注意的是，梯度表示的是各点处的函数值减小最多的方向。因此，无法保证梯度所指的方向就是函数的最小值或者真正应该前进的方向。实际上，在复杂的函数中，梯度指示的方向基本上都不是函数值最小处。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　函数的极小值、最小值以及被称为**鞍点**（saddle point）的地方，梯度为 0。极小值是局部最小值，也就是限定在某个范围内的最小值。鞍点是从某个方向上看是极大值，从另一个方向上看则是极小值的点。虽然梯度法是要寻找梯度为 0 的地方，但是那个地方不一定就是最小值（也有可能是极小值或者鞍点）。此外，当函数很复杂且呈扁平状时，学习可能会进入一个（几乎）平坦的地区，陷入被称为“学习高原”的无法前进的停滞期。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　函数的极小值、最小值以及被称为**鞍点**（saddle point）的地方，梯度为 0。极小值是局部最小值，也就是限定在某个范围内的最小值。鞍点是从某个方向上看是极大值，从另一个方向上看则是极小值的点。虽然梯度法是要寻找梯度为 0 的地方，但是那个地方不一定就是最小值（也有可能是极小值或者鞍点）。此外，当函数很复杂且呈扁平状时，学习可能会进入一个（几乎）平坦的地区，陷入被称为“学习高原”的无法前进的停滞期。
 
 虽然梯度的方向并不一定指向最小值，但沿着它的方向能够最大限度地减小函数的值。因此，在寻找函数的最小值（或者尽可能小的值）的位置的任务中，要以梯度的信息为线索，决定前进的方向。
 
 此时梯度法就派上用场了。在梯度法中，函数的取值从当前位置沿着梯度方向前进一定距离，然后在新的地方重新求梯度，再沿着新梯度方向前进，如此反复，不断地沿梯度方向前进。像这样，通过不断地沿梯度方向前进，逐渐减小函数值的过程就是**梯度法**（gradient method）。梯度法是解决机器学习中最优化问题的常用方法，特别是在神经网络的学习中经常被使用。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　根据目的是寻找最小值还是最大值，梯度法的叫法有所不同。严格地讲，寻找最小值的梯度法称为**梯度下降法**（gradient descent method），寻找最大值的梯度法称为**梯度上升法**（gradient ascent method）。但是通过反转损失函数的符号，求最小值的问题和求最大值的问题会变成相同的问题，因此“下降”还是“上升”的差异本质上并不重要。一般来说，神经网络（深度学习）中，梯度法主要是指梯度下降法。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　根据目的是寻找最小值还是最大值，梯度法的叫法有所不同。严格地讲，寻找最小值的梯度法称为**梯度下降法**（gradient descent method），寻找最大值的梯度法称为**梯度上升法**（gradient ascent method）。但是通过反转损失函数的符号，求最小值的问题和求最大值的问题会变成相同的问题，因此“下降”还是“上升”的差异本质上并不重要。一般来说，神经网络（深度学习）中，梯度法主要是指梯度下降法。
 
 现在，我们尝试用数学式来表示梯度法，如式（4.7）所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00138.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00138.gif)
 
 式（4.7）的 _η_ 表示更新量，在神经网络的学习中，称为**学习率**（learning rate）。学习率决定在一次学习中，应该学习多少，以及在多大程度上更新参数。
 
@@ -490,7 +490,7 @@ def gradient_descent(f, init_x, lr=0.01, step_num=100):
 
 使用这个函数可以求函数的极小值，顺利的话，还可以求函数的最小值。下面，我们就来尝试解决下面这个问题。
 
-**问题**：请用梯度法求 ![](http://image.colinsford.top/images/DeepLearning-Python/00134.gif) 的最小值。
+**问题**：请用梯度法求 ![](http://image.colinsford.top/DeepLearning-Python/00134.gif) 的最小值。
 
 ```text
 >>> def function_2(x):
@@ -503,9 +503,9 @@ array([ -6.11110793e-10,   8.14814391e-10])
 
 这里，设初始值为 `(-3.0, 4.0)`，开始使用梯度法寻找最小值。最终的结果是 `(-6.1e-10, 8.1e-10)`，非常接近 `(0, 0)`。实际上，真的最小值就是 `(0, 0)`，所以说通过梯度法我们基本得到了正确结果。如果用图来表示梯度法的更新过程，则如图 4-10 所示。可以发现，原点处是最低的地方，函数的取值一点点在向其靠近。这个图的源代码在 `ch04/gradient_method.py` 中（但 `ch04/gradient_method.py` 不显示表示等高线的虚线）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00139.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00139.jpeg)
 
-**图 4-10**　![](http://image.colinsford.top/images/DeepLearning-Python/00137.gif) **的梯度法的更新过程：虚线是函数的等高线**
+**图 4-10**　![](http://image.colinsford.top/DeepLearning-Python/00137.gif) **的梯度法的更新过程：虚线是函数的等高线**
 
 前面说过，学习率过大或者过小都无法得到好的结果。我们来做个实验验证一下。
 
@@ -523,15 +523,15 @@ array([-2.99999994,  3.99999992])
 
 实验结果表明，学习率过大的话，会发散成一个很大的值；反过来，学习率过小的话，基本上没怎么更新就结束了。也就是说，设定合适的学习率是一个很重要的问题。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　像学习率这样的参数称为**超参数**。这是一种和神经网络的参数（权重和偏置）性质不同的参数。相对于神经网络的权重参数是通过训练数据和学习算法自动获得的，学习率这样的超参数则是人工设定的。一般来说，超参数需要尝试多个值，以便找到一种可以使学习顺利进行的设定。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　像学习率这样的参数称为**超参数**。这是一种和神经网络的参数（权重和偏置）性质不同的参数。相对于神经网络的权重参数是通过训练数据和学习算法自动获得的，学习率这样的超参数则是人工设定的。一般来说，超参数需要尝试多个值，以便找到一种可以使学习顺利进行的设定。
 
 #### 4.4.2　神经网络的梯度
 
-神经网络的学习也要求梯度。这里所说的梯度是指损失函数关于权重参数的梯度。比如，有一个只有一个形状为 2 × 3 的权重 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 的神经网络，损失函数用 _L_ 表示。此时，梯度可以用 ![](http://image.colinsford.top/images/DeepLearning-Python/00140.gif) 表示。用数学式表示的话，如下所示。
+神经网络的学习也要求梯度。这里所说的梯度是指损失函数关于权重参数的梯度。比如，有一个只有一个形状为 2 × 3 的权重 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 的神经网络，损失函数用 _L_ 表示。此时，梯度可以用 ![](http://image.colinsford.top/DeepLearning-Python/00140.gif) 表示。用数学式表示的话，如下所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00141.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00141.gif)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00140.gif) 的元素由各个元素关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 的偏导数构成。比如，第 1 行第 1 列的元素 ![](http://image.colinsford.top/images/DeepLearning-Python/00142.gif) 表示当 ![](http://image.colinsford.top/images/DeepLearning-Python/00143.gif) 稍微变化时，损失函数 _L_ 会发生多大变化。这里的重点是，![](http://image.colinsford.top/images/DeepLearning-Python/00140.gif) 的形状和 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 相同。实际上，式（4.8）中的 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 和 ![](http://image.colinsford.top/images/DeepLearning-Python/00140.gif) 都是 2 × 3 的形状。
+![](http://image.colinsford.top/DeepLearning-Python/00140.gif) 的元素由各个元素关于 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 的偏导数构成。比如，第 1 行第 1 列的元素 ![](http://image.colinsford.top/DeepLearning-Python/00142.gif) 表示当 ![](http://image.colinsford.top/DeepLearning-Python/00143.gif) 稍微变化时，损失函数 _L_ 会发生多大变化。这里的重点是，![](http://image.colinsford.top/DeepLearning-Python/00140.gif) 的形状和 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 相同。实际上，式（4.8）中的 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00140.gif) 都是 2 × 3 的形状。
 
 下面，我们以一个简单的神经网络为例，来实现求梯度的代码。为此，我们要实现一个名为 `simpleNet` 的类（源代码在 `ch04/gradient_simplenet.py` 中）。
 
@@ -591,7 +591,7 @@ class simpleNet:
 
 `numerical_gradient(f, x)` 的参数 `f` 是函数，`x` 是传给函数 `f` 的参数。因此，这里参数 `x` 取 `net.W`，并定义一个计算损失函数的新函数 `f`，然后把这个新定义的函数传递给 `numerical_gradient(f, x)`。
 
-`numerical_gradient(f, net.W)` 的结果是 `dW`，一个形状为 2 × 3 的二维数组。观察一下 `dW` 的内容，例如，会发现 ![](http://image.colinsford.top/images/DeepLearning-Python/00140.gif) 中的 ![](http://image.colinsford.top/images/DeepLearning-Python/00142.gif) 的值大约是 0.2，这表示如果将 ![](http://image.colinsford.top/images/DeepLearning-Python/00143.gif) 增加 _h_，那么损失函数的值会增加 0.2_h_。再如，![](http://image.colinsford.top/images/DeepLearning-Python/00144.gif) 对应的值大约是 -0.5，这表示如果将 ![](http://image.colinsford.top/images/DeepLearning-Python/00145.gif) 增加 _h_，损失函数的值将减小 0.5_h_。因此，从减小损失函数值的观点来看，![](http://image.colinsford.top/images/DeepLearning-Python/00145.gif) 应向正方向更新，![](http://image.colinsford.top/images/DeepLearning-Python/00143.gif) 应向负方向更新。至于更新的程度，![](http://image.colinsford.top/images/DeepLearning-Python/00145.gif) 比 ![](http://image.colinsford.top/images/DeepLearning-Python/00143.gif) 的贡献要大。
+`numerical_gradient(f, net.W)` 的结果是 `dW`，一个形状为 2 × 3 的二维数组。观察一下 `dW` 的内容，例如，会发现 ![](http://image.colinsford.top/DeepLearning-Python/00140.gif) 中的 ![](http://image.colinsford.top/DeepLearning-Python/00142.gif) 的值大约是 0.2，这表示如果将 ![](http://image.colinsford.top/DeepLearning-Python/00143.gif) 增加 _h_，那么损失函数的值会增加 0.2_h_。再如，![](http://image.colinsford.top/DeepLearning-Python/00144.gif) 对应的值大约是 -0.5，这表示如果将 ![](http://image.colinsford.top/DeepLearning-Python/00145.gif) 增加 _h_，损失函数的值将减小 0.5_h_。因此，从减小损失函数值的观点来看，![](http://image.colinsford.top/DeepLearning-Python/00145.gif) 应向正方向更新，![](http://image.colinsford.top/DeepLearning-Python/00143.gif) 应向负方向更新。至于更新的程度，![](http://image.colinsford.top/DeepLearning-Python/00145.gif) 比 ![](http://image.colinsford.top/DeepLearning-Python/00143.gif) 的贡献要大。
 
 另外，在上面的代码中，定义新函数时使用了“`def f(x):…`”的形式。实际上，Python 中如果定义的是简单的函数，可以使用 `lambda` 表示法。使用 `lambda` 的情况下，上述代码可以如下实现。
 
@@ -602,7 +602,7 @@ class simpleNet:
 
 求出神经网络的梯度后，接下来只需根据梯度法，更新权重参数即可。在下一节中，我们会以 2 层神经网络为例，实现整个学习过程。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　为了对应形状为多维数组的权重参数 `W`，这里使用的 `numerical_gradient()` 和之前的实现稍有不同。不过，改动只是为了对应多维数组，所以改动并不大。这里省略了对代码的说明，想知道细节的读者请参考源代码（`common/gradient.py`）。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　为了对应形状为多维数组的权重参数 `W`，这里使用的 `numerical_gradient()` 和之前的实现稍有不同。不过，改动只是为了对应多维数组，所以改动并不大。这里省略了对代码的说明，想知道细节的读者请参考源代码（`common/gradient.py`）。
 
 ### 4.5　学习算法的实现
 
@@ -780,7 +780,7 @@ grads['b2'].shape # (10,)
 
 剩下的 `numerical_gradient(self, x, t)` 方法会计算各个参数的梯度。根据数值微分，计算各个参数相对于损失函数的梯度。另外，`gradient(self, x, t)` 是下一章要实现的方法，该方法使用误差反向传播法高效地计算梯度。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　`numerical_gradient(self, x, t)` 基于数值微分计算参数的梯度。下一章，我们会介绍一个高速计算梯度的方法，称为误差反向传播法。用误差反向传播法求到的梯度和数值微分的结果基本一致，但可以高速地进行处理。使用误差反向传播法计算梯度的 `gradient(self, x, t)` 方法会在下一章实现，不过考虑到神经网络的学习比较花时间，想节约学习时间的读者可以替换掉这里的 `numerical_gradient(self, x, t)`，抢先使用 `gradient(self, x, t)` ！
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　`numerical_gradient(self, x, t)` 基于数值微分计算参数的梯度。下一章，我们会介绍一个高速计算梯度的方法，称为误差反向传播法。用误差反向传播法求到的梯度和数值微分的结果基本一致，但可以高速地进行处理。使用误差反向传播法计算梯度的 `gradient(self, x, t)` 方法会在下一章实现，不过考虑到神经网络的学习比较花时间，想节约学习时间的读者可以替换掉这里的 `numerical_gradient(self, x, t)`，抢先使用 `gradient(self, x, t)` ！
 
 #### 4.5.2　mini-batch 的实现
 
@@ -825,7 +825,7 @@ for i in range(iters_num):
 
 这里，mini-batch 的大小为 100，需要每次从 60000 个训练数据中随机取出 100 个数据（图像数据和正确解标签数据）。然后，对这个包含 100 笔数据的 mini-batch 求梯度，使用随机梯度下降法（SGD）更新参数。这里，梯度法的更新次数（循环的次数）为 10000。每更新一次，都对训练数据计算损失函数的值，并把该值添加到数组中。用图像来表示这个损失函数的值的推移，如图 4-11 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00146.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00146.jpeg)
 
 **图 4-11　损失函数的推移：左图是 10000 次循环的推移，右图是 1000 次循环的推移**
 
@@ -839,7 +839,7 @@ for i in range(iters_num):
 
 神经网络学习的最初目标是掌握泛化能力，因此，要评价神经网络的泛化能力，就必须使用不包含在训练数据中的数据。下面的代码在进行学习的过程中，会定期地对训练数据和测试数据记录识别精度。这里，每经过一个 epoch，我们都会记录下训练数据和测试数据的识别精度。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　**epoch** 是一个单位。一个 epoch 表示学习中所有训练数据均被使用过一次时的更新次数。比如，对于 10000 笔训练数据，用大小为 100 笔数据的 mini-batch 进行学习时，重复随机梯度下降法 100 次，所有的训练数据就都被“看过”了 \[6\]。此时，100 次就是一个 epoch。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　**epoch** 是一个单位。一个 epoch 表示学习中所有训练数据均被使用过一次时的更新次数。比如，对于 10000 笔训练数据，用大小为 100 笔数据的 mini-batch 进行学习时，重复随机梯度下降法 100 次，所有的训练数据就都被“看过”了 \[6\]。此时，100 次就是一个 epoch。
 
 \[6\]实际上，一般做法是事先将所有训练数据随机打乱，然后按指定的批次大小，按序生成 mini-batch。这样每个 mini-batch 均有一个索引号，比如此例可以是 0, 1, 2, ... , 99，然后用索引号可以遍历所有的 mini-batch。遍历一次所有数据，就称为一个epoch。请注意，本节中的mini-batch 每次都是随机选择的，所以不一定每个数据都会被看到。——译者注
 
@@ -895,7 +895,7 @@ for i in range(iters_num):
 
 把从上面的代码中得到的结果用图表示的话，如图 4-12 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00147.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00147.jpeg)
 
 **图 4-12　训练数据和测试数据的识别精度的推移（横轴的单位是 epoch）**
 

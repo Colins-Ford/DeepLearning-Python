@@ -22,9 +22,9 @@
 
 让大家感受了最优化问题的难度之后，我们再来复习一下 SGD。用数学式可以将 SGD 写成如下的式（6.1）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00226.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00226.gif)
 
-这里把需要更新的权重参数记为 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif)，把损失函数关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif)的梯度记为 ![](http://image.colinsford.top/images/DeepLearning-Python/00214.gif)。_η_ 表示学习率，实际上会取 0.01 或 0.001 这些事先决定好的值。式子中的←表示用右边的值更新左边的值。如式（6.1）所示，SGD 是朝着梯度方向只前进一定距离的简单方法。现在，我们将 SGD 实现为一个 Python 类（为方便后面使用，我们将其实现为一个名为 `SGD` 的类）。
+这里把需要更新的权重参数记为 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif)，把损失函数关于 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif)的梯度记为 ![](http://image.colinsford.top/DeepLearning-Python/00214.gif)。_η_ 表示学习率，实际上会取 0.01 或 0.001 这些事先决定好的值。式子中的←表示用右边的值更新左边的值。如式（6.1）所示，SGD 是朝着梯度方向只前进一定距离的简单方法。现在，我们将 SGD 实现为一个 Python 类（为方便后面使用，我们将其实现为一个名为 `SGD` 的类）。
 
 ```text
 class SGD:
@@ -57,25 +57,25 @@ for i in range(10000):
 
 像这样，通过单独实现进行最优化的类，功能的模块化变得更简单。比如，后面我们马上会实现另一个最优化方法 Momentum，它同样会实现成拥有 `update(params, grads)` 这个共同方法的形式。这样一来，只需要将 `optimizer = SGD()` 这一语句换成 `optimizer = Momentum()`，就可以从 SGD 切换为 Momentum。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　很多深度学习框架都实现了各种最优化方法，并且提供了可以简单切换这些方法的构造。比如 Lasagne 深度学习框架，在 `updates.py` 这个文件中以函数的形式集中实现了最优化方法。用户可以从中选择自己想用的最优化方法。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　很多深度学习框架都实现了各种最优化方法，并且提供了可以简单切换这些方法的构造。比如 Lasagne 深度学习框架，在 `updates.py` 这个文件中以函数的形式集中实现了最优化方法。用户可以从中选择自己想用的最优化方法。
 
 #### 6.1.3　SGD 的缺点
 
 虽然 SGD 简单，并且容易实现，但是在解决某些问题时可能没有效率。这里，在指出 SGD 的缺点之际，我们来思考一下求下面这个函数的最小值的问题。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00227.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00227.gif)
 
 如图 6-1 所示，式（6.2）表示的函数是向 _x_ 轴方向延伸的“碗”状函数。实际上，式（6.2）的等高线呈向 _x_ 轴方向延伸的椭圆状。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00228.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00228.jpeg)
 
-**图 6-1**　![](http://image.colinsford.top/images/DeepLearning-Python/00229.gif) **的图形（左图）和它的等高线（右图）**
+**图 6-1**　![](http://image.colinsford.top/DeepLearning-Python/00229.gif) **的图形（左图）和它的等高线（右图）**
 
 现在看一下式（6.2）表示的函数的梯度。如果用图表示梯度的话，则如图 6-2 所示。这个梯度的特征是，_y_ 轴方向上大，_x_ 轴方向上小。换句话说，就是 _y_ 轴方向的坡度大，而 _x_ 轴方向的坡度小。这里需要注意的是，虽然式 \(6.2\) 的最小值在 \(_x_, _y_\) = \(0, 0\) 处，但是图 6-2 中的梯度在很多地方并没有指向 \(0, 0\)。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00230.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00230.jpeg)
 
-**图 6-2**　![](http://image.colinsford.top/images/DeepLearning-Python/00229.gif) **的梯度**
+**图 6-2**　![](http://image.colinsford.top/DeepLearning-Python/00229.gif) **的梯度**
 
 我们来尝试对图 6-1 这种形状的函数应用 SGD。从 \(_x_, _y_\) = \(-7.0, 2.0\) 处（初始值）开始搜索，结果如图 6-3 所示。
 
@@ -83,7 +83,7 @@ for i in range(10000):
 
 为了改正SGD的缺点，下面我们将介绍Momentum、AdaGrad、Adam这 3 种方法来取代SGD。我们会简单介绍各个方法，并用数学式和Python进行实现。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00231.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00231.jpeg)
 
 **图 6-3　基于 SGD 的最优化的更新路径：呈“之”字形朝最小值 \(0, 0\) 移动，效率低**
 
@@ -91,17 +91,17 @@ for i in range(10000):
 
 Momentum 是“动量”的意思，和物理有关。用数学式表示 Momentum 方法，如下所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00232.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00232.gif)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00233.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00233.gif)
 
-和前面的 SGD 一样，![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 表示要更新的权重参数，![](http://image.colinsford.top/images/DeepLearning-Python/00214.gif) 表示损失函数关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 的梯度，_η_ 表示学习率。这里新出现了一个变量 ![](http://image.colinsford.top/images/DeepLearning-Python/00234.gif)，对应物理上的速度。式（6.3）表示了物体在梯度方向上受力，在这个力的作用下，物体的速度增加这一物理法则。如图 6-4 所示，Momentum 方法给人的感觉就像是小球在地面上滚动。
+和前面的 SGD 一样，![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 表示要更新的权重参数，![](http://image.colinsford.top/DeepLearning-Python/00214.gif) 表示损失函数关于 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 的梯度，_η_ 表示学习率。这里新出现了一个变量 ![](http://image.colinsford.top/DeepLearning-Python/00234.gif)，对应物理上的速度。式（6.3）表示了物体在梯度方向上受力，在这个力的作用下，物体的速度增加这一物理法则。如图 6-4 所示，Momentum 方法给人的感觉就像是小球在地面上滚动。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00235.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00235.jpeg)
 
 **图 6-4　Momentum：小球在斜面上滚动**
 
-式（6.3）中有 ![](http://image.colinsford.top/images/DeepLearning-Python/00236.gif) 这一项。在物体不受任何力时，该项承担使物体逐渐减速的任务（_α_ 设定为 0.9 之类的值），对应物理上的地面摩擦或空气阻力。下面是 Momentum 的代码实现（源代码在 `common/optimizer.py` 中）。
+式（6.3）中有 ![](http://image.colinsford.top/DeepLearning-Python/00236.gif) 这一项。在物体不受任何力时，该项承担使物体逐渐减速的任务（_α_ 设定为 0.9 之类的值），对应物理上的地面摩擦或空气阻力。下面是 Momentum 的代码实现（源代码在 `common/optimizer.py` 中）。
 
 ```text
 class Momentum:
@@ -127,7 +127,7 @@ class Momentum:
 
 图 6-5 中，更新路径就像小球在碗中滚动一样。和 SGD 相比，我们发现“之”字形的“程度”减轻了。这是因为虽然 _x_ 轴方向上受到的力非常小，但是一直在同一方向上受力，所以朝同一个方向会有一定的加速。反过来，虽然 _y_ 轴方向上受到的力很大，但是因为交互地受到正方向和反方向的力，它们会互相抵消，所以 _y_ 轴方向上的速度不稳定。因此，和 SGD 时的情形相比，可以更快地朝 _x_ 轴方向靠近，减弱“之”字形的变动程度。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00237.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00237.jpeg)
 
 **图 6-5　基于 Momentum 的最优化的更新路径**
 
@@ -141,13 +141,13 @@ class Momentum:
 
 AdaGrad 会为参数的每个元素适当地调整学习率，与此同时进行学习（AdaGrad 的 Ada 来自英文单词 Adaptive，即“适当的”的意思）。下面，让我们用数学式表示 AdaGrad 的更新方法。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00238.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00238.gif)
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00239.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00239.gif)
 
-和前面的 SGD 一样，![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 表示要更新的权重参数，![](http://image.colinsford.top/images/DeepLearning-Python/00214.gif) 表示损失函数关于 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif) 的梯度，_η_ 表示学习率。这里新出现了变量 ![](http://image.colinsford.top/images/DeepLearning-Python/00240.gif)，如式 \(6.5\) 所示，它保存了以前的所有梯度值的平方和（式（6.5）中的 ![](http://image.colinsford.top/images/DeepLearning-Python/00241.gif) 表示对应矩阵元素的乘法）。然后，在更新参数时，通过乘以 ![](http://image.colinsford.top/images/DeepLearning-Python/00242.gif)，就可以调整学习的尺度。这意味着，参数的元素中变动较大（被大幅更新）的元素的学习率将变小。也就是说，可以按参数的元素进行学习率衰减，使变动大的参数的学习率逐渐减小。
+和前面的 SGD 一样，![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 表示要更新的权重参数，![](http://image.colinsford.top/DeepLearning-Python/00214.gif) 表示损失函数关于 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif) 的梯度，_η_ 表示学习率。这里新出现了变量 ![](http://image.colinsford.top/DeepLearning-Python/00240.gif)，如式 \(6.5\) 所示，它保存了以前的所有梯度值的平方和（式（6.5）中的 ![](http://image.colinsford.top/DeepLearning-Python/00241.gif) 表示对应矩阵元素的乘法）。然后，在更新参数时，通过乘以 ![](http://image.colinsford.top/DeepLearning-Python/00242.gif)，就可以调整学习的尺度。这意味着，参数的元素中变动较大（被大幅更新）的元素的学习率将变小。也就是说，可以按参数的元素进行学习率衰减，使变动大的参数的学习率逐渐减小。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　AdaGrad 会记录过去所有梯度的平方和。因此，学习越深入，更新的幅度就越小。实际上，如果无止境地学习，更新量就会变为 0，完全不再更新。为了改善这个问题，可以使用 RMSProp \\[7\\] 方法。RMSProp 方法并不是将过去所有的梯度一视同仁地相加，而是逐渐地遗忘过去的梯度，在做加法运算时将新梯度的信息更多地反映出来。这种操作从专业上讲，称为“指数移动平均”，呈指数函数式地减小过去的梯度的尺度。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　AdaGrad 会记录过去所有梯度的平方和。因此，学习越深入，更新的幅度就越小。实际上，如果无止境地学习，更新量就会变为 0，完全不再更新。为了改善这个问题，可以使用 RMSProp \\[7\\] 方法。RMSProp 方法并不是将过去所有的梯度一视同仁地相加，而是逐渐地遗忘过去的梯度，在做加法运算时将新梯度的信息更多地反映出来。这种操作从专业上讲，称为“指数移动平均”，呈指数函数式地减小过去的梯度的尺度。
 
 现在来实现 AdaGrad。AdaGrad 的实现过程如下所示（源代码在 `common/optimizer.py` 中）。
 
@@ -172,7 +172,7 @@ class AdaGrad:
 
 现在，让我们试着使用 AdaGrad 解决式（6.2）的最优化问题，结果如图 6-6 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00243.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00243.jpeg)
 
 **图 6-6　基于 AdaGrad 的最优化的更新路径**
 
@@ -188,13 +188,13 @@ Adam 是 2015 年提出的新方法。它的理论有些复杂，直观地讲，
 
 现在，我们试着使用 Adam 解决式（6.2）的最优化问题，结果如图 6-7 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00244.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00244.jpeg)
 
 **图 6-7　基于 Adam 的最优化的更新路径**
 
 在图 6-7 中，基于 Adam 的更新过程就像小球在碗中滚动一样。虽然 Momentun 也有类似的移动，但是相比之下，Adam 的小球左右摇晃的程度有所减轻。这得益于学习的更新程度被适当地调整了。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　Adam 会设置 3 个超参数。一个是学习率（论文中以 _α_ 出现），另外两个是一次 momentum系数 ![](http://image.colinsford.top/images/DeepLearning-Python/00245.gif) 和二次 momentum系数 ![](http://image.colinsford.top/images/DeepLearning-Python/00246.gif)。根据论文，标准的设定值是 ![](http://image.colinsford.top/images/DeepLearning-Python/00245.gif) 为 0.9，![](http://image.colinsford.top/images/DeepLearning-Python/00246.gif) 为 0.999。设置了这些值后，大多数情况下都能顺利运行。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　Adam 会设置 3 个超参数。一个是学习率（论文中以 _α_ 出现），另外两个是一次 momentum系数 ![](http://image.colinsford.top/DeepLearning-Python/00245.gif) 和二次 momentum系数 ![](http://image.colinsford.top/DeepLearning-Python/00246.gif)。根据论文，标准的设定值是 ![](http://image.colinsford.top/DeepLearning-Python/00245.gif) 为 0.9，![](http://image.colinsford.top/DeepLearning-Python/00246.gif) 为 0.999。设置了这些值后，大多数情况下都能顺利运行。
 
 #### 6.1.7　使用哪种更新方法呢
 
@@ -202,7 +202,7 @@ Adam 是 2015 年提出的新方法。它的理论有些复杂，直观地讲，
 
 如图 6-8 所示，根据使用的方法不同，参数更新的路径也不同。只看这个图的话，AdaGrad 似乎是最好的，不过也要注意，结果会根据要解决的问题而变。并且，很显然，超参数（学习率等）的设定值不同，结果也会发生变化。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00247.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00247.jpeg)
 
 **图 6-8　最优化方法的比较：SGD、Momentum、AdaGrad、Adam**
 
@@ -214,7 +214,7 @@ Adam 是 2015 年提出的新方法。它的理论有些复杂，直观地讲，
 
 我们以手写数字识别为例，比较前面介绍的 SGD、Momentum、AdaGrad、Adam 这 4 种方法，并确认不同的方法在学习进展上有多大程度的差异。先来看一下结果，如图 6-9 所示（源代码在 `ch06/optimizer_compare_mnist.py` 中）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00248.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00248.jpeg)
 
 **图 6-9　基于 MNIST 数据集的 4 种更新方法的比较：横轴表示学习的迭代次数（iteration），纵轴表示损失函数的值（loss）**
 
@@ -280,7 +280,7 @@ plt.show()
 
 运行这段代码后，可以得到图 6-10 的直方图。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00249.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00249.jpeg)
 
 **图 6-10　使用标准差为 1 的高斯分布作为权重初始值时的各层激活值的分布**
 
@@ -295,23 +295,23 @@ w = np.random.randn(node_num, node_num) * 0.01
 
 来看一下结果。使用标准差为 0.01 的高斯分布时，各层的激活值的分布如图 6-11 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00250.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00250.jpeg)
 
 **图 6-11　使用标准差为 0.01 的高斯分布作为权重初始值时的各层激活值的分布**
 
 这次呈集中在 0.5 附近的分布。因为不像刚才的例子那样偏向 0 和 1，所以不会发生梯度消失的问题。但是，激活值的分布有所偏向，说明在表现力上会有很大问题。为什么这么说呢？因为如果有多个神经元都输出几乎相同的值，那它们就没有存在的意义了。比如，如果 100 个神经元都输出几乎相同的值，那么也可以由 1 个神经元来表达基本相同的事情。因此，激活值在分布上有所偏向会出现“表现力受限”的问题。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00002.jpeg)　各层的激活值的分布都要求有适当的广度。为什么呢？因为通过在各层间传递多样性的数据，神经网络可以进行高效的学习。反过来，如果传递的是有所偏向的数据，就会出现梯度消失或者“表现力受限”的问题，导致学习可能无法顺利进行。
+> ![](http://image.colinsford.top/DeepLearning-Python/00002.jpeg)　各层的激活值的分布都要求有适当的广度。为什么呢？因为通过在各层间传递多样性的数据，神经网络可以进行高效的学习。反过来，如果传递的是有所偏向的数据，就会出现梯度消失或者“表现力受限”的问题，导致学习可能无法顺利进行。
 
 接着，我们尝试使用 Xavier Glorot 等人的论文 \\[9\\] 中推荐的权重初始值（俗称“Xavier 初始值”）。现在，在一般的深度学习框架中，Xavier 初始值已被作为标准使用。比如，Caffe 框架中，通过在设定权重初始值时赋予 xavier 参数，就可以使用 Xavier 初始值。
 
-Xavier 的论文中，为了使各层的激活值呈现出具有相同广度的分布，推导了合适的权重尺度。推导出的结论是，如果前一层的节点数为 _n_，则初始值使用标准差为 ![](http://image.colinsford.top/images/DeepLearning-Python/00251.gif) 的分布 \[3\]（图 6-12）。
+Xavier 的论文中，为了使各层的激活值呈现出具有相同广度的分布，推导了合适的权重尺度。推导出的结论是，如果前一层的节点数为 _n_，则初始值使用标准差为 ![](http://image.colinsford.top/DeepLearning-Python/00251.gif) 的分布 \[3\]（图 6-12）。
 
 \[3\]Xavier 的论文中提出的设定值，不仅考虑了前一层的输入节点数量，还考虑了下一层的输出节点数量。但是，Caffe 等框架的实现中进行了简化，只使用了这里所说的前一层的输入节点进行计算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00252.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00252.jpeg)
 
-**图 6-12　Xavier 初始值：与前一层有** _**n**_ **个节点连接时，初始值使用标准差为** ![](http://image.colinsford.top/images/DeepLearning-Python/00253.gif) **的分布**
+**图 6-12　Xavier 初始值：与前一层有** _**n**_ **个节点连接时，初始值使用标准差为** ![](http://image.colinsford.top/DeepLearning-Python/00253.gif) **的分布**
 
 使用 Xavier 初始值后，前一层的节点数越多，要设定为目标节点的初始值的权重尺度就越小。现在，我们使用 Xavier 初始值进行实验。进行实验的代码只需要将设定权重初始值的地方换成如下内容即可（因为此处所有层的节点数都是 100，所以简化了实现）。
 
@@ -322,19 +322,19 @@ w = np.random.randn(node_num, node_num) / np.sqrt(node_num)
 
 使用 Xavier 初始值后的结果如图 6-13 所示。从这个结果可知，越是后面的层，图像变得越歪斜，但是呈现了比之前更有广度的分布。因为各层间传递的数据有适当的广度，所以 sigmoid 函数的表现力不受限制，有望进行高效的学习。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00254.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00254.jpeg)
 
 **图 6-13　使用 Xavier 初始值作为权重初始值时的各层激活值的分布**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　图 6-13 的分布中，后面的层的分布呈稍微歪斜的形状。如果用 `tanh` 函数（双曲线函数）代替 `sigmoid` 函数，这个稍微歪斜的问题就能得到改善。实际上，使用 `tanh` 函数后，会呈漂亮的吊钟型分布。`tanh` 函数和 `sigmoid` 函数同是 S 型曲线函数，但 `tanh` 函数是关于原点 \(0, 0\) 对称的 S 型曲线，而 `sigmoid` 函数是关于 \(_x_, _y_\)=\(0, 0.5\) 对称的 S 型曲线。众所周知，用作激活函数的函数最好具有关于原点对称的性质。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　图 6-13 的分布中，后面的层的分布呈稍微歪斜的形状。如果用 `tanh` 函数（双曲线函数）代替 `sigmoid` 函数，这个稍微歪斜的问题就能得到改善。实际上，使用 `tanh` 函数后，会呈漂亮的吊钟型分布。`tanh` 函数和 `sigmoid` 函数同是 S 型曲线函数，但 `tanh` 函数是关于原点 \(0, 0\) 对称的 S 型曲线，而 `sigmoid` 函数是关于 \(_x_, _y_\)=\(0, 0.5\) 对称的 S 型曲线。众所周知，用作激活函数的函数最好具有关于原点对称的性质。
 
 #### 6.2.3　ReLU的权重初始值
 
-Xavier 初始值是以激活函数是线性函数为前提而推导出来的。因为 `sigmoid` 函数和 `tanh` 函数左右对称，且中央附近可以视作线性函数，所以适合使用 Xavier 初始值。但当激活函数使用 ReLU 时，一般推荐使用 ReLU 专用的初始值，也就是 Kaiming He 等人推荐的初始值，也称为“He 初始值”\\[10\\]。当前一层的节点数为 _n_ 时，He 初始值使用标准差为![](http://image.colinsford.top/images/DeepLearning-Python/00255.gif) 的高斯分布。当 Xavier 初始值是 ![](http://image.colinsford.top/images/DeepLearning-Python/00255.gif) 时，（直观上）可以解释为，因为 ReLU 的负值区域的值为 0，为了使它更有广度，所以需要 2 倍的系数。
+Xavier 初始值是以激活函数是线性函数为前提而推导出来的。因为 `sigmoid` 函数和 `tanh` 函数左右对称，且中央附近可以视作线性函数，所以适合使用 Xavier 初始值。但当激活函数使用 ReLU 时，一般推荐使用 ReLU 专用的初始值，也就是 Kaiming He 等人推荐的初始值，也称为“He 初始值”\\[10\\]。当前一层的节点数为 _n_ 时，He 初始值使用标准差为![](http://image.colinsford.top/DeepLearning-Python/00255.gif) 的高斯分布。当 Xavier 初始值是 ![](http://image.colinsford.top/DeepLearning-Python/00255.gif) 时，（直观上）可以解释为，因为 ReLU 的负值区域的值为 0，为了使它更有广度，所以需要 2 倍的系数。
 
 现在来看一下激活函数使用 ReLU 时激活值的分布。我们给出了 3 个实验的结果（图 6-14），依次是权重初始值为标准差是 0.01 的高斯分布（下文简写为“std = 0.01”）时、初始值为 Xavier 初始值时、初始值为 ReLU 专用的“He 初始值”时的结果。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00256.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00256.jpeg)
 
 **图 6-14　激活函数使用 ReLU 时，不同权重初始值的激活值分布的变化**
 
@@ -350,7 +350,7 @@ Xavier 初始值是以激活函数是线性函数为前提而推导出来的。�
 
 下面通过实际的数据，观察不同的权重初始值的赋值方法会在多大程度上影响神经网络的学习。这里，我们基于 std = 0.01、Xavier 初始值、He 初始值进行实验（源代码在 `ch06/weight_init_compare.py` 中）。先来看一下结果，如图 6-15 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00257.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00257.jpeg)
 
 **图 6-15　基于 MNIST 数据集的权重初始值的比较：横轴是学习的迭代次数（iterations），纵轴是损失函数的值（loss）**
 
@@ -376,29 +376,29 @@ Batch Normalization（下文简称 Batch Norm）是 2015 年提出的方法。Ba
 
 如前所述，Batch Norm 的思路是调整各层的激活值分布使其拥有适当的广度。为此，要向神经网络中插入对数据分布进行正规化的层，即 Batch Normalization 层（下文简称 Batch Norm 层），如图 6-16 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00258.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00258.jpeg)
 
 **图 6-16　使用了 Batch Normalization 的神经网络的例子（Batch Norm 层的背景为灰色）**
 
 Batch Norm，顾名思义，以进行学习时的 mini-batch 为单位，按 mini-batch 进行正规化。具体而言，就是进行使数据分布的均值为 0、方差为 1 的正规化。用数学式表示的话，如下所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00259.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00259.gif)
 
-这里对 mini-batch 的 _m_ 个输入数据的集合 ![](http://image.colinsford.top/images/DeepLearning-Python/00260.gif) 求均值 ![](http://image.colinsford.top/images/DeepLearning-Python/00261.gif) 和方差 ![](http://image.colinsford.top/images/DeepLearning-Python/00262.gif)。然后，对输入数据进行均值为 0、方差为 1（合适的分布）的正规化。式（6.7）中的 _ε_ 是一个微小值（比如，`10e-7` 等），它是为了防止出现除以 0 的情况。
+这里对 mini-batch 的 _m_ 个输入数据的集合 ![](http://image.colinsford.top/DeepLearning-Python/00260.gif) 求均值 ![](http://image.colinsford.top/DeepLearning-Python/00261.gif) 和方差 ![](http://image.colinsford.top/DeepLearning-Python/00262.gif)。然后，对输入数据进行均值为 0、方差为 1（合适的分布）的正规化。式（6.7）中的 _ε_ 是一个微小值（比如，`10e-7` 等），它是为了防止出现除以 0 的情况。
 
-式（6.7）所做的是将 mini-batch 的输入数据 ![](http://image.colinsford.top/images/DeepLearning-Python/00263.gif) 变换为均值为 0、方差为 1 的数据 ![](http://image.colinsford.top/images/DeepLearning-Python/00264.gif)，非常简单。通过将这个处理插入到激活函数的前面（或者后面）\[5\]，可以减小数据分布的偏向。
+式（6.7）所做的是将 mini-batch 的输入数据 ![](http://image.colinsford.top/DeepLearning-Python/00263.gif) 变换为均值为 0、方差为 1 的数据 ![](http://image.colinsford.top/DeepLearning-Python/00264.gif)，非常简单。通过将这个处理插入到激活函数的前面（或者后面）\[5\]，可以减小数据分布的偏向。
 
 \[5\]文献 \[11\]、文献 \[12\] 等中有讨论（做过实验）应该把 Batch Normalization 插入到激活函数的前面还是后面。
 
 接着，Batch Norm 层会对正规化后的数据进行缩放和平移的变换，用数学式可以如下表示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00265.gif)
+![](http://image.colinsford.top/DeepLearning-Python/00265.gif)
 
 这里，_γ_ 和 _β_ 是参数。一开始 _γ_ = 1，_β_ = 0，然后再通过学习调整到合适的值。
 
 上面就是 Batch Norm 的算法。这个算法是神经网络上的正向传播。如果使用第 5 章介绍的计算图，Batch Norm 可以表示为图 6-17。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00266.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00266.jpeg)
 
 **图 6-17　Batch Normalization 的计算图（引用自文献 \[13\]）**
 
@@ -408,13 +408,13 @@ Batch Norm 的反向传播的推导有些复杂，这里我们不进行介绍。
 
 现在我们使用 Batch Norm 层进行实验。首先，使用 MNIST 数据集，观察使用Batch Norm 层和不使用 Batch Norm 层时学习的过程会如何变化（源代码在 `ch06/batch_norm_test.py` 中），结果如图 6-18 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00267.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00267.jpeg)
 
 **图 6-18　基于 Batch Norm 的效果：使用 Batch Norm 后，学习进行得更快了**
 
 从图 6-18 的结果可知，使用 Batch Norm 后，学习进行得更快了。接着，给予不同的初始值尺度，观察学习的过程如何变化。图 6-19 是权重初始值的标准差为各种不同的值时的学习过程图。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00268.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00268.jpeg)
 
 **图 6-19　图中的实线是使用了 Batch Norm 时的结果，虚线是没有使用 Batch Norm 时的结果：图的标题处标明了权重初始值的标准差**
 
@@ -484,7 +484,7 @@ for i in range(1000000000):
 
 `train_acc_list` 和 `test_acc_list` 中以 epoch 为单位（看完了所有训练数据的单位）保存识别精度。现在，我们将这些列表（`train_acc_list`、`test_acc_list`）绘成图，结果如图 6-20 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00269.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00269.jpeg)
 
 **图 6-20　训练数据（train）和测试数据（test）的识别精度的变化**
 
@@ -494,15 +494,15 @@ for i in range(1000000000):
 
 **权值衰减**是一直以来经常被使用的一种抑制过拟合的方法。该方法通过在学习的过程中对大的权重进行惩罚，来抑制过拟合。很多过拟合原本就是因为权重参数取值过大才发生的。
 
-复习一下，神经网络的学习目的是减小损失函数的值。这时，例如为损失函数加上权重的平方范数（L2 范数）。这样一来，就可以抑制权重变大。用符号表示的话，如果将权重记为 ![](http://image.colinsford.top/images/DeepLearning-Python/00067.gif)，L2 范数的权值衰减就是 ![](http://image.colinsford.top/images/DeepLearning-Python/00270.gif)，然后将这个 ![](http://image.colinsford.top/images/DeepLearning-Python/00270.gif) 加到损失函数上。这里，_λ_ 是控制正则化强度的超参数。_λ_ 设置得越大，对大的权重施加的惩罚就越重。此外，![](http://image.colinsford.top/images/DeepLearning-Python/00270.gif) 开头的 ![](http://image.colinsford.top/images/DeepLearning-Python/00271.gif) 是用于将 ![](http://image.colinsford.top/images/DeepLearning-Python/00270.gif) 的求导结果变成 ![](http://image.colinsford.top/images/DeepLearning-Python/00272.gif) 的调整用常量。
+复习一下，神经网络的学习目的是减小损失函数的值。这时，例如为损失函数加上权重的平方范数（L2 范数）。这样一来，就可以抑制权重变大。用符号表示的话，如果将权重记为 ![](http://image.colinsford.top/DeepLearning-Python/00067.gif)，L2 范数的权值衰减就是 ![](http://image.colinsford.top/DeepLearning-Python/00270.gif)，然后将这个 ![](http://image.colinsford.top/DeepLearning-Python/00270.gif) 加到损失函数上。这里，_λ_ 是控制正则化强度的超参数。_λ_ 设置得越大，对大的权重施加的惩罚就越重。此外，![](http://image.colinsford.top/DeepLearning-Python/00270.gif) 开头的 ![](http://image.colinsford.top/DeepLearning-Python/00271.gif) 是用于将 ![](http://image.colinsford.top/DeepLearning-Python/00270.gif) 的求导结果变成 ![](http://image.colinsford.top/DeepLearning-Python/00272.gif) 的调整用常量。
 
-对于所有权重，权值衰减方法都会为损失函数加上 ![](http://image.colinsford.top/images/DeepLearning-Python/00270.gif)。因此，在求权重梯度的计算中，要为之前的误差反向传播法的结果加上正则化项的导数 ![](http://image.colinsford.top/images/DeepLearning-Python/00272.gif)。
+对于所有权重，权值衰减方法都会为损失函数加上 ![](http://image.colinsford.top/DeepLearning-Python/00270.gif)。因此，在求权重梯度的计算中，要为之前的误差反向传播法的结果加上正则化项的导数 ![](http://image.colinsford.top/DeepLearning-Python/00272.gif)。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　L2 范数相当于各个元素的平方和。用数学式表示的话，假设有权重 ![](http://image.colinsford.top/images/DeepLearning-Python/00273.gif)，则 L2 范数可用 ![](http://image.colinsford.top/images/DeepLearning-Python/00274.gif) 计算出来。除了 L2 范数，还有 L1 范数、L ∞范数等。L1 范数是各个元素的绝对值之和，相当于 ![](http://image.colinsford.top/images/DeepLearning-Python/00275.gif)。L∞范数也称为 Max 范数，相当于各个元素的绝对值中最大的那一个。L2 范数、L1 范数、L∞范数都可以用作正则化项，它们各有各的特点，不过这里我们要实现的是比较常用的 L2 范数。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　L2 范数相当于各个元素的平方和。用数学式表示的话，假设有权重 ![](http://image.colinsford.top/DeepLearning-Python/00273.gif)，则 L2 范数可用 ![](http://image.colinsford.top/DeepLearning-Python/00274.gif) 计算出来。除了 L2 范数，还有 L1 范数、L ∞范数等。L1 范数是各个元素的绝对值之和，相当于 ![](http://image.colinsford.top/DeepLearning-Python/00275.gif)。L∞范数也称为 Max 范数，相当于各个元素的绝对值中最大的那一个。L2 范数、L1 范数、L∞范数都可以用作正则化项，它们各有各的特点，不过这里我们要实现的是比较常用的 L2 范数。
 
 现在我们来进行实验。对于刚刚进行的实验，应用 _λ_ = 0.1 的权值衰减，结果如图 6-21 所示（对应权值衰减的网络在 `common/multi_layer_net.py` 中，用于实验的代码在 `ch06/overfit_weight_decay.py` 中）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00276.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00276.jpeg)
 
 **图 6-21　使用了权值衰减的训练数据（**train**）和测试数据（**test**）的识别精度的变化**
 
@@ -514,7 +514,7 @@ for i in range(1000000000):
 
 Dropout 是一种在学习的过程中随机删除神经元的方法。训练时，随机选出隐藏层的神经元，然后将其删除。被删除的神经元不再进行信号的传递，如图 6-22 所示。训练时，每传递一次数据，就会随机选择要删除的神经元。然后，测试时，虽然会传递所有的神经元信号，但是对于各个神经元的输出，要乘上训练时的删除比例后再输出。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00277.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00277.jpeg)
 
 **图 6-22　Dropout 的概念图（引用自文献 \[14\]）：左边是一般的神经网络，右边是应用了 Dropout 的网络。Dropout 通过随机选择并删除神经元，停止向前传递信号**
 
@@ -541,17 +541,17 @@ class Dropout:
 
 现在，我们使用 MNIST 数据集进行验证，以确认 Dropout 的效果。源代码在 `ch06/overfit_dropout.py` 中。另外，源代码中使用了 `Trainer` 类来简化实现。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　`common/trainer.py` 中实现了 `Trainer` 类。这个类可以负责前面所进行的网络的学习。详细内容可以参照 `common/trainer.py` 和 `ch06/overfit_dropout.py`。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　`common/trainer.py` 中实现了 `Trainer` 类。这个类可以负责前面所进行的网络的学习。详细内容可以参照 `common/trainer.py` 和 `ch06/overfit_dropout.py`。
 
 Dropout 的实验和前面的实验一样，使用 7 层网络（每层有 100 个神经元，激活函数为 ReLU），一个使用 Dropout，另一个不使用 Dropout，实验的结果如图 6-23 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00278.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00278.jpeg)
 
 **图 6-23　左边没有使用 Dropout，右边使用了 Dropout（dropout\_rate=0.15）**
 
 图 6-23 中，通过使用 Dropout，训练数据和测试数据的识别精度的差距变小了。并且，训练数据也没有到达 100% 的识别精度。像这样，通过使用 Dropout，即便是表现力强的网络，也可以抑制过拟合。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　机器学习中经常使用集成学习。所谓集成学习，就是让多个模型单独进行学习，推理时再取多个模型的输出的平均值。用神经网络的语境来说，比如，准备 5 个结构相同（或者类似）的网络，分别进行学习，测试时，以这 5 个网络的输出的平均值作为答案。实验告诉我们，通过进行集成学习，神经网络的识别精度可以提高好几个百分点。这个集成学习与 Dropout 有密切的关系。这是因为可以将 Dropout 理解为，通过在学习过程中随机删除神经元，从而每一次都让不同的模型进行学习。并且，推理时，通过对神经元的输出乘以删除比例（比如，0.5 等），可以取得模型的平均值。也就是说，可以理解成，Dropout将集成学习的效果（模拟地）通过一个网络实现了。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　机器学习中经常使用集成学习。所谓集成学习，就是让多个模型单独进行学习，推理时再取多个模型的输出的平均值。用神经网络的语境来说，比如，准备 5 个结构相同（或者类似）的网络，分别进行学习，测试时，以这 5 个网络的输出的平均值作为答案。实验告诉我们，通过进行集成学习，神经网络的识别精度可以提高好几个百分点。这个集成学习与 Dropout 有密切的关系。这是因为可以将 Dropout 理解为，通过在学习过程中随机删除神经元，从而每一次都让不同的模型进行学习。并且，推理时，通过对神经元的输出乘以删除比例（比如，0.5 等），可以取得模型的平均值。也就是说，可以理解成，Dropout将集成学习的效果（模拟地）通过一个网络实现了。
 
 ### 6.5　超参数的验证
 
@@ -567,7 +567,7 @@ Dropout 的实验和前面的实验一样，使用 7 层网络（每层有 100 �
 
 因此，调整超参数时，必须使用超参数专用的确认数据。用于调整超参数的数据，一般称为**验证数据**（validation data）。我们使用这个验证数据来评估超参数的好坏。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　训练数据用于参数（权重和偏置）的学习，验证数据用于超参数的性能评估。为了确认泛化能力，要在最后使用（比较理想的是只用一次）测试数据。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　训练数据用于参数（权重和偏置）的学习，验证数据用于超参数的性能评估。为了确认泛化能力，要在最后使用（比较理想的是只用一次）测试数据。
 
 根据不同的数据集，有的会事先分成训练数据、验证数据、测试数据三部分，有的只分成训练数据和测试数据两部分，有的则不进行分割。在这种情况下，用户需要自行进行分割。如果是 MNIST 数据集，获得验证数据的最简单的方法就是从训练数据中事先分割 20% 作为验证数据，代码如下所示。
 
@@ -595,7 +595,7 @@ t_train = t_train[validation_num:]
 
 进行超参数的最优化时，逐渐缩小超参数的“好值”的存在范围非常重要。所谓逐渐缩小范围，是指一开始先大致设定一个范围，从这个范围中随机选出一个超参数（采样），用这个采样到的值进行识别精度的评估；然后，多次重复该操作，观察识别精度的结果，根据这个结果缩小超参数的“好值”的范围。通过重复这一操作，就可以逐渐确定超参数的合适范围。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　有报告 \\[15\\] 显示，在进行神经网络的超参数的最优化时，与网格搜索等有规律的搜索相比，随机采样的搜索方式效果更好。这是因为在多个超参数中，各个超参数对最终的识别精度的影响程度不同。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　有报告 \\[15\\] 显示，在进行神经网络的超参数的最优化时，与网格搜索等有规律的搜索相比，随机采样的搜索方式效果更好。这是因为在多个超参数中，各个超参数对最终的识别精度的影响程度不同。
 
 超参数的范围只要“大致地指定”就可以了。所谓“大致地指定”，是指像 0.001（10-3）到 1000（103）这样，以“10 的阶乘”的尺度指定范围（也表述为“用对数尺度（log scale）指定”）。
 
@@ -621,7 +621,7 @@ t_train = t_train[validation_num:]
 
 反复进行上述操作，不断缩小超参数的范围，在缩小到一定程度时，从该范围中选出一个超参数的值。这就是进行超参数的最优化的一种方法。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　这里介绍的超参数的最优化方法是实践性的方法。不过，这个方法与其说是科学方法，倒不如说有些实践者的经验的感觉。在超参数的最优化中，如果需要更精炼的方法，可以使用**贝叶斯最优化**（Bayesian optimization）。贝叶斯最优化运用以贝叶斯定理为中心的数学理论，能够更加严密、高效地进行最优化。详细内容请参考论文“Practical Bayesian Optimization of Machine Learning Algorithms”\\[16\\] 等。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　这里介绍的超参数的最优化方法是实践性的方法。不过，这个方法与其说是科学方法，倒不如说有些实践者的经验的感觉。在超参数的最优化中，如果需要更精炼的方法，可以使用**贝叶斯最优化**（Bayesian optimization）。贝叶斯最优化运用以贝叶斯定理为中心的数学理论，能够更加严密、高效地进行最优化。详细内容请参考论文“Practical Bayesian Optimization of Machine Learning Algorithms”\\[16\\] 等。
 
 #### 6.5.3　超参数最优化的实现
 
@@ -638,7 +638,7 @@ lr = 10 ** np.random.uniform(-6, -2)
 
 下面我们就以权值衰减系数为 10-8 到 10-4、学习率为 10-6 到 10-2 的范围进行实验，结果如图 6-24 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00279.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00279.jpeg)
 
 **图 6-24　实线是验证数据的识别精度，虚线是训练数据的识别精度**
 

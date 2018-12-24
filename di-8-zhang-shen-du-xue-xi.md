@@ -12,7 +12,7 @@
 
 如图 8-1 所示，这个网络的层比之前实现的网络都更深。这里使用的卷积层全都是 3 × 3 的小型滤波器，特点是随着层的加深，通道数变大（卷积层的通道数从前面的层开始按顺序以 16、16、32、32、64、64 的方式增加）。此外，如图 8-1 所示，插入了池化层，以逐渐减小中间数据的空间大小；并且，后面的全连接层中使用了 Dropout 层。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00315.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00315.jpeg)
 
 **图 8-1　进行手写数字识别的深度 CNN**
 
@@ -28,11 +28,11 @@
 
 \[1\]最终的识别精度有少许偏差，不过在这个网络中，识别精度大体上都会超过 99%。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　实现图 8-1 的网络的源代码在 `ch08/deep_convnet.py` 中，训练用的代码在 `ch08/train_deepnet.py` 中。虽然使用这些代码可以重现这里进行的学习，不过深度网络的学习需要花费较多的时间（大概要半天以上）。本书以 `ch08/deep_conv_net_params.pkl` 的形式给出了学习完的权重参数。刚才的 `deep_convnet.py` 备有读入学习完的参数的功能，请根据需要进行使用。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　实现图 8-1 的网络的源代码在 `ch08/deep_convnet.py` 中，训练用的代码在 `ch08/train_deepnet.py` 中。虽然使用这些代码可以重现这里进行的学习，不过深度网络的学习需要花费较多的时间（大概要半天以上）。本书以 `ch08/deep_conv_net_params.pkl` 的形式给出了学习完的权重参数。刚才的 `deep_convnet.py` 备有读入学习完的参数的功能，请根据需要进行使用。
 
 图 8-1 的网络的错误识别率只有 0.62%。这里我们实际看一下在什么样的图像上发生了识别错误。图 8-2 中显示了识别错误的例子。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00316.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00316.jpeg)
 
 **图 8-2　识别错误的图像的例子：各个图像的左上角显示了正确解标签，右下角显示了本网络的推理结果**
 
@@ -44,19 +44,19 @@
 
 在一个标题为“What is the class of this image ?”的网站 \\[32\\] 上，以排行榜的形式刊登了目前为止通过论文等渠道发表的针对各种数据集的方法的识别精度（图 8-3）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00317.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00317.jpeg)
 
 **图 8-3　针对 MNIST 数据集的各种方法的排行（引自文献 \[32\]：2016 年 6 月）**
 
 观察图 8-3 的排行结果，可以发现“Neural Networks”“Deep”“Convolutional”等关键词特别显眼。实际上，排行榜上的前几名大都是基于 CNN 的方法。顺便说一下，截止到 2016 年 6 月，对 MNIST 数据集的最高识别精度是 99.79%（错误识别率为 0.21%），该方法也是以 CNN 为基础的 \\[33\\]。不过，它用的 CNN 并不是特别深层的网络（卷积层为 2 层、全连接层为 2 层的网络）。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　对于 MNIST 数据集，层不用特别深就获得了（目前）最高的识别精度。一般认为，这是因为对于手写数字识别这样一个比较简单的任务，没有必要将网络的表现力提高到那么高的程度。因此，可以说加深层的好处并不大。而之后要介绍的大规模的一般物体识别的情况，因为问题复杂，所以加深层对提高识别精度大有裨益。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　对于 MNIST 数据集，层不用特别深就获得了（目前）最高的识别精度。一般认为，这是因为对于手写数字识别这样一个比较简单的任务，没有必要将网络的表现力提高到那么高的程度。因此，可以说加深层的好处并不大。而之后要介绍的大规模的一般物体识别的情况，因为问题复杂，所以加深层对提高识别精度大有裨益。
 
 参考刚才排行榜中前几名的方法，可以发现进一步提高识别精度的技术和线索。比如，集成学习、学习率衰减、**Data Augmentation**（数据扩充）等都有助于提高识别精度。尤其是 Data Augmentation，虽然方法很简单，但在提高识别精度上效果显著。
 
 Data Augmentation 基于算法“人为地”扩充输入图像（训练图像）。具体地说，如图 8-4 所示，对于输入图像，通过施加旋转、垂直或水平方向上的移动等微小变化，增加图像的数量。这在数据集的图像数量有限时尤其有效。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00318.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00318.jpeg)
 
 **图 8-4　Data Augmentation 的例子**
 
@@ -72,19 +72,19 @@ Data Augmentation 基于算法“人为地”扩充输入图像（训练图像�
 
 下面我们说一下加深层的好处。其中一个好处就是可以减少网络的参数数量。说得详细一点，就是与没有加深层的网络相比，加深了层的网络可以用更少的参数达到同等水平（或者更强）的表现力。这一点结合卷积运算中的滤波器大小来思考就好理解了。比如，图 8-5 展示了由 5 × 5 的滤波器构成的卷积层。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00319.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00319.jpeg)
 
 **图 8-5　5×5 的卷积运算的例子**
 
 这里希望大家考虑一下输出数据的各个节点是从输入数据的哪个区域计算出来的。显然，在图 8-5 的例子中，每个输出节点都是从输入数据的某个 5 × 5 的区域算出来的。接下来我们思考一下图 8-6 中重复两次 3 × 3 的卷积运算的情形。此时，每个输出节点将由中间数据的某个 3 × 3 的区域计算出来。那么，中间数据的 3 × 3 的区域又是由前一个输入数据的哪个区域计算出来的呢？仔细观察图 8-6，可知它对应一个 5 × 5 的区域。也就是说，图 8-6 的输出数据是“观察”了输入数据的某个 5 × 5 的区域后计算出来的。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00320.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00320.jpeg)
 
 **图 8-6　重复两次 3×3 的卷积层的例子**
 
 一次 5 × 5 的卷积运算的区域可以由两次 3 × 3 的卷积运算抵充。并且，相对于前者的参数数量 25（5 × 5），后者一共是 18（2 × 3 × 3），通过叠加卷积层，参数数量减少了。而且，这个参数数量之差会随着层的加深而变大。比如，重复三次 3 × 3 的卷积运算时，参数的数量总共是 27。而为了用一次卷积运算“观察”与之相同的区域，需要一个 7 × 7 的滤波器，此时的参数数量是 49。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　叠加小型滤波器来加深网络的好处是可以减少参数的数量，扩大**感受野**（receptive field，给神经元施加变化的某个局部空间区域）。并且，通过叠加层，将 ReLU 等激活函数夹在卷积层的中间，进一步提高了网络的表现力。这是因为向网络添加了基于激活函数的“非线性”表现力，通过非线性函数的叠加，可以表现更加复杂的东西。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　叠加小型滤波器来加深网络的好处是可以减少参数的数量，扩大**感受野**（receptive field，给神经元施加变化的某个局部空间区域）。并且，通过叠加层，将 ReLU 等激活函数夹在卷积层的中间，进一步提高了网络的表现力。这是因为向网络添加了基于激活函数的“非线性”表现力，通过非线性函数的叠加，可以表现更加复杂的东西。
 
 加深层的另一个好处就是使学习更加高效。与没有加深层的网络相比，通过加深层，可以减少学习数据，从而高效地进行学习。为了直观地理解这一点，大家可以回忆一下 7.6 节的内容。7.6 节中介绍了 CNN 的卷积层会分层次地提取信息。具体地说，在前面的卷积层中，神经元会对边缘等简单的形状有响应，随着层的加深，开始对纹理、物体部件等更加复杂的东西有响应。
 
@@ -104,7 +104,7 @@ Data Augmentation 基于算法“人为地”扩充输入图像（训练图像�
 
 ImageNet\\[25\\] 是拥有超过 100 万张图像的数据集。如图 8-7 所示，它包含了各种各样的图像，并且每张图像都被关联了标签（类别名）。每年都会举办使用这个巨大数据集的 ILSVRC 图像识别大赛。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00321.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00321.jpeg)
 
 **图 8-7　大规模数据集 ImageNet 的数据例（引用自文献 \[25\]）**
 
@@ -112,7 +112,7 @@ ILSVRC 大赛有多个测试项目，其中之一是“类别分类”（classif
 
 图 8-8 中需要注意的是，以 2012 年为界，之后基于深度学习的方法一直居于首位。实际上，我们发现 2012 年的 AlexNet 大幅降低了错误识别率。并且，此后基于深度学习的方法不断在提升识别精度。特别是 2015 年的 ResNet（一个超过 150 层的深度网络）将错误识别率降低到了 3.5%。据说这个结果甚至超过了普通人的识别能力。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00322.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00322.jpeg)
 
 **图 8-8　ILSCRV 优胜队伍的成绩演变：竖轴是错误识别率，横轴是年份。横轴的括号内是队伍名或者方法名**
 
@@ -124,9 +124,9 @@ VGG 是由卷积层和池化层构成的基础的 CNN。不过，如图 8-9 所�
 
 VGG 中需要注意的地方是，基于 3×3 的小型滤波器的卷积层的运算是连续进行的。如图 8-9 所示，重复进行“卷积层重叠 2 次到 4 次，再通过池化层将大小减半”的处理，最后经由全连接层输出结果。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　VGG 在 2014 年的比赛中最终获得了第 2 名的成绩（下一节介绍的 GoogleNet 是 2014 年的第 1 名）。虽然在性能上不及 GoogleNet，但因为 VGG 结构简单，应用性强，所以很多技术人员都喜欢使用基于 VGG 的网络。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　VGG 在 2014 年的比赛中最终获得了第 2 名的成绩（下一节介绍的 GoogleNet 是 2014 年的第 1 名）。虽然在性能上不及 GoogleNet，但因为 VGG 结构简单，应用性强，所以很多技术人员都喜欢使用基于 VGG 的网络。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00323.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00323.jpeg)
 
 **图 8-9　VGG（根据文献 \[22\] 生成）**
 
@@ -134,7 +134,7 @@ VGG 中需要注意的地方是，基于 3×3 的小型滤波器的卷积层的�
 
 GoogLeNet 的网络结构如图 8-10 所示。图中的矩形表示卷积层、池化层等。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00324.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00324.jpeg)
 
 **图 8-10　GoogLeNet（引用自文献 \[23\]）**
 
@@ -144,7 +144,7 @@ GoogLeNet 在横向上有“宽度”，这称为“Inception 结构”，以图
 
 如图 8-11 所示，Inception 结构使用了多个大小不同的滤波器（和池化），最后再合并它们的结果。GoogLeNet 的特征就是将这个 Inception 结构用作一个构件（构成元素）。此外，在 GoogLeNet 中，很多地方都使用了大小为 1 × 1 的滤波器的卷积层。这个 1 × 1 的卷积运算通过在通道方向上减小大小，有助于减少参数和实现高速化处理（具体请参考原始论文 \\[23\\]）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00325.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00325.jpeg)
 
 **图 8-11　GoogLeNet 的 Inception 结构（引用自文献 \[23\]）**
 
@@ -156,23 +156,23 @@ ResNet\\[24\\] 是微软团队开发的网络。它的特征在于具有比以�
 
 如图 8-12 所示，快捷结构横跨（跳过）了输入数据的卷积层，将输入 `x` 合计到输出。
 
-图 8-12 中，在连续 2 层的卷积层中，将输入 _x_ 跳着连接至 2 层后的输出。这里的重点是，通过快捷结构，原来的 2 层卷积层的输出 ![](http://image.colinsford.top/images/DeepLearning-Python/00326.gif) 变成了 ![](http://image.colinsford.top/images/DeepLearning-Python/00327.gif)。通过引入这种快捷结构，即使加深层，也能高效地学习。这是因为，通过快捷结构，反向传播时信号可以无衰减地传递。
+图 8-12 中，在连续 2 层的卷积层中，将输入 _x_ 跳着连接至 2 层后的输出。这里的重点是，通过快捷结构，原来的 2 层卷积层的输出 ![](http://image.colinsford.top/DeepLearning-Python/00326.gif) 变成了 ![](http://image.colinsford.top/DeepLearning-Python/00327.gif)。通过引入这种快捷结构，即使加深层，也能高效地学习。这是因为，通过快捷结构，反向传播时信号可以无衰减地传递。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00328.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00328.jpeg)
 
 **图 8-12　ResNet 的构成要素（引用自文献 \[24\]）：这里的“weight layer”是指卷积层**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　因为快捷结构只是原封不动地传递输入数据，所以反向传播时会将来自上游的梯度原封不动地传向下游。这里的重点是不对来自上游的梯度进行任何处理，将其原封不动地传向下游。因此，基于快捷结构，不用担心梯度会变小（或变大），能够向前一层传递“有意义的梯度”。通过这个快捷结构，之前因为加深层而导致的梯度变小的梯度消失问题就有望得到缓解。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　因为快捷结构只是原封不动地传递输入数据，所以反向传播时会将来自上游的梯度原封不动地传向下游。这里的重点是不对来自上游的梯度进行任何处理，将其原封不动地传向下游。因此，基于快捷结构，不用担心梯度会变小（或变大），能够向前一层传递“有意义的梯度”。通过这个快捷结构，之前因为加深层而导致的梯度变小的梯度消失问题就有望得到缓解。
 
 ResNet 以前面介绍过的 VGG 网络为基础，引入快捷结构以加深层，其结果如图 8-13 所示。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00329.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00329.jpeg)
 
 **图 8-13　ResNet（引用自文献 \[24\]）：方块对应 3×3 的卷积层，其特征在于引入了横跨层的快捷结构**
 
 如图 8-13 所示，ResNet 通过以 2 个卷积层为间隔跳跃式地连接来加深层。另外，根据实验的结果，即便加深到 150 层以上，识别精度也会持续提高。并且，在 ILSVRC 大赛中，ResNet 的错误识别率为 3.5%（前 5 类中包含正确解这一精度下的错误识别率），令人称奇。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　实践中经常会灵活应用使用 ImageNet 这个巨大的数据集学习到的权重数据，这称为**迁移学习**，将学习完的权重（的一部分）复制到其他神经网络，进行再学习（fine tuning）。比如，准备一个和 VGG 相同结构的网络，把学习完的权重作为初始值，以新数据集为对象，进行再学习。迁移学习在手头数据集较少时非常有效。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　实践中经常会灵活应用使用 ImageNet 这个巨大的数据集学习到的权重数据，这称为**迁移学习**，将学习完的权重（的一部分）复制到其他神经网络，进行再学习（fine tuning）。比如，准备一个和 VGG 相同结构的网络，把学习完的权重作为初始值，以新数据集为对象，进行再学习。迁移学习在手头数据集较少时非常有效。
 
 ### 8.3　深度学习的高速化
 
@@ -184,9 +184,9 @@ ResNet 以前面介绍过的 VGG 网络为基础，引入快捷结构以加深�
 
 从图中可知，AlexNex 中，大多数时间都被耗费在卷积层上。实际上，卷积层的处理时间加起来占 GPU 整体的 95%，占 CPU 整体的 89% ！因此，如何高速、高效地进行卷积层中的运算是深度学习的一大课题。虽然图 8-14 是推理时的结果，不过学习时也一样，卷积层中会耗费大量时间。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　正如 7.2 节介绍的那样，卷积层中进行的运算可以追溯至乘积累加运算。因此，深度学习的高速化的主要课题就变成了如何高速、高效地进行大量的乘积累加运算。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　正如 7.2 节介绍的那样，卷积层中进行的运算可以追溯至乘积累加运算。因此，深度学习的高速化的主要课题就变成了如何高速、高效地进行大量的乘积累加运算。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00330.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00330.jpeg)
 
 **图 8-14　AlexNet 的 forward 处理中各层的时间比：左边是使用 GPU 的情况，右边是使用 CPU 的情况。图中的“conv”对应卷积层，“pool”对应池化层，“fc”对应全连接层，“norm”对应正规化层（引用自文献 \[26\]）**
 
@@ -200,11 +200,11 @@ GPU 原本是作为图像专用的显卡使用的，但最近不仅用于图像�
 
 GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以用于通用的数值计算，但与深度学习比较“亲近”的是 NVIDIA 的 GPU。实际上，大多数深度学习框架只受益于 NVIDIA 的 GPU。这是因为深度学习的框架中使用了 NVIDIA 提供的 CUDA 这个面向 GPU 计算的综合开发环境。图 8-15 中出现的 cuDNN 是在 CUDA 上运行的库，它里面实现了为深度学习最优化过的函数等。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00331.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00331.jpeg)
 
 **图 8-15　使用 CPU 的“16-core Xeon CPU”和 GPU 的“Titan 系列”进行 AlexNet 的学习时分别所需的时间（引用自文献 \[27\]）**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　通过 `im2col` 可以将卷积层进行的运算转换为大型矩阵的乘积。这个 `im2col` 方式的实现对 GPU 来说是非常方便的实现方式。这是因为，相比按小规模的单位进行计算，GPU 更擅长计算大规模的汇总好的数据。也就是说，通过基于 `im2col` 以大型矩阵的乘积的方式汇总计算，更容易发挥出 GPU 的能力。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　通过 `im2col` 可以将卷积层进行的运算转换为大型矩阵的乘积。这个 `im2col` 方式的实现对 GPU 来说是非常方便的实现方式。这是因为，相比按小规模的单位进行计算，GPU 更擅长计算大规模的汇总好的数据。也就是说，通过基于 `im2col` 以大型矩阵的乘积的方式汇总计算，更容易发挥出 GPU 的能力。
 
 #### 8.3.3　分布式学习
 
@@ -214,7 +214,7 @@ GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以�
 
 基于分布式学习，可以达到何种程度的高速化呢？图 8-16 中显示了基于 TensorFlow 的分布式学习的效果。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00332.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00332.jpeg)
 
 **图 8-16　基于 TensorFlow 的分布式学习的效果：横轴是 GPU 的个数，纵轴是与单个 GPU 相比时的高速化率（引用自文献 \[28\]）**
 
@@ -232,7 +232,7 @@ GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以�
 
 计算机中表示小数时，有 32 位的单精度浮点数和 64 位的双精度浮点数等格式。根据以往的实验结果，在深度学习中，即便是 16 位的**半精度浮点数**（half float），也可以顺利地进行学习 \\[30\\]。实际上，NVIDIA 的下一代 GPU 框架 Pascal 也支持半精度浮点数的运算，由此可以认为今后半精度浮点数将被作为标准使用。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　NVIDIA 的 Maxwell GPU 虽然支持半精度浮点数的存储（保存数据的功能），但是运算本身不是用 16 位进行的。下一代的 Pascal 框架，因为运算也是用 16 位进行的，所以只用半精度浮点数进行计算，就有望实现超过上一代 GPU 约 2 倍的高速化。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　NVIDIA 的 Maxwell GPU 虽然支持半精度浮点数的存储（保存数据的功能），但是运算本身不是用 16 位进行的。下一代的 Pascal 框架，因为运算也是用 16 位进行的，所以只用半精度浮点数进行计算，就有望实现超过上一代 GPU 约 2 倍的高速化。
 
 以往的深度学习的实现中并没有注意数值的精度，不过 Python 中一般使用 64 位的浮点数。NumPy 中提供了 16 位的半精度浮点数类型（不过，只有 16 位类型的存储，运算本身不用 16 位进行），即便使用 NumPy 的半精度浮点数，识别精度也不会下降。相关的论证也很简单，有兴趣的读者请参考 `ch08/half_float_network.py`。
 
@@ -246,7 +246,7 @@ GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以�
 
 物体检测是从图像中确定物体的位置，并进行分类的问题。如图 8-17 所示，要从图像中确定物体的种类和物体的位置。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00333.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00333.jpeg)
 
 **图 8-17　物体检测的例子（引用自文献 \[34\]）**
 
@@ -256,7 +256,7 @@ GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以�
 
 在使用 CNN 进行物体检测的方法中，有一个叫作 R-CNN\\[35\\] 的有名的方法。图 8-18 显示了 R-CNN 的处理流。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00334.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00334.jpeg)
 
 **图 8-18　R-CNN 的处理流（引用自文献 \[35\]）**
 
@@ -268,7 +268,7 @@ GPU 主要由 NVIDIA 和 AMD 两家公司提供。虽然两家的 GPU 都可以�
 
 图像分割是指在像素水平上对图像进行分类。如图 8-19 所示，使用以像素为单位对各个对象分别着色的监督数据进行学习。然后，在推理时，对输入图像的所有像素进行分类。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00335.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00335.jpeg)
 
 **图 8-19　图像分割的例子（引用自文献 \[34\]）：左边是输入图像，右边是监督用的带标签图像**
 
@@ -280,11 +280,11 @@ FCN 的字面意思是“全部由卷积层构成的网络”。相对于一般�
 
 如图 8-20 所示，FCN 的特征在于最后导入了扩大空间大小的处理。基于这个处理，变小了的中间数据可以一下子扩大到和输入图像一样的大小。FCN 最后进行的扩大处理是基于双线性插值法的扩大（双线性插值扩大）。FCN 中，这个双线性插值扩大是通过去卷积（逆卷积运算）来实现的（细节请参考 FCN 的论文 \\[37\\]）。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00336.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00336.jpeg)
 
 **图 8-20　FCN 的概略图（引用自文献 \[37\]）**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　全连接层中，输出和全部的输入相连。使用卷积层也可以实现与此结构完全相同的连接。比如，针对输入大小是 32×10×10（通道数 32、高 10、长 10）的数据的全连接层可以替换成滤波器大小为 32×10×10 的卷积层。如果全连接层的输出节点数是 100，那么在卷积层准备 100 个 32×10×10 的滤波器就可以实现完全相同的处理。像这样，全连接层可以替换成进行相同处理的卷积层。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　全连接层中，输出和全部的输入相连。使用卷积层也可以实现与此结构完全相同的连接。比如，针对输入大小是 32×10×10（通道数 32、高 10、长 10）的数据的全连接层可以替换成滤波器大小为 32×10×10 的卷积层。如果全连接层的输出节点数是 100，那么在卷积层准备 100 个 32×10×10 的滤波器就可以实现完全相同的处理。像这样，全连接层可以替换成进行相同处理的卷积层。
 
 #### 8.4.3　图像标题的生成
 
@@ -292,19 +292,19 @@ FCN 的字面意思是“全部由卷积层构成的网络”。相对于一般�
 
 给出一个图像后，会像图 8-21 一样自动生成表示该图像内容的文本。比如，左上角的第一幅图像生成了文本“A person riding a motorcycle on a dirt road.”（在没有铺装的道路上骑摩托车的人），而且这个文本只从该图像自动生成。文本的内容和图像确实是一致的。并且，令人惊讶的是，除了“骑摩托车”之外，连“没有铺装的道路”都被正确理解了。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00337.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00337.jpeg)
 
 **图 8-21　基于深度学习的图像标题生成的例子（引用自文献 \[38\]）**
 
 一个基于深度学习生成图像标题的代表性方法是被称为 NIC（Neural Image Caption）的模型。如图 8-22 所示，NIC 由深层的 CNN 和处理自然语言的 RNN（Recurrent Neural Network）构成。RNN 是呈递归式连接的网络，经常被用于自然语言、时间序列数据等连续性的数据上。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00338.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00338.jpeg)
 
 **图 8-22　Neural Image Caption（NIC）的整体结构（引用自文献 \[38\]）**
 
 NIC 基于 CNN 从图像中提取特征，并将这个特征传给 RNN。RNN 以 CNN 提取出的特征为初始值，递归地生成文本。这里，我们不深入讨论技术上的细节，不过基本上 NIC 是组合了两个神经网络（CNN 和 RNN）的简单结构。基于 NIC，可以生成惊人的高精度的图像标题。我们将组合图像和自然语言等多种信息进行的处理称为**多模态处理**。多模态处理是近年来备受关注的一个领域。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　RNN 的 R 表示 Recurrent（递归的）。这个递归指的是神经网络的递归的网络结构。根据这个递归结构，神经网络会受到之前生成的信息的影响（换句话说，会记忆过去的信息），这是 RNN 的特征。比如，生成“我”这个词之后，下一个要生成的词受到“我”这个词的影响，生成了“要”；然后，再受到前面生成的“我要”的影响，生成了“睡觉”这个词。对于自然语言、时间序列数据等连续性的数据，RNN 以记忆过去的信息的方式运行。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　RNN 的 R 表示 Recurrent（递归的）。这个递归指的是神经网络的递归的网络结构。根据这个递归结构，神经网络会受到之前生成的信息的影响（换句话说，会记忆过去的信息），这是 RNN 的特征。比如，生成“我”这个词之后，下一个要生成的词受到“我”这个词的影响，生成了“要”；然后，再受到前面生成的“我要”的影响，生成了“睡觉”这个词。对于自然语言、时间序列数据等连续性的数据，RNN 以记忆过去的信息的方式运行。
 
 ### 8.5　深度学习的未来
 
@@ -316,7 +316,7 @@ NIC 基于 CNN 从图像中提取特征，并将这个特征传给 RNN。RNN 以
 
 如图 8-23 所示，如果指定将梵高的绘画风格应用于内容图像，深度学习就会按照指示绘制出新的画作。此项研究出自论文“A Neural Algorithm of Artistic Style”\\[39\\]，一经发表就受到全世界的广泛关注。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00339.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00339.jpeg)
 
 **图 8-23　基于论文“A Neural Algorithm of Artistic Style”的图像风格变换的例子：左上角是风格图像，右上角是内容图像，下面的图像是新生成的图像（图像引用自文献\[40\]）**
 
@@ -326,7 +326,7 @@ NIC 基于 CNN 从图像中提取特征，并将这个特征传给 RNN。RNN 以
 
 刚才的图像风格变换的例子在生成新的图像时输入了两个图像。不同于这种研究，现在有一种研究是生成新的图像时不需要任何图像（虽然需要事先使用大量的图像进行学习，但在“画”新图像时不需要任何图像）。比如，基于深度学习，可以实现从零生成“卧室”的图像。图 8-24 中展示的图像是基于 **DCGAN**（Deep Convolutional Generative Adversarial Network）\\[41\\] 方法生成的卧室图像的例子。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00340.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00340.jpeg)
 
 **图 8-24　基于 DCGAN 生成的新的卧室图像（引用自文献 \[41\]）**
 
@@ -336,7 +336,7 @@ NIC 基于 CNN 从图像中提取特征，并将这个特征传给 RNN。RNN 以
 
 DCGAN 中使用了深度学习，其技术要点是使用了 Generator（生成者）和 Discriminator（识别者）这两个神经网络。Generator 生成近似真品的图像，Discriminator 判别它是不是真图像（是 Generator 生成的图像还是实际拍摄的图像）。像这样，通过让两者以竞争的方式学习，Generator 会学习到更加精妙的图像作假技术，Discriminator 则会成长为能以更高精度辨别真假的鉴定师。两者互相切磋、共同成长，这是 **GAN**（Generative Adversarial Network）这个技术的有趣之处。在这样的切磋中成长起来的 Generator 最终会掌握画出足以以假乱真的图像的能力（或者说有这样的可能）。
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　之前我们见到的机器学习问题都是被称为**监督学习**（supervised learning）的问题。这类问题就像手写数字识别一样，使用的是图像数据和教师标签成对给出的数据集。不过这里讨论的问题，并没有给出监督数据，只给了大量的图像（图像的集合），这样的问题称为**无监督学习**（unsupervised learning）。无监督学习虽然是很早之前就开始研究的领域（Deep Belief Network、Deep Boltzmann Machine 等很有名），但最近似乎并不是很活跃。今后，随着使用深度学习的 DCGAN 等方法受到关注，无监督学习有望得到进一步发展。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　之前我们见到的机器学习问题都是被称为**监督学习**（supervised learning）的问题。这类问题就像手写数字识别一样，使用的是图像数据和教师标签成对给出的数据集。不过这里讨论的问题，并没有给出监督数据，只给了大量的图像（图像的集合），这样的问题称为**无监督学习**（unsupervised learning）。无监督学习虽然是很早之前就开始研究的领域（Deep Belief Network、Deep Boltzmann Machine 等很有名），但最近似乎并不是很活跃。今后，随着使用深度学习的 DCGAN 等方法受到关注，无监督学习有望得到进一步发展。
 
 #### 8.5.3　自动驾驶
 
@@ -346,7 +346,7 @@ DCGAN 中使用了深度学习，其技术要点是使用了 Generator（生成�
 
 图 8-25 中对输入图像进行了分割（像素水平的判别）。观察结果可知，在某种程度上正确地识别了道路、建筑物、人行道、树木、车辆等。今后若能基于深度学习使这种技术进一步实现高精度化、高速化的话，自动驾驶的实用化可能也就没那么遥远了。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00341.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00341.jpeg)
 
 **图 8-25　基于深度学习的图像分割的例子：道路、车辆、建筑物、人行道等被高精度地识别了出来（引用自文献 \[43\]）**
 
@@ -358,7 +358,7 @@ DCGAN 中使用了深度学习，其技术要点是使用了 Generator（生成�
 
 图 8-26 中展示了强化学习的基本框架。这里需要注意的是，报酬并不是确定的，只是“预期报酬”。比如，在《超级马里奥兄弟》这款电子游戏中，让马里奥向右移动能获得多少报酬不一定是明确的。这时需要从游戏得分（获得的硬币、消灭的敌人等）或者游戏结束等明确的指标来反向计算，决定“预期报酬”。如果是监督学习的话，每个行动都可以从“教师”那里获得正确的评价。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00342.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00342.jpeg)
 
 **图 8-26　强化学习的基本框架：代理自主地进行学习，以获得更好的报酬**
 
@@ -368,11 +368,11 @@ DCGAN 中使用了深度学习，其技术要点是使用了 Generator（生成�
 
 之前在学习电子游戏时，一般是把游戏的状态（人物的地点等）事先提取出来，作为数据给模型。但是，在 DQN 中，如图 8-27 所示，输入数据只有电子游戏的图像。这是 DQN 值得大书特书的地方，可以说大幅提高了 DQN 的实用性。为什么呢？因为这样就无需根据每个游戏改变设置，只要给 DQN 游戏图像就可以了。实际上，DQN 可以用相同的结构学习《吃豆人》、_Atari_ 等很多游戏，甚至在很多游戏中取得了超过人类的成绩。
 
-![](http://image.colinsford.top/images/DeepLearning-Python/00343.jpeg)
+![](http://image.colinsford.top/DeepLearning-Python/00343.jpeg)
 
 **图 8-27　基于 Deep Q-Network 学习电子游戏的操作。输入是电子游戏的图像，经过摸索试验，学习出让专业玩家都自愧不如的游戏手柄（操作杆）的操作手法（引用自文献 \[44\]）**
 
-> ![](http://image.colinsford.top/images/DeepLearning-Python/00001.jpeg)　人工智能 AlphaGo\\[45\\] 击败围棋冠军的新闻受到了广泛关注。这个 AlphaGo 技术的内部也用了深度学习和强化学习。AlphaGo 学习了 3000 万个专业棋手的棋谱，并且不停地重复自己和自己的对战，积累了大量的学习经验。AlphaGo 和 DQN 都是 Google 的 Deep Mind 公司进行的研究，该公司今后的研究值得密切关注。
+> ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg)　人工智能 AlphaGo\\[45\\] 击败围棋冠军的新闻受到了广泛关注。这个 AlphaGo 技术的内部也用了深度学习和强化学习。AlphaGo 学习了 3000 万个专业棋手的棋谱，并且不停地重复自己和自己的对战，积累了大量的学习经验。AlphaGo 和 DQN 都是 Google 的 Deep Mind 公司进行的研究，该公司今后的研究值得密切关注。
 
 ### 8.6　小结
 
