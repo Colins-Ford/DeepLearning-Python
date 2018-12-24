@@ -16,9 +16,7 @@
 
 现在我们来思考一个具体的问题，比如如何实现数字“5”的识别。数字 5 是图 4-1 所示的手写图像，我们的目标是实现能区别是否是 5 的程序。这个问题看起来很简单，大家能想到什么样的算法呢？
 
-![](http://image.colinsford.top/DeepLearning-Python/00100.jpeg)
-
-**图 4-1 手写数字 5 的例子：写法因人而异，五花八门**
+![&#x56FE; 4-1 &#x624B;&#x5199;&#x6570;&#x5B57; 5 &#x7684;&#x4F8B;&#x5B50;&#xFF1A;&#x5199;&#x6CD5;&#x56E0;&#x4EBA;&#x800C;&#x5F02;&#xFF0C;&#x4E94;&#x82B1;&#x516B;&#x95E8;](http://image.colinsford.top/DeepLearning-Python/00100.jpeg)
 
 如果让我们自己来设计一个能将 5 正确分类的程序，就会意外地发现这是一个很难的问题。人可以简单地识别出 5，但却很难明确说出是基于何种规律而识别出了 5。此外，从图 4-1 中也可以看到，每个人都有不同的写字习惯，要发现其中的规律是一件非常难的工作。
 
@@ -30,9 +28,7 @@
 
 如图 4-2 所示，神经网络直接学习图像本身。在第 2 个方法，即利用特征量和机器学习的方法中，特征量仍是由人工设计的，而在神经网络中，连图像中包含的重要特征量也都是由机器来学习的。
 
-![](http://image.colinsford.top/DeepLearning-Python/00101.jpeg)
-
-**图 4-2 从人工设计规则转变为由机器从数据中学习：没有人为介入的方块用灰色表示**
+![&#x56FE; 4-2 &#x4ECE;&#x4EBA;&#x5DE5;&#x8BBE;&#x8BA1;&#x89C4;&#x5219;&#x8F6C;&#x53D8;&#x4E3A;&#x7531;&#x673A;&#x5668;&#x4ECE;&#x6570;&#x636E;&#x4E2D;&#x5B66;&#x4E60;&#xFF1A;&#x6CA1;&#x6709;&#x4EBA;&#x4E3A;&#x4ECB;&#x5165;&#x7684;&#x65B9;&#x5757;&#x7528;&#x7070;&#x8272;&#x8868;&#x793A;](http://image.colinsford.top/DeepLearning-Python/00101.jpeg)
 
 > ![](http://image.colinsford.top/DeepLearning-Python/00001.jpeg) 深度学习有时也称为端到端机器学习（end-to-end machine learning）。这里所说的**端到端**是指从一端到另一端的意思，也就是从原始数据（输入）中获得目标结果（输出）的意思。
 
@@ -107,9 +103,7 @@ def mean_squared_error(y, t):
 
 自然对数的图像如图 4-3 所示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00106.jpeg)
-
-**图 4-3 自然对数** _**y**_ **= log** _**x**_ **的图像**
+![&#x56FE; 4-3 &#x81EA;&#x7136;&#x5BF9;&#x6570; y = log x &#x7684;&#x56FE;&#x50CF;](http://image.colinsford.top/DeepLearning-Python/00106.jpeg)
 
 如图 4-3 所示，_x_ 等于 1 时，_y_ 为 0；随着 _x_ 向 0 靠近，_y_ 逐渐变小。因此，正确解标签对应的输出越大，式（4.2）的值越接近 0；当输出为 1 时，交叉熵误差为 0。此外，如果正确解标签对应的输出较小，则式（4.2）的值较大。
 
@@ -241,9 +235,7 @@ def cross_entropy_error(y, t):
 
 阶跃函数就像“竹筒敲石”一样，只在某个瞬间产生变化。而 sigmoid 函数，如图 4-4 所示，不仅函数的输出（竖轴的值）是连续变化的，曲线的斜率（导数）也是连续变化的。也就是说，sigmoid 函数的导数在任何地方都不为 0。这对神经网络的学习非常重要。得益于这个斜率不会为 0 的性质，神经网络的学习得以正确进行。
 
-![](http://image.colinsford.top/DeepLearning-Python/00110.jpeg)
-
-**图 4-4 阶跃函数和 sigmoid 函数：阶跃函数的斜率在绝大多数地方都为 0，而 sigmoid 函数的斜率（切线）不会为 0**
+![&#x56FE; 4-4 &#x9636;&#x8DC3;&#x51FD;&#x6570;&#x548C; sigmoid &#x51FD;&#x6570;&#xFF1A;&#x9636;&#x8DC3;&#x51FD;&#x6570;&#x7684;&#x659C;&#x7387;&#x5728;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x5730;&#x65B9;&#x90FD;&#x4E3A; 0&#xFF0C;&#x800C; sigmoid &#x51FD;&#x6570;&#x7684;&#x659C;&#x7387;&#xFF08;&#x5207;&#x7EBF;&#xFF09;&#x4E0D;&#x4F1A;&#x4E3A; 0](http://image.colinsford.top/DeepLearning-Python/00110.jpeg)
 
 ## 4.3　数值微分
 
@@ -287,9 +279,7 @@ return (f(x+h) - f(x)) / h
 
 如图 4-5 所示，数值微分含有误差。为了减小这个误差，我们可以计算函数 _f_ 在 \(_x_ + _h_\) 和 \(_x_ - _h_\) 之间的差分。因为这种计算方法以 _x_ 为中心，计算它左右两边的差分，所以也称为**中心差分**（而 \(_x_ + _h_\) 和 _x_ 之间的差分称为**前向差分**）。下面，我们基于上述两个要改进的点来实现数值微分（数值梯度）。
 
-![](http://image.colinsford.top/DeepLearning-Python/00114.jpeg)
-
-**图 4-5 真的导数（真的切线）和数值微分（近似切线）的值不同**
+![&#x56FE; 4-5 &#x771F;&#x7684;&#x5BFC;&#x6570;&#xFF08;&#x771F;&#x7684;&#x5207;&#x7EBF;&#xFF09;&#x548C;&#x6570;&#x503C;&#x5FAE;&#x5206;&#xFF08;&#x8FD1;&#x4F3C;&#x5207;&#x7EBF;&#xFF09;&#x7684;&#x503C;&#x4E0D;&#x540C;](http://image.colinsford.top/DeepLearning-Python/00114.jpeg)
 
 ```text
 def numerical_diff(f, x):
@@ -328,7 +318,7 @@ plt.show()
 
 ![](http://image.colinsford.top/DeepLearning-Python/00118.jpeg)
 
-**图 4-6** ![](http://image.colinsford.top/DeepLearning-Python/00119.gif) **的图像**
+![&#x56FE; 4-6  &#x4E0A;&#x8FF0;&#x51FD;&#x6570;&#x7684;&#x56FE;&#x50CF;](http://image.colinsford.top/DeepLearning-Python/00119.gif)
 
 我们来计算一下这个函数在 _x_ = 5 和 _x_ = 10 处的导数。
 
@@ -343,9 +333,7 @@ plt.show()
 
 现在，我们用上面的数值微分的值作为斜率，画一条直线。结果如图 4-7 所示，可以确认这些直线确实对应函数的切线（源代码在 `ch04/gradient_1d.py` 中）。
 
-![](http://image.colinsford.top/DeepLearning-Python/00122.jpeg)
-
-**图 4-7** ![](http://image.colinsford.top/DeepLearning-Python/00123.gif)**、**![](http://image.colinsford.top/DeepLearning-Python/00124.gif) **处的切线：直线的斜率使用数值微分的值**
+![&#x56FE; 4-7 x = 5&#x3001;x = 10 &#x5904;&#x7684;&#x5207;&#x7EBF;&#xFF1A;&#x76F4;&#x7EBF;&#x7684;&#x659C;&#x7387;&#x4F7F;&#x7528;&#x6570;&#x503C;&#x5FAE;&#x5206;&#x7684;&#x503C;](http://image.colinsford.top/DeepLearning-Python/00122.jpeg)
 
 ### 4.3.3　偏导数
 
@@ -365,7 +353,7 @@ return x[0]**2 + x[1]**2
 
 ![](http://image.colinsford.top/DeepLearning-Python/00126.jpeg)
 
-**图 4-8** ![](http://image.colinsford.top/DeepLearning-Python/00127.gif) **的图像**
+![&#x56FE; 4-8  &#x4E0A;&#x8FF0;&#x51FD;&#x6570;&#x7684;&#x56FE;&#x50CF;](http://image.colinsford.top/DeepLearning-Python/00127.gif)
 
 现在我们来求式（4.6）的导数。这里需要注意的是，式（4.6）有两个变量，所以有必要区分对哪个变量求导数，即对 ![](http://image.colinsford.top/DeepLearning-Python/00128.gif) 和 ![](http://image.colinsford.top/DeepLearning-Python/00008.gif) 两个变量中的哪一个求导数。另外，我们把这里讨论的有多个变量的函数的导数称为**偏导数**。用数学式表示的话，可以写成 ![](http://image.colinsford.top/DeepLearning-Python/00129.gif)、![](http://image.colinsford.top/DeepLearning-Python/00130.gif)。
 
@@ -443,7 +431,7 @@ array([ 6.,  0.])
 
 ![](http://image.colinsford.top/DeepLearning-Python/00136.jpeg)
 
-**图 4-9** ![](http://image.colinsford.top/DeepLearning-Python/00137.gif) **的梯度**
+![&#x56FE; 4-9  &#x4E0A;&#x8FF0;&#x51FD;&#x6570;&#x7684;&#x68AF;&#x5EA6;](http://image.colinsford.top/DeepLearning-Python/00137.gif)
 
 虽然图 4-9 中的梯度指向了最低处，但并非任何时候都这样。实际上，梯度会指向各点处的函数值降低的方向。更严格地讲，梯度指示的方向是各点处的函数值减小最多的方向 \[4\]。这是一个非常重要的性质，请一定牢记！
 
@@ -505,7 +493,7 @@ array([ -6.11110793e-10,   8.14814391e-10])
 
 ![](http://image.colinsford.top/DeepLearning-Python/00139.jpeg)
 
-**图 4-10** ![](http://image.colinsford.top/DeepLearning-Python/00137.gif) **的梯度法的更新过程：虚线是函数的等高线**
+![&#x56FE; 4-10  &#x4E0A;&#x8FF0;&#x51FD;&#x6570;&#x7684;&#x68AF;&#x5EA6;&#x6CD5;&#x7684;&#x66F4;&#x65B0;&#x8FC7;&#x7A0B;&#xFF1A;&#x865A;&#x7EBF;&#x662F;&#x51FD;&#x6570;&#x7684;&#x7B49;&#x9AD8;&#x7EBF;](http://image.colinsford.top/DeepLearning-Python/00137.gif)
 
 前面说过，学习率过大或者过小都无法得到好的结果。我们来做个实验验证一下。
 
@@ -609,23 +597,23 @@ class simpleNet:
 关于神经网络学习的基础知识，到这里就全部介绍完了。“损失函数”“mini-batch”“梯度”“梯度下降法”等关键词已经陆续登场，这里我们来确认一下神经网络的学习步骤，顺便复习一下这些内容。神经网络的学习步骤如下所示。
 
 {% hint style="info" %}
-## 前提
+#### 前提
 
 神经网络存在合适的权重和偏置，调整权重和偏置以便拟合训练数据的过程称为“学习”。神经网络的学习分成下面 4 个步骤。
 
-## 步骤 1（mini-batch）
+#### 步骤 1（mini-batch）
 
 从训练数据中随机选出一部分数据，这部分数据称为 mini-batch。我们的目标是减小 mini-batch 的损失函数的值。
 
-## 步骤 2（计算梯度）
+#### 步骤 2（计算梯度）
 
 为了减小 mini-batch 的损失函数的值，需要求出各个权重参数的梯度。梯度表示损失函数的值减小最多的方向。
 
-## 步骤 3（更新参数）
+#### 步骤 3（更新参数）
 
 将权重参数沿梯度方向进行微小更新。
 
-## 步骤 4（重复）
+#### 步骤 4（重复）
 
 重复步骤 1、步骤 2、步骤 3。
 {% endhint %}
@@ -701,40 +689,37 @@ class TwoLayerNet:
 
 **表 4-1 TwolayerNet类中使用的变量**
 
-| 变量 | 说明 |
-| :--- | :--- |
-
-
 <table>
   <thead>
     <tr>
-      <th style="text-align:left"><code>params</code>
-      </th>
-      <th style="text-align:left">
+      <th style="text-align:left">变量</th>
+      <th style="text-align:left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>params</code>
+      </td>
+      <td style="text-align:left">
         <p>保存神经网络的参数的字典型变量（实例变量）。</p>
         <p><code>params[&apos;W1&apos;]</code> 是第 1 层的权重，<code>params[&apos;b1&apos;]</code> 是第
           1 层的偏置。</p>
         <p><code>params[&apos;W2&apos;]</code> 是第 2 层的权重，<code>params[&apos;b2&apos;]</code> 是第
           2 层的偏置 。</p>
-      </th>
+      </td>
     </tr>
-  </thead>
-  <tbody></tbody>
-</table><table>
-  <thead>
     <tr>
-      <th style="text-align:left"><code>grads</code>
-      </th>
-      <th style="text-align:left">
+      <td style="text-align:left"><code>grads</code>
+      </td>
+      <td style="text-align:left">
         <p>Title保存梯度的字典型变量<code>&#xFF08;numerical_gradient()</code> 方法的返回值）。</p>
         <p><code>grads[&apos;W1&apos;]</code> 是第 1 层权重的梯度，<code>grads[&apos;b1&apos;]</code> 是第
           1 层偏置的梯度。</p>
         <p><code>grads[&apos;W2&apos;]</code> 是第 2 层权重的梯度，<code>grads[&apos;b2&apos;]</code> 是第
           2 层偏置的梯度 。</p>
-      </th>
+      </td>
     </tr>
-  </thead>
-  <tbody></tbody>
+  </tbody>
 </table>| 方法 | 说明 |
 | :--- | :--- |
 | `__init__(self, input_size, hidden_size, output_size)` | 进行初始化。参数从头开始依次表示输入层的神经元数、隐藏层的神经元数、输出层的神经元数 |
@@ -826,9 +811,7 @@ for i in range(iters_num):
 
 这里，mini-batch 的大小为 100，需要每次从 60000 个训练数据中随机取出 100 个数据（图像数据和正确解标签数据）。然后，对这个包含 100 笔数据的 mini-batch 求梯度，使用随机梯度下降法（SGD）更新参数。这里，梯度法的更新次数（循环的次数）为 10000。每更新一次，都对训练数据计算损失函数的值，并把该值添加到数组中。用图像来表示这个损失函数的值的推移，如图 4-11 所示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00146.jpeg)
-
-**图 4-11 损失函数的推移：左图是 10000 次循环的推移，右图是 1000 次循环的推移**
+![&#x56FE; 4-11 &#x635F;&#x5931;&#x51FD;&#x6570;&#x7684;&#x63A8;&#x79FB;&#xFF1A;&#x5DE6;&#x56FE;&#x662F; 10000 &#x6B21;&#x5FAA;&#x73AF;&#x7684;&#x63A8;&#x79FB;&#xFF0C;&#x53F3;&#x56FE;&#x662F; 1000 &#x6B21;&#x5FAA;&#x73AF;&#x7684;&#x63A8;&#x79FB;](http://image.colinsford.top/DeepLearning-Python/00146.jpeg)
 
 观察图 4-11，可以发现随着学习的进行，损失函数的值在不断减小。这是学习正常进行的信号，表示神经网络的权重参数在逐渐拟合数据。也就是说，神经网络的确在学习！通过反复地向它浇灌（输入）数据，神经网络正在逐渐向最优参数靠近。
 
@@ -896,9 +879,7 @@ for i in range(iters_num):
 
 把从上面的代码中得到的结果用图表示的话，如图 4-12 所示。
 
-![](http://image.colinsford.top/DeepLearning-Python/00147.jpeg)
-
-**图 4-12 训练数据和测试数据的识别精度的推移（横轴的单位是 epoch）**
+![&#x56FE; 4-12 &#x8BAD;&#x7EC3;&#x6570;&#x636E;&#x548C;&#x6D4B;&#x8BD5;&#x6570;&#x636E;&#x7684;&#x8BC6;&#x522B;&#x7CBE;&#x5EA6;&#x7684;&#x63A8;&#x79FB;&#xFF08;&#x6A2A;&#x8F74;&#x7684;&#x5355;&#x4F4D;&#x662F; epoch&#xFF09;](http://image.colinsford.top/DeepLearning-Python/00147.jpeg)
 
 图 4-12 中，实线表示训练数据的识别精度，虚线表示测试数据的识别精度。如图所示，随着 epoch 的前进（学习的进行），我们发现使用训练数据和测试数据评价的识别精度都提高了，并且，这两个识别精度基本上没有差异（两条线基本重叠在一起）。因此，可以说这次的学习中没有发生过拟合的现象。
 
